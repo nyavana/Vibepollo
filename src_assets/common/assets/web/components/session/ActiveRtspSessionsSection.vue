@@ -81,16 +81,8 @@
             :tip="t('sessions.tip_audio_channels')"
           />
           <StatCell :label="t('sessions.encode_latency')" :tip="t('sessions.tip_encode_latency')">
-            <span
-              :class="
-                session.encode_latency_ms > 16
-                  ? 'text-danger'
-                  : session.encode_latency_ms > 8
-                    ? 'text-warning'
-                    : ''
-              "
-            >
-              {{ session.encode_latency_ms.toFixed(1) }}ms
+            <span :class="encodeLatencyClass(session.encode_latency_ms)">
+              {{ formatEncodeLatency(session.encode_latency_ms) }}
             </span>
           </StatCell>
           <StatCell
@@ -191,4 +183,20 @@ defineEmits<{
 }>();
 
 const { t } = useI18n();
+
+function isFiniteNumber(value: unknown): value is number {
+  return typeof value === 'number' && Number.isFinite(value);
+}
+
+function encodeLatencyClass(value: number | null | undefined): string {
+  if (!isFiniteNumber(value)) return '';
+  if (value > 16) return 'text-danger';
+  if (value > 8) return 'text-warning';
+  return '';
+}
+
+function formatEncodeLatency(value: number | null | undefined): string {
+  if (!isFiniteNumber(value)) return t('sessions.metric_unavailable');
+  return `${value.toFixed(1)}ms`;
+}
 </script>

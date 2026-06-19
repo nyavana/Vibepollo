@@ -101,7 +101,7 @@
                 </div>
               </div>
               <div class="game-meta">
-                <span class="game-name">{{ app.name || '(untitled)' }}</span>
+                <span class="game-name">{{ app.name || t('apps.untitled') }}</span>
                 <span class="game-source">{{ appSubtitle(app) }}</span>
               </div>
             </button>
@@ -254,7 +254,9 @@
             :title="$t('webrtc.terminate_desc')"
             :aria-label="$t('webrtc.terminate')"
           >
-            <i :class="terminatePending ? 'fas fa-circle-notch fa-spin' : 'fas fa-rectangle-xmark'"></i>
+            <i
+              :class="terminatePending ? 'fas fa-circle-notch fa-spin' : 'fas fa-rectangle-xmark'"
+            ></i>
           </button>
 
           <div class="quick-toggles">
@@ -514,6 +516,7 @@ import { NTag, NSwitch, NInputNumber, NAlert, useDialog, useMessage } from 'naiv
 import { WebRtcHttpApi } from '@/services/webrtcApi';
 import { WebRtcClient } from '@/utils/webrtc/client';
 import { computeVideoFrameRenderDelayMs, decideLatencyFenceReset } from '@/utils/webrtc/latency';
+import { toIntlLocale } from '@/utils/intlLocale';
 import {
   applyGamepadFeedback,
   attachInputCapture,
@@ -533,9 +536,17 @@ import { useAppsStore } from '@/stores/apps';
 import { storeToRefs } from 'pinia';
 import type { App } from '@/stores/apps';
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 const dialog = useDialog();
 const message = useMessage();
+const videoEventTimeFormatter = computed(
+  () =>
+    new Intl.DateTimeFormat(toIntlLocale(locale.value), {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    }),
+);
 
 // UI State
 const showSettings = ref(false);
@@ -2290,7 +2301,7 @@ function displayValue(value: unknown): string {
 }
 
 function pushVideoEvent(label: string): void {
-  const stamp = new Date().toLocaleTimeString();
+  const stamp = videoEventTimeFormatter.value.format(new Date());
   videoEvents.value = [`${stamp} ${label}`, ...videoEvents.value].slice(0, 8);
   videoStateTick.value += 1;
 }
