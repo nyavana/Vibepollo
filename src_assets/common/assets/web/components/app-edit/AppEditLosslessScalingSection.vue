@@ -3,10 +3,10 @@
     <div class="flex items-center justify-between gap-3">
       <div>
         <div class="text-xs font-semibold uppercase tracking-wide opacity-70">
-          Lossless Scaling Upscaling
+          {{ t('app_edit.lossless_upscaling') }}
         </div>
         <p class="text-[11px] opacity-60">
-          Enable Lossless Scaling when you want Vibepollo to manage upscaling before encoding.
+          {{ t('app_edit.lossless_upscaling_desc') }}
         </p>
       </div>
       <n-switch v-model:value="form.losslessScalingEnabled" size="small" />
@@ -19,10 +19,7 @@
       size="small"
       class="text-xs"
     >
-      This application isn't managed by Playnite. Vibepollo will try to guess which game executable
-      is running and apply the Lossless Scaling profile automatically, but that detection is
-      best-effort and may not always succeed. Configure Playnite integration for more reliable
-      results.
+      {{ t('app_edit.lossless_playnite_warning') }}
     </n-alert>
     <n-alert
       v-if="
@@ -35,21 +32,21 @@
       size="small"
       class="text-xs"
     >
-      Lossless Scaling executable not detected. Configure the executable path under Settings →
-      Capture.
+      {{ t('app_edit.lossless_executable_missing') }}
     </n-alert>
 
     <div v-if="form.losslessScalingEnabled" class="space-y-4">
       <div class="grid gap-3 md:grid-cols-2">
         <div class="space-y-1">
-          <label class="text-xs font-semibold uppercase tracking-wide opacity-70">Profile</label>
+          <label class="text-xs font-semibold uppercase tracking-wide opacity-70">
+            {{ t('app_edit.profile') }}
+          </label>
           <n-radio-group v-model:value="form.losslessScalingProfile">
-            <n-radio value="recommended">Recommended (Lowest Latency & Frame Pacing)</n-radio>
-            <n-radio value="custom">Custom: Use my Lossless Scaling default profile</n-radio>
+            <n-radio value="recommended">{{ t('app_edit.lossless_profile_recommended') }}</n-radio>
+            <n-radio value="custom">{{ t('app_edit.lossless_profile_custom') }}</n-radio>
           </n-radio-group>
           <p class="text-[11px] opacity-60">
-            Recommended keeps Vibepollo-tuned values for consistent latency and frame pacing. Custom
-            runs the profile you maintain inside Lossless Scaling.
+            {{ t('app_edit.lossless_profile_desc') }}
           </p>
         </div>
         <div class="flex items-end justify-end">
@@ -59,7 +56,7 @@
             :disabled="!hasActiveLosslessOverrides"
             @click="resetActiveLosslessProfile"
           >
-            Reset to Profile Defaults
+            {{ t('app_edit.reset_profile_defaults') }}
           </n-button>
         </div>
       </div>
@@ -67,12 +64,10 @@
       <div class="space-y-3 p-3 rounded-md border border-primary/20 bg-primary/5">
         <div class="flex items-center gap-2">
           <i class="fas fa-info-circle text-primary"></i>
-          <div class="text-xs font-semibold">How Lossless Scaling Works</div>
+          <div class="text-xs font-semibold">{{ t('app_edit.lossless_how_title') }}</div>
         </div>
         <p class="text-[11px] opacity-70">
-          Lossless Scaling <strong>downscales</strong> the game using the resolution scale, then
-          <strong>upscales</strong> back to the original resolution using the selected filter. This
-          can improve performance but may reduce visual quality.
+          {{ t('app_edit.lossless_how_desc') }}
         </p>
       </div>
 
@@ -192,8 +187,10 @@
       class="flex items-center justify-between gap-3 rounded-md border border-dark/10 px-3 py-2 dark:border-light/10"
     >
       <div>
-        <div class="text-xs font-semibold uppercase tracking-wide opacity-70">Performance Mode</div>
-        <p class="text-[11px] opacity-60">Reduces GPU usage with minimal quality impact.</p>
+        <div class="text-xs font-semibold uppercase tracking-wide opacity-70">
+          {{ t('app_edit.performance_mode') }}
+        </div>
+        <p class="text-[11px] opacity-60">{{ t('app_edit.performance_mode_desc') }}</p>
       </div>
       <n-switch v-model:value="losslessPerformanceModeModel" size="small" />
     </div>
@@ -202,10 +199,12 @@
       v-if="showLosslessLaunchSettings"
       class="space-y-3 rounded-md border border-dark/10 px-3 py-2 dark:border-light/10"
     >
-      <div class="text-xs font-semibold uppercase tracking-wide opacity-70">Advanced Launch</div>
+      <div class="text-xs font-semibold uppercase tracking-wide opacity-70">
+        {{ t('app_edit.advanced_launch') }}
+      </div>
       <div class="space-y-1">
         <label class="text-xs font-semibold uppercase tracking-wide opacity-70">
-          Lossless Launch Delay (seconds)
+          {{ t('app_edit.lossless_launch_delay') }}
         </label>
         <n-input-number
           v-model:value="form.losslessScalingLaunchDelay"
@@ -217,8 +216,7 @@
           size="small"
         />
         <p class="text-[11px] opacity-60">
-          Wait additional seconds after the game starts before opening Lossless Scaling.
-          Leave blank to use the default 8-second delay.
+          {{ t('app_edit.lossless_launch_delay_desc') }}
         </p>
       </div>
     </div>
@@ -227,6 +225,7 @@
 
 <script setup lang="ts">
 import { computed, ref, toRef } from 'vue';
+import { useI18n } from 'vue-i18n';
 import type { Anime4kSize, AppForm, LosslessScalingMode } from './types';
 import {
   LOSSLESS_ANIME_SIZES,
@@ -261,6 +260,7 @@ const losslessScalingModeModel = defineModel<LosslessScalingMode>('losslessScali
 const losslessSharpeningModel = defineModel<number>('losslessSharpening', { required: true });
 const losslessAnimeSizeModel = defineModel<Anime4kSize>('losslessAnimeSize', { required: true });
 const losslessAnimeVrsModel = defineModel<boolean>('losslessAnimeVrs', { required: true });
+const { t } = useI18n();
 
 const props = defineProps<{
   isPlayniteManaged: boolean;

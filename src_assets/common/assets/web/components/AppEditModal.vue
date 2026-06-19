@@ -34,14 +34,14 @@
                 v-if="hasHeaderArtwork"
                 class="app-modal-icon__image"
                 :src="headerArtworkUrl"
-                :alt="form.name || 'Application'"
+                :alt="form.name || t('apps.image_alt_application')"
                 @error="headerArtworkFailed = true"
               />
               <i v-else class="fas fa-window-restore text-xl" />
             </div>
             <div class="flex flex-col">
               <span class="text-xl font-semibold">{{
-                form.index === -1 ? 'Add Application' : 'Edit Application'
+                form.index === -1 ? t('apps.add_application') : t('app_edit.edit_application')
               }}</span>
             </div>
           </div>
@@ -56,7 +56,7 @@
               v-else
               class="inline-flex items-center px-2 py-0.5 rounded bg-dark/10 dark:bg-light/10 text-[11px] font-semibold"
             >
-              Custom
+              {{ t('apps.custom_badge') }}
             </span>
           </div>
         </div>
@@ -100,29 +100,29 @@
 
           <div class="grid grid-cols-2 gap-3">
             <n-checkbox v-model:checked="form.excludeGlobalPrepCmd" size="small">
-              Exclude Global Prep
+              {{ t('app_edit.exclude_global_prep') }}
             </n-checkbox>
             <n-checkbox v-if="!isPlayniteManaged" v-model:checked="form.autoDetach" size="small">
-              Auto Detach
+              {{ t('app_edit.auto_detach') }}
             </n-checkbox>
             <n-checkbox v-if="!isPlayniteManaged" v-model:checked="form.waitAll" size="small">
-              Wait All
+              {{ t('app_edit.wait_all') }}
             </n-checkbox>
             <n-checkbox
               v-if="isWindows && !isPlayniteManaged"
               v-model:checked="form.elevated"
               size="small"
             >
-              Elevated
+              {{ t('_common.elevated') }}
             </n-checkbox>
             <n-checkbox v-model:checked="form.terminateOnPause" size="small">
-              Terminate On Pause
+              {{ t('app_edit.terminate_on_pause') }}
             </n-checkbox>
             <n-checkbox v-model:checked="form.allowClientCommands" size="small" class="md:col-span-2">
-              Allow Client Commands
+              {{ t('app_edit.allow_client_commands') }}
             </n-checkbox>
             <n-checkbox v-model:checked="form.useAppIdentity" size="small">
-              Use App Identity
+              {{ t('app_edit.use_app_identity') }}
             </n-checkbox>
             <n-checkbox
               v-if="form.useAppIdentity"
@@ -130,7 +130,7 @@
               size="small"
               class="md:col-span-2"
             >
-              Per-client App Identity
+              {{ t('app_edit.per_client_app_identity') }}
             </n-checkbox>
             <n-checkbox
               v-if="isWindows"
@@ -1228,6 +1228,23 @@ let liveRtxHdrSuppress = false;
 let liveRtxHdrLastSentKey = '';
 let liveRtxHdrQueue: Promise<void> = Promise.resolve();
 let liveRtxHdrProgrammaticClose = false;
+
+// Normalize cmd to single string; rehydrate typed form when props.app changes while open
+watch(
+  () => props.app,
+  (val) => {
+    if (!open.value) return;
+    liveRtxHdrSuppress = true;
+    form.value = fromServerApp(val as ServerApp | undefined, props.index ?? -1);
+    primeLiveRtxHdrState();
+    nextTick(() => {
+      liveRtxHdrSuppress = false;
+    }).catch(() => {
+      liveRtxHdrSuppress = false;
+    });
+  },
+  { immediate: true },
+);
 
 function activeAppUuid(): string {
   return String((props.app as ServerApp | null | undefined)?.uuid || '');

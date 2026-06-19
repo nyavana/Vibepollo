@@ -4,38 +4,52 @@
   >
     <div class="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
       <div class="space-y-1">
-        <h3 class="text-base font-semibold text-dark dark:text-light">Setting Overrides</h3>
+        <h3 class="text-base font-semibold text-dark dark:text-light">
+          {{ t('app_edit.setting_overrides') }}
+        </h3>
         <p class="text-[12px] leading-relaxed opacity-70">{{ descriptionText }}</p>
       </div>
       <div class="flex flex-wrap items-center gap-2">
-        <n-tag size="small" type="primary">{{ activeOverrideCount }} active</n-tag>
-        <n-button size="small" type="primary" @click="openAddSettings">Add Setting</n-button>
-        <n-button v-if="showResetAll" size="small" tertiary @click="clearAll">Delete All</n-button>
+        <n-tag size="small" type="primary">
+          {{ t('app_edit.active_count', { count: activeOverrideCount }) }}
+        </n-tag>
+        <n-button size="small" type="primary" @click="openAddSettings">
+          {{ t('app_edit.add_setting') }}
+        </n-button>
+        <n-button v-if="showResetAll" size="small" tertiary @click="clearAll">
+          {{ t('app_edit.delete_all') }}
+        </n-button>
       </div>
     </div>
 
     <div class="min-w-0 space-y-3">
       <div class="override-summary-row">
         <div class="min-w-0 space-y-1">
-          <h4 class="text-xs font-semibold uppercase tracking-wide opacity-70">Active Overrides</h4>
+          <h4 class="text-xs font-semibold uppercase tracking-wide opacity-70">
+            {{ t('app_edit.active_overrides') }}
+          </h4>
           <p class="text-[12px] opacity-60 leading-relaxed">
-            Adjust the values below to override the current global setting only for this
-            {{ scopeSummaryLabel }}.
+            {{ t('app_edit.active_overrides_desc', { scope: scopeSummaryLabel }) }}
           </p>
         </div>
-        <div class="configured-count">{{ activeOverrideCount }} configured</div>
+        <div class="configured-count">
+          {{ t('app_edit.configured_count', { count: activeOverrideCount }) }}
+        </div>
       </div>
 
       <div
         v-if="overrideEntries.length === 0"
         class="rounded-xl border border-dashed border-dark/15 dark:border-light/15 px-4 py-8 text-center space-y-3"
       >
-        <div class="text-sm font-medium">No {{ scopeSummaryLabel }}-specific overrides yet.</div>
+        <div class="text-sm font-medium">
+          {{ t('app_edit.no_scope_overrides', { scope: scopeSummaryLabel }) }}
+        </div>
         <p class="mx-auto max-w-xl text-[12px] leading-relaxed opacity-60">
-          Add settings from the picker, then tune them here using the same controls as the main
-          configuration tabs.
+          {{ t('app_edit.no_overrides_desc') }}
         </p>
-        <n-button size="small" type="primary" @click="openAddSettings">Add Setting</n-button>
+        <n-button size="small" type="primary" @click="openAddSettings">
+          {{ t('app_edit.add_setting') }}
+        </n-button>
       </div>
 
       <div
@@ -55,7 +69,9 @@
             @update:model-value="(v) => setForcedResolution(String(v || ''))"
           >
             <template #actions>
-              <n-button size="tiny" tertiary @click="removeOverride(entry.key)">Delete</n-button>
+              <n-button size="tiny" tertiary @click="removeOverride(entry.key)">
+                {{ t('app_edit.delete') }}
+              </n-button>
             </template>
             <template #meta>
               <span class="hidden sm:inline">
@@ -79,7 +95,9 @@
             @update:model-value="(v) => setForcedRefreshRate(String(v || ''))"
           >
             <template #actions>
-              <n-button size="tiny" tertiary @click="removeOverride(entry.key)">Delete</n-button>
+              <n-button size="tiny" tertiary @click="removeOverride(entry.key)">
+                {{ t('app_edit.delete') }}
+              </n-button>
             </template>
             <template #meta>
               <span class="hidden sm:inline">
@@ -99,7 +117,9 @@
             @update:model-value="(v) => setForcedHdr(String(v || ''))"
           >
             <template #actions>
-              <n-button size="tiny" tertiary @click="removeOverride(entry.key)">Delete</n-button>
+              <n-button size="tiny" tertiary @click="removeOverride(entry.key)">
+                {{ t('app_edit.delete') }}
+              </n-button>
             </template>
             <template #meta>
               <span class="hidden sm:inline">
@@ -123,14 +143,16 @@
             @update:model-value="(v) => setRenderedOverrideValue(entry.key, v)"
           >
             <template #actions>
-              <n-button size="tiny" tertiary @click="removeOverride(entry.key)">Delete</n-button>
+              <n-button size="tiny" tertiary @click="removeOverride(entry.key)">
+                {{ t('app_edit.delete') }}
+              </n-button>
             </template>
             <template #meta>
               <span class="hidden sm:inline">
                 <span class="font-mono">{{ entry.key }}</span> · {{ entry.groupName }} ·
               </span>
               <span>
-                Inherited:
+                {{ t('app_edit.inherited') }}:
                 <span class="font-mono">{{ formatValueForKey(entry.key, entry.globalValue) }}</span>
               </span>
             </template>
@@ -151,14 +173,16 @@
             @blur="() => commitJson(entry.key)"
           >
             <template #actions>
-              <n-button size="tiny" tertiary @click="removeOverride(entry.key)">Delete</n-button>
+              <n-button size="tiny" tertiary @click="removeOverride(entry.key)">
+                {{ t('app_edit.delete') }}
+              </n-button>
             </template>
             <template #meta>
               <span class="hidden sm:inline">
                 <span class="font-mono">{{ entry.key }}</span> · {{ entry.groupName }} ·
               </span>
               <span>
-                Inherited:
+                {{ t('app_edit.inherited') }}:
                 <span class="font-mono">{{ formatValueForKey(entry.key, entry.globalValue) }}</span>
               </span>
             </template>
@@ -191,7 +215,7 @@
               </n-button>
               <div class="min-w-0 space-y-1">
                 <div class="text-base font-semibold text-dark dark:text-light">
-                  Add Setting Overrides
+                  {{ t('app_edit.add_setting_overrides') }}
                 </div>
                 <p class="text-[12px] leading-relaxed opacity-70">
                   Browse all supported settings, stage the ones you want, then save to add them to
@@ -306,7 +330,7 @@
                   >
                     <template #actions>
                       <n-button size="tiny" tertiary @click="removeDraftOverride(entry.key)">
-                        Delete
+                        {{ t('app_edit.delete') }}
                       </n-button>
                     </template>
                     <template #meta>
@@ -333,7 +357,7 @@
                   >
                     <template #actions>
                       <n-button size="tiny" tertiary @click="removeDraftOverride(entry.key)">
-                        Delete
+                        {{ t('app_edit.delete') }}
                       </n-button>
                     </template>
                     <template #meta>
@@ -357,7 +381,7 @@
                   >
                     <template #actions>
                       <n-button size="tiny" tertiary @click="removeDraftOverride(entry.key)">
-                        Delete
+                        {{ t('app_edit.delete') }}
                       </n-button>
                     </template>
                     <template #meta>
@@ -383,7 +407,7 @@
                   >
                     <template #actions>
                       <n-button size="tiny" tertiary @click="removeDraftOverride(entry.key)">
-                        Delete
+                        {{ t('app_edit.delete') }}
                       </n-button>
                     </template>
                     <template #meta>
@@ -391,7 +415,7 @@
                         <span class="font-mono">{{ entry.key }}</span> · {{ entry.groupName }} ·
                       </span>
                       <span>
-                        Inherited:
+                        {{ t('app_edit.inherited') }}:
                         <span class="font-mono">{{
                           formatValueForKey(entry.key, entry.globalValue)
                         }}</span>
@@ -415,7 +439,7 @@
                   >
                     <template #actions>
                       <n-button size="tiny" tertiary @click="removeDraftOverride(entry.key)">
-                        Delete
+                        {{ t('app_edit.delete') }}
                       </n-button>
                     </template>
                     <template #meta>
@@ -423,7 +447,7 @@
                         <span class="font-mono">{{ entry.key }}</span> · {{ entry.groupName }} ·
                       </span>
                       <span>
-                        Inherited:
+                        {{ t('app_edit.inherited') }}:
                         <span class="font-mono">{{
                           formatValueForKey(entry.key, entry.globalValue)
                         }}</span>
@@ -744,7 +768,7 @@ type EditTarget = 'live' | 'draft';
 const overrides = defineModel<Record<string, unknown>>('overrides', { required: true });
 const browseModalOpen = defineModel<boolean>('pickerOpen', { default: false });
 const draftOverrides = ref<Record<string, unknown>>({});
-const { t } = useI18n();
+const { t, te } = useI18n();
 
 const props = withDefaults(
   defineProps<{
@@ -763,17 +787,17 @@ const descriptionText = computed(() => {
     .toLowerCase()
     .trim();
   if (scope === 'client') {
-    return 'Override global settings for this client. Client overrides take precedence over app overrides and global config.';
+    return t('app_edit.override_desc_client');
   }
-  return 'Override global settings for this application only. Network, security, and file-path settings are intentionally excluded.';
+  return t('app_edit.override_desc_application');
 });
 
 const scopeSummaryLabel = computed(() =>
   String(props.scopeLabel || 'application')
     .toLowerCase()
     .trim() === 'client'
-    ? 'client'
-    : 'application',
+    ? t('app_edit.scope_client')
+    : t('app_edit.scope_application'),
 );
 
 const configStore = useConfigStore();
@@ -973,8 +997,15 @@ function prettifyKey(key: string): string {
     .join(' ');
 }
 
+function groupNameFor(groupId: string, fallback: string): string {
+  const normalizedId = groupId === 'av' ? 'audio_video' : groupId;
+  const key = `settings.tabs.${normalizedId}`;
+  return te(key) ? t(key) : fallback;
+}
+
 function labelFor(key: string): string {
   const k = `config.${key}`;
+  if (!te(k)) return prettifyKey(key);
   const v = t(k);
   if (!v || v === k) return prettifyKey(key);
   return v;
@@ -982,6 +1013,7 @@ function labelFor(key: string): string {
 
 function descFor(key: string): string {
   const k = `config.${key}_desc`;
+  if (!te(k)) return '';
   const v = t(k);
   if (!v || v === k) return '';
   return v;
@@ -1318,7 +1350,7 @@ const allEntries = computed<Entry[]>(() => {
   const platform = platformKey();
   for (const tab of tabList) {
     const groupId = String((tab as any)?.id ?? '');
-    const groupName = String((tab as any)?.name ?? groupId);
+    const groupName = groupNameFor(groupId, String((tab as any)?.name ?? groupId));
     const options = (tab as any)?.options ?? {};
     if (!options || typeof options !== 'object') continue;
     for (const key of Object.keys(options)) {
@@ -1346,13 +1378,13 @@ const allEntries = computed<Entry[]>(() => {
 
   if (platform === 'windows') {
     const groupId = 'display';
-    const groupName = 'Display';
+    const groupName = t('app_edit.group_display');
     out.push(
       {
         key: SYN_KEYS.configureDisplayResolution,
-        label: 'Configure Resolution',
-        desc: 'Configure a specific display resolution during streams (uses display automation behind the scenes).',
-        path: `${groupName} > Configure Resolution`,
+        label: t('app_edit.configure_resolution'),
+        desc: t('app_edit.configure_resolution_desc'),
+        path: `${groupName} > ${t('app_edit.configure_resolution')}`,
         groupId,
         groupName,
         synthetic: true,
@@ -1362,9 +1394,9 @@ const allEntries = computed<Entry[]>(() => {
       },
       {
         key: SYN_KEYS.configureDisplayRefreshRate,
-        label: 'Configure Refresh Rate',
-        desc: 'Configure a specific display refresh rate during streams (uses display automation behind the scenes).',
-        path: `${groupName} > Configure Refresh Rate`,
+        label: t('app_edit.configure_refresh_rate'),
+        desc: t('app_edit.configure_refresh_rate_desc'),
+        path: `${groupName} > ${t('app_edit.configure_refresh_rate')}`,
         groupId,
         groupName,
         synthetic: true,
@@ -1374,9 +1406,9 @@ const allEntries = computed<Entry[]>(() => {
       },
       {
         key: SYN_KEYS.configureDisplayHdr,
-        label: 'Configure HDR',
-        desc: 'Configure HDR on or off during streams (uses display automation behind the scenes).',
-        path: `${groupName} > Configure HDR`,
+        label: t('app_edit.configure_hdr'),
+        desc: t('app_edit.configure_hdr_desc'),
+        path: `${groupName} > ${t('app_edit.configure_hdr')}`,
         groupId,
         groupName,
         synthetic: true,

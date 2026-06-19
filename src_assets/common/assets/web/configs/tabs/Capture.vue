@@ -198,7 +198,7 @@ const losslessStatusText = computed(() => {
     return losslessError.value;
   }
   if (losslessDetected.value) {
-    return `Lossless Scaling is Ready`;
+    return t('config.lossless_scaling_ready');
   }
   if (losslessHasConfiguredPath.value) {
     return 'Custom Lossless Scaling path needs attention';
@@ -206,7 +206,7 @@ const losslessStatusText = computed(() => {
   if (losslessStatus.value?.message) {
     return losslessStatus.value.message;
   }
-  return 'Lossless Scaling status unavailable.';
+  return t('config.lossless_scaling_status_unavailable');
 });
 const losslessStatusHint = computed(() => {
   if (losslessLoading.value) {
@@ -219,7 +219,7 @@ const losslessStatusHint = computed(() => {
     if (losslessHasConfiguredPath.value) {
       return 'The configured executable path will be launched when Lossless Scaling is selected for an application.';
     }
-    return 'Lossless Scaling is detected and will be launched when selected as the primary frame generation in any application.';
+    return t('config.lossless_scaling_ready_desc');
   }
   if (losslessHasConfiguredPath.value) {
     return (
@@ -227,7 +227,7 @@ const losslessStatusHint = computed(() => {
       'The configured path could not be resolved. Choose an executable path or clear the override to use auto-detection.'
     );
   }
-  return 'Vibepollo could not find Lossless Scaling. Scan for an installation or provide the executable path below.';
+  return t('config.lossless_scaling_not_found_desc');
 });
 
 async function refreshLosslessStatus() {
@@ -555,12 +555,14 @@ const shouldShowSoftware = computed(() => showAll() || props.currentTab === 'sw'
             <template #actions>
               <div class="flex items-center gap-2 text-xs">
                 <n-button size="tiny" tertiary @click="applyLosslessSuggestion">
-                  Use Suggested
+                  {{ t('config.lossless_scaling_use_suggested') }}
                 </n-button>
-                <n-button size="tiny" tertiary @click="openLosslessBrowse">Browse...</n-button>
+                <n-button size="tiny" tertiary @click="openLosslessBrowse">
+                  {{ t('config.lossless_scaling_browse') }}
+                </n-button>
               </div>
             </template>
-            Default installation: {{ LOSSLESS_DEFAULT_PATH }}
+            {{ t('config.lossless_scaling_default_installation') }} {{ LOSSLESS_DEFAULT_PATH }}
           </ConfigFieldRenderer>
         </div>
       </fieldset>

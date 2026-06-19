@@ -773,11 +773,7 @@ function clearSnapshotHotkey(): void {
                         <i
                           class="fas fa-info-circle text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5"
                         />
-                        <span class="block"
-                          >Overrides below are disabled while manual resolution or refresh rate is
-                          enforced. Manual refresh rates are applied forcefully and disable the
-                          double refresh rate fix.</span
-                        >
+                        <span class="block">{{ t('config.dd_manual_overrides_disabled') }}</span>
                       </span>
                     </p>
                   </div>
