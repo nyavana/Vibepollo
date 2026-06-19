@@ -1,0 +1,114 @@
+import zh from '@web/public/assets/locale/zh.json';
+import zhTW from '@web/public/assets/locale/zh_TW.json';
+import { getConfigSelectOptions } from '@web/configs/configSelectOptions';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+
+const captureSource = readFileSync(
+  resolve(process.cwd(), 'configs/tabs/Capture.vue'),
+  'utf8',
+);
+const displayOptionsSource = readFileSync(
+  resolve(process.cwd(), 'configs/tabs/audiovideo/DisplayDeviceOptions.vue'),
+  'utf8',
+);
+const appEditModalSource = readFileSync(
+  resolve(process.cwd(), 'components/AppEditModal.vue'),
+  'utf8',
+);
+const checkboxSource = readFileSync(resolve(process.cwd(), 'Checkbox.vue'), 'utf8');
+const appEditConfigOverridesSource = readFileSync(
+  resolve(process.cwd(), 'components/app-edit/AppEditConfigOverridesSection.vue'),
+  'utf8',
+);
+const appEditBasicsSource = readFileSync(
+  resolve(process.cwd(), 'components/app-edit/AppEditBasicsSection.vue'),
+  'utf8',
+);
+const appEditRtxHdrSource = readFileSync(
+  resolve(process.cwd(), 'components/app-edit/AppEditRtxHdrSection.vue'),
+  'utf8',
+);
+
+describe('Chinese localization fluency', () => {
+  it('keeps Simplified Chinese high-traffic labels natural and consistent', () => {
+    expect(zh.config.global_prep_cmd).toBe('准备命令');
+    expect(zh.index.web_links).toBe('相关链接');
+    expect(zh.changelog.filter_line).toBe('当前版本系列');
+    expect(zh.changelog.release_line_title).toBe('版本系列 {line}');
+    expect(zh.troubleshooting.logs_desc).toBe('查看 Vibepollo 日志');
+    expect(zh.config.bind_address_desc).not.toContain('Sunshine');
+    expect(zh.stats.config_desc).not.toContain('Sunshine');
+  });
+
+  it('keeps Traditional Chinese Taiwan UI terms and punctuation consistent', () => {
+    expect(zhTW.config.dd_snapshot_restore_hotkey).toBe('還原快照快速鍵');
+    expect(zhTW.config.dd_snapshot_restore_hotkey_reset).toBe('清除快速鍵');
+    expect(zhTW.config.dd_snapshot_restore_hotkey_desc).toContain('全域快速鍵');
+    expect(zhTW.config.dd_display_helper_engine_auto).toContain('預先發行版本');
+    expect(zhTW.settings.search_placeholder).toBe('搜尋設定…（按 Enter 前往）');
+    expect(zhTW.config.update_check_interval_desc).toContain('依據 Git 標籤');
+    expect(zhTW.changelog.filter_line).toBe('目前版本系列');
+    expect(zhTW.changelog.release_line_title).toBe('版本系列 {line}');
+    expect(zhTW.apps.page_desc).toContain('手動新增應用程式');
+    expect(zhTW.config.bind_address_desc).not.toContain('Sunshine');
+    expect(zhTW.stats.config_desc).not.toContain('Sunshine');
+  });
+
+  it('uses a natural Traditional Chinese locale option label', () => {
+    const options = getConfigSelectOptions('locale', {
+      t: (key) => key,
+      platform: 'windows',
+      currentValue: 'zh_TW',
+    });
+
+    expect(options.find((option) => option.value === 'zh_TW')?.label).toBe('繁體中文');
+  });
+
+  it('moves visible English settings copy behind locale keys', () => {
+    expect(captureSource).not.toContain('Lossless Scaling status unavailable.');
+    expect(captureSource).not.toContain('Use Suggested');
+    expect(captureSource).not.toContain('Default installation:');
+    expect(captureSource).not.toContain('Vibeshine could not find Lossless Scaling');
+    expect(captureSource).toContain("t('config.lossless_scaling_status_unavailable')");
+    expect(displayOptionsSource).not.toContain('Overrides below are disabled');
+    expect(displayOptionsSource).toContain("t('config.dd_manual_overrides_disabled')");
+  });
+
+  it('does not pass already translated checkbox labels back through i18n lookup', () => {
+    expect(checkboxSource).not.toContain('$t(labelField)');
+    expect(checkboxSource).not.toContain('$t(descField)');
+  });
+
+  it('guards optional app override description translation lookups', () => {
+    expect(appEditConfigOverridesSource).toContain('const { t, te } = useI18n();');
+    expect(appEditConfigOverridesSource).toContain('if (!te(k)) return');
+  });
+
+  it('localizes app edit modal source copy shown during browser review', () => {
+    const sources = [appEditModalSource, appEditBasicsSource, appEditRtxHdrSource, appEditConfigOverridesSource];
+    const hardcodedEnglish = [
+      'Edit Application',
+      'Exclude Global Prep',
+      'Linked to Playnite',
+      'Enable RTX HDR conversion for this app.',
+      'Setting Overrides',
+      'Override global settings for this application only.',
+    ];
+
+    for (const source of sources) {
+      for (const phrase of hardcodedEnglish) {
+        expect(source).not.toContain(phrase);
+      }
+    }
+  });
+
+  it('initializes the RTX HDR live suppress flag before the immediate watcher uses it', () => {
+    const declarationIndex = appEditModalSource.indexOf('let liveRtxHdrSuppress = false;');
+    const watcherIndex = appEditModalSource.indexOf('watch(\n  () => props.app,');
+
+    expect(declarationIndex).toBeGreaterThanOrEqual(0);
+    expect(watcherIndex).toBeGreaterThanOrEqual(0);
+    expect(declarationIndex).toBeLessThan(watcherIndex);
+  });
+});
