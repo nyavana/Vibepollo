@@ -1,7 +1,9 @@
 <template>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <div class="space-y-1 md:col-span-2">
-      <label class="text-xs font-semibold uppercase tracking-wide opacity-70">Name</label>
+      <label class="text-xs font-semibold uppercase tracking-wide opacity-70">
+        {{ t('app_edit.name') }}
+      </label>
       <div class="flex items-center gap-2 mb-1">
         <n-select
           v-model:value="nameSelectValue"
@@ -9,7 +11,7 @@
           :loading="gamesLoading"
           filterable
           clearable
-          :placeholder="'Type to search or enter a custom name'"
+          :placeholder="t('app_edit.name_placeholder')"
           class="flex-1"
           :fallback-option="fallbackOption"
           @focus="emit('name-focus')"
@@ -26,7 +28,9 @@
             filterable
             :disabled="lockPlaynite || !playniteInstalled"
             :placeholder="
-              playniteInstalled ? 'Select a Playnite game…' : 'Playnite plugin not detected'
+              playniteInstalled
+                ? t('app_edit.playnite_select_placeholder')
+                : t('app_edit.playnite_plugin_missing')
             "
             class="flex-1"
             @focus="emit('load-playnite-games')"
@@ -39,12 +43,12 @@
             strong
             @click="emit('unlock-playnite')"
           >
-            Change
+            {{ t('app_edit.change') }}
           </n-button>
         </div>
       </template>
       <div class="text-[11px] opacity-60">
-        {{ isPlaynite ? 'Linked to Playnite' : 'Custom application' }}
+        {{ isPlaynite ? t('app_edit.linked_playnite') : t('app_edit.custom_application') }}
       </div>
     </div>
 
@@ -54,17 +58,19 @@
           class="rounded-xl border border-dark/10 dark:border-light/10 bg-light/80 dark:bg-dark/40 p-4 space-y-3"
         >
           <div class="space-y-1">
-            <label class="text-xs font-semibold uppercase tracking-wide opacity-70">Command</label>
+            <label class="text-xs font-semibold uppercase tracking-wide opacity-70">
+              {{ t('app_edit.command') }}
+            </label>
             <n-input
               v-model:value="cmdText"
               type="textarea"
               class="font-mono"
               :autosize="{ minRows: 4, maxRows: 8 }"
-              placeholder="Executable command line"
+              :placeholder="t('app_edit.command_placeholder')"
             />
           </div>
           <p class="text-[11px] opacity-60">
-            Vibepollo waits for this process. When it closes, the stream ends.
+            {{ t('app_edit.command_desc') }}
           </p>
         </section>
 
@@ -74,14 +80,14 @@
           <div class="flex items-center justify-between gap-3">
             <div>
               <h3 class="text-xs font-semibold uppercase tracking-wide opacity-70">
-                Detached Commands
+                {{ t('app_edit.detached_commands') }}
               </h3>
               <p class="text-[11px] opacity-60">
-                Optional commands that run first and keep the stream alive when they finish.
+                {{ t('app_edit.detached_commands_desc') }}
               </p>
             </div>
             <n-button size="small" type="primary" @click="addDetached">
-              <i class="fas fa-plus" /> Add
+              <i class="fas fa-plus" /> {{ t('app_edit.add') }}
             </n-button>
           </div>
 
@@ -89,7 +95,7 @@
             v-if="form.detached.length === 0"
             class="rounded-lg border border-dashed border-dark/15 dark:border-light/15 px-3 py-4 text-xs text-center opacity-60"
           >
-            No detached commands yet. Use Add to set up prep scripts or launchers.
+            {{ t('app_edit.no_detached_commands') }}
           </div>
           <ol v-else class="space-y-3">
             <li v-for="(value, index) in form.detached" :key="index">
@@ -100,10 +106,10 @@
                   class="flex items-center justify-between gap-2 px-3 py-2 border-b border-dark/10 dark:border-light/10"
                 >
                   <span class="text-xs font-semibold uppercase tracking-wide opacity-70">
-                    Detached Command #{{ index + 1 }}
+                    {{ t('app_edit.detached_command_label', { index: index + 1 }) }}
                   </span>
                   <n-button size="tiny" secondary type="error" @click="removeDetached(index)">
-                    <i class="fas fa-trash" /> Delete
+                    <i class="fas fa-trash" /> {{ t('app_edit.delete') }}
                   </n-button>
                 </header>
                 <div class="p-3 space-y-2">
@@ -112,10 +118,10 @@
                     type="textarea"
                     class="font-mono"
                     :autosize="{ minRows: 2, maxRows: 6 }"
-                    placeholder="Command to execute before the stream"
+                    :placeholder="t('app_edit.detached_command_placeholder')"
                   />
                   <p class="text-[11px] opacity-60">
-                    Runs before the primary command. Vibepollo continues even if this command exits.
+                    {{ t('app_edit.detached_command_desc') }}
                   </p>
                 </div>
               </div>
@@ -126,20 +132,26 @@
     </div>
 
     <div v-if="!isPlaynite" class="space-y-1 md:col-span-1">
-      <label class="text-xs font-semibold uppercase tracking-wide opacity-70">Working Dir</label>
+      <label class="text-xs font-semibold uppercase tracking-wide opacity-70">
+        {{ t('app_edit.working_dir') }}
+      </label>
       <n-input v-model:value="form.workingDir" class="font-mono" placeholder="C:/Games/App" />
     </div>
 
     <div class="space-y-1 md:col-span-1">
-      <label class="text-xs font-semibold uppercase tracking-wide opacity-70">Exit Timeout</label>
+      <label class="text-xs font-semibold uppercase tracking-wide opacity-70">
+        {{ t('app_edit.exit_timeout') }}
+      </label>
       <div class="flex items-center gap-2">
         <n-input-number v-model:value="form.exitTimeout" :min="0" class="w-28" />
-        <span class="text-xs opacity-60">seconds</span>
+        <span class="text-xs opacity-60">{{ t('app_edit.seconds') }}</span>
       </div>
     </div>
 
     <div v-if="!isPlaynite" class="space-y-1 md:col-span-2">
-      <label class="text-xs font-semibold uppercase tracking-wide opacity-70">Image Path</label>
+      <label class="text-xs font-semibold uppercase tracking-wide opacity-70">
+        {{ t('app_edit.image_path') }}
+      </label>
       <div class="flex items-center gap-2">
         <n-input
           v-model:value="form.imagePath"
@@ -147,10 +159,10 @@
           placeholder="/path/to/image.png"
         />
         <n-button type="default" strong :disabled="!form.name" @click="emit('open-cover-finder')">
-          <i class="fas fa-image" /> Find Cover
+          <i class="fas fa-image" /> {{ t('app_edit.find_cover') }}
         </n-button>
       </div>
-      <p class="text-[11px] opacity-60">Optional; stored only and not fetched by Vibepollo.</p>
+      <p class="text-[11px] opacity-60">{{ t('app_edit.image_path_desc') }}</p>
     </div>
   </div>
 </template>
@@ -159,6 +171,7 @@
 import { toRefs } from 'vue';
 import type { AppForm } from './types';
 import { NSelect, NButton, NInput, NInputNumber } from 'naive-ui';
+import { useI18n } from 'vue-i18n';
 
 const rawProps = defineProps<{
   isPlaynite: boolean;
@@ -196,6 +209,7 @@ const form = defineModel<AppForm>('form', { required: true });
 const cmdText = defineModel<string>('cmdText', { required: true });
 const nameSelectValue = defineModel<string>('nameSelectValue', { required: true });
 const selectedPlayniteId = defineModel<string>('selectedPlayniteId', { required: true });
+const { t } = useI18n();
 
 function addDetached() {
   form.value.detached.push('');

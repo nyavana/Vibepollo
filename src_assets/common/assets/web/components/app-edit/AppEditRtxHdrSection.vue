@@ -4,25 +4,26 @@
   >
     <div class="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
       <div class="space-y-1">
-        <h3 class="text-base font-semibold text-dark dark:text-light">RTX HDR</h3>
+        <h3 class="text-base font-semibold text-dark dark:text-light">
+          {{ t('app_edit.rtx_hdr_title') }}
+        </h3>
         <p class="text-[12px] leading-relaxed opacity-70">
-          Enable RTX HDR conversion for this app. By default, Vibepollo uses the game's existing
-          NVIDIA RTX HDR profile values when one is configured, then falls back to the global
-          defaults. The host is intentionally kept in SDR so the game does not apply its own HDR on
-          top of RTX HDR.
+          {{ t('app_edit.rtx_hdr_desc') }}
         </p>
       </div>
-      <n-tag v-if="rtxHdrEnabled" size="small" type="primary"> Enabled </n-tag>
+      <n-tag v-if="rtxHdrEnabled" size="small" type="primary">
+        {{ t('app_edit.enabled') }}
+      </n-tag>
     </div>
 
     <label :class="cardClass(rtxHdrEnabled)">
       <n-switch v-model:value="rtxHdrEnabled" />
       <div class="min-w-0 space-y-1">
-        <div class="text-sm font-semibold leading-snug">Enable RTX HDR for this app</div>
+        <div class="text-sm font-semibold leading-snug">
+          {{ t('app_edit.enable_rtx_hdr') }}
+        </div>
         <p class="text-[12px] leading-relaxed opacity-70">
-          Converts SDR frames to HDR while this application is streamed. When enabled, Vibepollo
-          forces the host/game into SDR first to prevent oversaturation from native game HDR and RTX
-          HDR running at the same time.
+          {{ t('app_edit.enable_rtx_hdr_desc') }}
         </p>
       </div>
     </label>
@@ -31,11 +32,11 @@
       <label :class="cardClass(form.rtxHdrValuesOverride)">
         <n-switch v-model:value="form.rtxHdrValuesOverride" />
         <div class="min-w-0 space-y-1">
-          <div class="text-sm font-semibold leading-snug">Override HDR values directly</div>
+          <div class="text-sm font-semibold leading-snug">
+            {{ t('app_edit.override_hdr_values') }}
+          </div>
           <p class="text-[12px] leading-relaxed opacity-70">
-            Use these sliders instead of inheriting NVIDIA RTX HDR profile or global default values.
-            The tuning values update live during an active stream, so you can open this page from
-            another device and fine-tune HDR while watching.
+            {{ t('app_edit.override_hdr_values_desc') }}
           </p>
         </div>
       </label>

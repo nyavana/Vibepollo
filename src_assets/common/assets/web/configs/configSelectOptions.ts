@@ -74,7 +74,7 @@ const localeOptions: ConfigSelectOption[] = [
   { label: 'Українська (Ukrainian)', value: 'uk' },
   { label: 'Tiếng Việt (Vietnamese)', value: 'vi' },
   { label: '简体中文 (Chinese Simplified)', value: 'zh' },
-  { label: '繁體中文 (Chinese Traditional)', value: 'zh_TW' },
+  { label: '繁體中文', value: 'zh_TW' },
 ];
 
 export function getConfigSelectOptions(
