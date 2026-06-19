@@ -1,7 +1,7 @@
 # Chinese Web UI Localization Review
 
-This note records the Web UI Chinese fluency pass completed on 2026-06-19.
-It covers `zh` and `zh_TW` strings as rendered in the static Web UI review surface.
+This note records the Web UI Chinese fluency pass completed and reviewed on 2026-06-19.
+It covers `zh` and `zh_TW` strings as rendered in static and production-build Web UI review surfaces.
 
 ## Scope
 
@@ -32,6 +32,7 @@ Repository-local checks:
 
 ```bash
 npm exec -- vitest run ../../../../tests/frontend/chinese-localization-fluency.test.ts ../../../../tests/frontend/session-formatting.test.ts
+npm exec -- vitest run ../../../../tests/frontend/checkbox.test.ts ../../../../tests/frontend/intl-locale.test.ts
 npm run build
 ```
 
@@ -52,15 +53,16 @@ zh: 0 missing, 0 identical, 0 likely English, 0 placeholder mismatches
 zh_TW: 0 missing, 0 identical, 0 likely English, 0 placeholder mismatches
 ```
 
-The 2026-06-19 browser review reported:
+The 2026-06-19 follow-up production browser review covered dashboard, settings, applications, clients, tokens, and stats
+for both `zh` and `zh_TW`. It reported:
 
-- 0 visible English phrases
-- 0 fallback i18n keys
+- no visible hits for the reviewed English phrases
+- `document.lang` normalized to `zh-CN` and `zh-TW`
 - 0 page errors
-- 0 text overflows
+- 0 failed requests in the targeted rerun
 
-The static review environment may still emit external GitHub release-fetch network warnings when the browser blocks
-`api.github.com`; those warnings are not localization regressions.
+The broader Web UI test suite still has unrelated failures in `navbar.test.ts` and `http-csrf.test.ts`; track those
+separately from Chinese localization unless they are required by the merge gate.
 
 ## Review Guidance
 

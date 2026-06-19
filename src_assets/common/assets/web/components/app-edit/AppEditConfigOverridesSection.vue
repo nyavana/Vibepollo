@@ -167,7 +167,7 @@
             size="small"
             monospace
             :autosize="{ minRows: 2, maxRows: 10 }"
-            placeholder="JSON value"
+            :placeholder="t('app_edit.json_value_placeholder')"
             :model-value="jsonDraft(entry.key)"
             @update:model-value="(v) => updateJsonDraft(entry.key, v)"
             @blur="() => commitJson(entry.key)"
@@ -211,15 +211,14 @@
             <div class="flex min-w-0 items-start gap-2">
               <n-button size="small" quaternary @click="cancelAddSettings">
                 <i class="fas fa-arrow-left text-[12px]" />
-                <span class="ml-1">Back</span>
+                <span class="ml-1">{{ t('app_edit.back') }}</span>
               </n-button>
               <div class="min-w-0 space-y-1">
                 <div class="text-base font-semibold text-dark dark:text-light">
                   {{ t('app_edit.add_setting_overrides') }}
                 </div>
                 <p class="text-[12px] leading-relaxed opacity-70">
-                  Browse all supported settings, stage the ones you want, then save to add them to
-                  this {{ scopeSummaryLabel }}.
+                  {{ t('app_edit.override_picker_intro', { scope: scopeSummaryLabel }) }}
                 </p>
               </div>
             </div>
@@ -230,7 +229,7 @@
                 :class="pickerPaneToggleClass('browse')"
                 @click="setPickerPane('browse')"
               >
-                <span>Browse Settings</span>
+                <span>{{ t('app_edit.browse_settings') }}</span>
                 <span class="rounded-full bg-dark/5 dark:bg-light/10 px-2 py-0.5 text-[10px]">
                   {{ filteredAvailableCount }}
                 </span>
@@ -240,7 +239,7 @@
                 :class="pickerPaneToggleClass('editor')"
                 @click="setPickerPane('editor')"
               >
-                <span>Configure Picks</span>
+                <span>{{ t('app_edit.configure_picks') }}</span>
                 <span class="rounded-full bg-dark/5 dark:bg-light/10 px-2 py-0.5 text-[10px]">
                   {{ modalOverrideEntries.length }}
                 </span>
@@ -248,8 +247,7 @@
             </div>
 
             <div class="text-[12px] leading-relaxed opacity-60 xl:hidden">
-              Browse supported settings first, then switch to Configure Picks when you want to
-              review or fine-tune what you selected.
+              {{ t('app_edit.override_picker_mobile_hint') }}
             </div>
           </div>
         </div>
@@ -266,10 +264,10 @@
               <div class="flex items-center justify-between gap-3">
                 <div class="space-y-1">
                   <h4 class="text-xs font-semibold uppercase tracking-wide opacity-70">
-                    Override Editor
+                    {{ t('app_edit.override_editor') }}
                   </h4>
                   <p class="text-[12px] leading-relaxed opacity-60">
-                    Added settings appear here immediately so you can refine them before saving.
+                    {{ t('app_edit.override_editor_desc') }}
                   </p>
                 </div>
                 <div
@@ -290,21 +288,22 @@
                   >
                     <i class="fas fa-hand-point-right text-sm" />
                   </div>
-                  <div class="mt-3 text-sm font-medium">Start by picking settings from the browser.</div>
+                  <div class="mt-3 text-sm font-medium">
+                    {{ t('app_edit.override_picker_empty_title') }}
+                  </div>
                   <p class="mx-auto mt-2 max-w-xl text-[12px] leading-relaxed opacity-60">
-                    Select a section or search on the right, click Add on the settings you want,
-                    then refine them here before saving.
+                    {{ t('app_edit.override_picker_empty_desc') }}
                   </p>
                   <div
                     class="mx-auto mt-4 max-w-sm rounded-xl border border-dark/10 bg-dark/5 p-3 text-left dark:border-light/10 dark:bg-light/5"
                   >
                     <div class="text-[11px] font-semibold uppercase tracking-wide opacity-60">
-                      Getting started
+                      {{ t('app_edit.getting_started') }}
                     </div>
                     <ol class="mt-2 space-y-1 text-[12px] leading-relaxed opacity-70">
-                      <li>1. Search or pick a section on the right.</li>
-                      <li>2. Click Add on each setting you want to override.</li>
-                      <li>3. Review the selected list here, then save.</li>
+                      <li>{{ t('app_edit.override_picker_step_search') }}</li>
+                      <li>{{ t('app_edit.override_picker_step_add') }}</li>
+                      <li>{{ t('app_edit.override_picker_step_review') }}</li>
                     </ol>
                   </div>
                 </div>
@@ -432,7 +431,7 @@
                     size="small"
                     monospace
                     :autosize="{ minRows: 2, maxRows: 10 }"
-                    placeholder="JSON value"
+                    :placeholder="t('app_edit.json_value_placeholder')"
                     :model-value="jsonDraftFor('draft', entry.key)"
                     @update:model-value="(v) => updateJsonDraftFor('draft', entry.key, v)"
                     @blur="() => commitJsonFor('draft', entry.key)"
@@ -471,17 +470,16 @@
                 <div class="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                   <div class="space-y-1">
                     <h4 class="text-xs font-semibold uppercase tracking-wide opacity-70">
-                      Browse Available Settings
+                      {{ t('app_edit.browse_available_settings') }}
                     </h4>
                     <p class="text-[12px] opacity-70 leading-relaxed">
-                      Explore every supported override by section. Search is optional and only
-                      narrows the list.
+                      {{ t('app_edit.browse_available_settings_desc') }}
                     </p>
                   </div>
                   <div class="self-start text-[11px] opacity-60">
-                    {{ filteredAvailableCount }} showing
+                    {{ t('app_edit.showing_count', { count: filteredAvailableCount }) }}
                     <span v-if="filteredAvailableCount !== availableEntries.length">
-                      of {{ availableEntries.length }}
+                      {{ t('app_edit.of_count', { count: availableEntries.length }) }}
                     </span>
                   </div>
                 </div>
@@ -492,7 +490,7 @@
                     type="text"
                     clearable
                     class="min-w-0 flex-1"
-                    placeholder="Filter by setting name, key, description, or option value"
+                    :placeholder="t('app_edit.filter_settings_placeholder')"
                     @keydown.enter.prevent="addFirstFilteredEntry"
                   >
                     <template #suffix>
@@ -506,7 +504,7 @@
                     class="self-start md:shrink-0"
                     @click="resetFilters"
                   >
-                    Clear Filters
+                    {{ t('app_edit.clear_filters') }}
                   </n-button>
                 </div>
               </div>
@@ -525,7 +523,7 @@
                   >
                     <div class="p-2">
                       <div class="px-2 pb-2 text-[11px] font-semibold uppercase tracking-wide opacity-60">
-                        Sections
+                        {{ t('app_edit.sections') }}
                       </div>
                       <div class="space-y-1">
                         <button
@@ -533,7 +531,7 @@
                           :class="filterNavClass(selectedGroupId === ALL_GROUPS_ID)"
                           @click="selectAvailableGroup(ALL_GROUPS_ID)"
                         >
-                          <span class="truncate">All sections</span>
+                          <span class="truncate">{{ t('app_edit.all_sections') }}</span>
                           <span
                             class="rounded-full bg-dark/5 dark:bg-light/10 px-2 py-0.5 text-[10px] opacity-70"
                           >
@@ -574,7 +572,7 @@
                           :class="filterNavClass(selectedGroupId === ALL_GROUPS_ID)"
                           @click="selectAvailableGroup(ALL_GROUPS_ID)"
                         >
-                          <span class="truncate">All sections</span>
+                          <span class="truncate">{{ t('app_edit.all_sections') }}</span>
                           <span
                             class="rounded-full bg-dark/5 dark:bg-light/10 px-2 py-0.5 text-[10px] opacity-70"
                           >
@@ -645,7 +643,7 @@
                                     class="inline-flex items-center gap-1 rounded-full border border-primary/20 bg-primary/10 px-2 py-1 text-[11px] font-medium text-primary"
                                   >
                                     <i class="fas fa-plus text-[10px]" />
-                                    Add
+                                    {{ t('_common.add') }}
                                   </span>
                                 </div>
                               </div>
@@ -668,19 +666,19 @@
                         <div class="text-sm font-medium">
                           {{
                             availableEntries.length === 0
-                              ? 'All supported settings are already added.'
-                              : 'No settings match the current filters.'
+                              ? t('app_edit.all_supported_settings_added')
+                              : t('app_edit.no_settings_match')
                           }}
                         </div>
                         <p class="text-[12px] opacity-60 leading-relaxed">
                           {{
                             availableEntries.length === 0
-                              ? 'Delete an existing override to free up its setting slot.'
-                              : 'Try a broader term or switch back to all sections.'
+                              ? t('app_edit.delete_override_to_free_slot')
+                              : t('app_edit.try_broader_filter')
                           }}
                         </p>
                         <n-button v-if="hasFilterControls" size="small" tertiary @click="resetFilters">
-                          Reset Filters
+                          {{ t('app_edit.reset_filters') }}
                         </n-button>
                       </div>
                     </div>
@@ -699,13 +697,15 @@
           <div class="text-[12px] leading-relaxed opacity-70">
             <span class="xl:hidden">{{ compactPickerFooterText }}</span>
             <span class="hidden xl:inline">
-              Review the override fields, then save when you are done.
+              {{ t('app_edit.override_picker_footer_review') }}
             </span>
           </div>
           <div class="flex flex-wrap items-center justify-end gap-2">
-            <n-button size="small" tertiary @click="cancelAddSettings">Cancel</n-button>
+            <n-button size="small" tertiary @click="cancelAddSettings">
+              {{ t('_common.cancel') }}
+            </n-button>
             <n-button size="small" type="primary" @click="savePendingAdditions">
-              <span>Save</span>
+              <span>{{ t('_common.save') }}</span>
               <span
                 class="ml-2 inline-flex min-w-[1.5rem] items-center justify-center rounded-full bg-white/20 px-1.5 py-0.5 text-[10px] font-semibold"
               >
@@ -1221,8 +1221,8 @@ const draftForcedRefreshRate = computed<string>(
 );
 
 const forcedHdrOptions = [
-  { label: 'On', value: 'on' },
-  { label: 'Off', value: 'off' },
+  { label: t('_common.enabled'), value: 'on' },
+  { label: t('_common.disabled'), value: 'off' },
 ];
 
 const forcedHdr = computed<'on' | 'off'>(() => {
@@ -1584,8 +1584,8 @@ const hasFilterControls = computed(
 );
 const compactPickerFooterText = computed(() =>
   pickerPane.value === 'editor'
-    ? 'Review and fine-tune the picked settings, then save when you are done.'
-    : 'Browse supported settings and add what you need. Open Configure Picks when you are ready to review them.',
+    ? t('app_edit.override_picker_footer_editor')
+    : t('app_edit.override_picker_footer_browse'),
 );
 
 async function scrollBrowseResultsToTop() {
@@ -1716,7 +1716,7 @@ function mapEntries(keys: string[]): Entry[] {
         desc: base?.desc ?? '',
         path: base?.path ?? k,
         groupId: base?.groupId ?? 'unknown',
-        groupName: base?.groupName ?? 'Unknown',
+        groupName: base?.groupName ?? t('_common.unknown'),
         synthetic: base?.synthetic,
         globalValue: base?.globalValue,
         options: base?.options ?? [],
@@ -1776,18 +1776,18 @@ function rawOverrideValue(key: string): unknown {
 }
 
 function entryTypeLabel(key: string): string {
-  if (isSyntheticKey(key)) return 'Shortcut';
+  if (isSyntheticKey(key)) return t('app_edit.entry_type_shortcut');
   switch (editorKind(key, browseModalOpen.value ? 'draft' : 'live')) {
     case 'boolean':
-      return 'Toggle';
+      return t('app_edit.entry_type_toggle');
     case 'select':
-      return 'Choice';
+      return t('app_edit.entry_type_choice');
     case 'number':
-      return 'Number';
+      return t('app_edit.entry_type_number');
     case 'json':
       return 'JSON';
     default:
-      return 'Text';
+      return t('app_edit.entry_type_text');
   }
 }
 
@@ -1864,9 +1864,9 @@ function editorKind(
 function overridePlaceholder(key: string, target: EditTarget = 'live'): string {
   switch (editorKind(key, target)) {
     case 'number':
-      return '(number)';
+      return t('app_edit.number_placeholder');
     case 'string':
-      return '(value)';
+      return t('app_edit.value_placeholder');
     default:
       return '';
   }
@@ -1991,7 +1991,7 @@ function commitJsonFor(target: EditTarget, key: string) {
   } catch (e: any) {
     errors.value = {
       ...errors.value,
-      [key]: e?.message ? String(e.message) : 'Invalid JSON',
+      [key]: e?.message ? String(e.message) : t('app_edit.invalid_json'),
     };
   }
 }

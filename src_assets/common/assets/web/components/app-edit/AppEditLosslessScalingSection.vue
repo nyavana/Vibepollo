@@ -74,23 +74,23 @@
       <div class="grid gap-3 md:grid-cols-2">
         <div class="space-y-1">
           <label class="text-xs font-semibold uppercase tracking-wide opacity-70">
-            Upscaling Filter
+            {{ t('app_edit.lossless_upscaling_filter') }}
           </label>
           <n-select
             v-model:value="losslessScalingModeModel"
-            :options="LOSSLESS_SCALING_OPTIONS"
+            :options="losslessScalingOptions"
             size="small"
             :clearable="false"
           />
           <p class="text-[11px] opacity-60">
-            Filter used after downscaling. "Off" disables scaling entirely.
+            {{ t('app_edit.lossless_upscaling_filter_desc') }}
           </p>
         </div>
 
         <div v-if="showLosslessResolution" class="space-y-1">
           <div class="flex items-center justify-between">
             <label class="text-xs font-semibold uppercase tracking-wide opacity-70">
-              Resolution Scale
+              {{ t('app_edit.lossless_resolution_scale') }}
             </label>
             <n-radio-group
               v-model:value="resolutionInputMode"
@@ -98,8 +98,12 @@
               class="text-[11px]"
               button-style="solid"
             >
-              <n-radio-button value="factor">Scale Factor</n-radio-button>
-              <n-radio-button value="percent">Percent</n-radio-button>
+              <n-radio-button value="factor">
+                {{ t('app_edit.lossless_scale_factor') }}
+              </n-radio-button>
+              <n-radio-button value="percent">
+                {{ t('app_edit.lossless_percent') }}
+              </n-radio-button>
             </n-radio-group>
           </div>
           <div v-if="resolutionInputMode === 'factor'" class="space-y-1">
@@ -137,13 +141,13 @@
         size="small"
         class="text-xs"
       >
-        <strong>Performance Note:</strong> Only use upscaling if the game lacks native FSR/DLSS
-        support.
+        <strong>{{ t('app_edit.lossless_performance_note_title') }}:</strong>
+        {{ t('app_edit.lossless_performance_note') }}
       </n-alert>
 
       <div v-if="showLosslessSharpening" class="space-y-1">
         <label class="text-xs font-semibold uppercase tracking-wide opacity-70">
-          Sharpening (1-10)
+          {{ t('app_edit.lossless_sharpening') }}
         </label>
         <n-input-number
           v-model:value="losslessSharpeningModel"
@@ -154,18 +158,22 @@
           size="small"
         />
         <p class="text-[11px] opacity-60">
-          Post-upscaling sharpness for {{ losslessScalingModeModel.toUpperCase() }} filter.
+          {{
+            t('app_edit.lossless_sharpening_desc', {
+              filter: losslessScalingModeModel.toUpperCase(),
+            })
+          }}
         </p>
       </div>
 
       <div v-if="showLosslessAnimeOptions" class="grid gap-3 md:grid-cols-2">
         <div class="space-y-1">
           <label class="text-xs font-semibold uppercase tracking-wide opacity-70">
-            Anime4K Size
+            {{ t('app_edit.lossless_anime4k_size') }}
           </label>
           <n-select
             v-model:value="losslessAnimeSizeModel"
-            :options="LOSSLESS_ANIME_SIZES"
+            :options="losslessAnimeSizeOptions"
             size="small"
             :clearable="false"
           />
@@ -175,7 +183,7 @@
         >
           <div>
             <div class="text-xs font-semibold uppercase tracking-wide opacity-70">VRS</div>
-            <p class="text-[11px] opacity-60">Enable Variable Rate Shading where supported.</p>
+            <p class="text-[11px] opacity-60">{{ t('app_edit.lossless_vrs_desc') }}</p>
           </div>
           <n-switch v-model:value="losslessAnimeVrsModel" size="small" />
         </div>
@@ -283,6 +291,19 @@ const losslessExecutableCheckComplete = toRef(props, 'losslessExecutableCheckCom
 const resetActiveLosslessProfile = props.resetActiveLosslessProfile;
 
 const resolutionInputMode = ref<'factor' | 'percent'>('factor');
+
+const losslessScalingOptions = computed(() =>
+  LOSSLESS_SCALING_OPTIONS.map((option) =>
+    option.value === 'off' ? { ...option, label: t('app_edit.lossless_option_off') } : option,
+  ),
+);
+
+const losslessAnimeSizeOptions = computed(() =>
+  LOSSLESS_ANIME_SIZES.map((option) => ({
+    ...option,
+    label: t(`app_edit.lossless_anime_size_${option.value.toLowerCase()}`),
+  })),
+);
 
 const resolutionPercentModel = computed<number>({
   get: () => {

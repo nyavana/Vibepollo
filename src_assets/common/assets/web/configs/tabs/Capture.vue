@@ -182,10 +182,10 @@ const losslessActivePath = computed(() => {
 });
 const losslessStatusText = computed(() => {
   if (losslessLoading.value) {
-    return 'Checking…';
+    return t('config.lossless_scaling_checking');
   }
   if (losslessError.value) {
-    return losslessError.value;
+    return t(losslessError.value);
   }
   if (losslessDetected.value) {
     return t('config.lossless_scaling_ready');
@@ -250,11 +250,11 @@ async function refreshLosslessStatus() {
       losslessStatus.value = payload;
       losslessError.value = null;
     } else {
-      losslessError.value = 'Unable to query Lossless Scaling status.';
+      losslessError.value = 'config.lossless_scaling_query_failed';
       losslessStatus.value = null;
     }
   } catch (err) {
-    losslessError.value = 'Unable to query Lossless Scaling status.';
+    losslessError.value = 'config.lossless_scaling_query_failed';
     losslessStatus.value = null;
   } finally {
     losslessLoading.value = false;
@@ -416,7 +416,7 @@ const shouldShowSoftware = computed(() => showAll() || props.currentTab === 'sw'
                 @click="refreshLosslessStatus"
               >
                 <i class="fas fa-sync" />
-                <span class="ml-1">Check</span>
+                <span class="ml-1">{{ t('config.lossless_scaling_check') }}</span>
               </n-button>
               <n-button
                 v-if="losslessDetected && !losslessForceAdvanced"
@@ -424,7 +424,7 @@ const shouldShowSoftware = computed(() => showAll() || props.currentTab === 'sw'
                 tertiary
                 @click="showLosslessOverride"
               >
-                Override Path
+                {{ t('config.lossless_scaling_override_path') }}
               </n-button>
               <n-button
                 v-else-if="losslessDetected && losslessForceAdvanced"
@@ -432,7 +432,7 @@ const shouldShowSoftware = computed(() => showAll() || props.currentTab === 'sw'
                 tertiary
                 @click="hideLosslessOverride"
               >
-                Hide Override
+                {{ t('config.lossless_scaling_hide_override') }}
               </n-button>
             </div>
           </div>
@@ -440,13 +440,12 @@ const shouldShowSoftware = computed(() => showAll() || props.currentTab === 'sw'
             {{ losslessStatusHint }}
           </p>
           <p v-if="!losslessLoading && losslessActivePath" class="mt-1 text-xs opacity-70">
-            Using: {{ losslessActivePath }}
+            {{ t('config.lossless_scaling_using_path', { path: losslessActivePath }) }}
           </p>
         </div>
 
         <p class="mt-3 text-[11px] opacity-70">
-          Enable Lossless Scaling per application from the Apps editor when you need frame
-          generation or upscaling on a specific title.
+          {{ t('config.lossless_scaling_apps_editor_hint') }}
         </p>
 
         <div
@@ -471,7 +470,7 @@ const shouldShowSoftware = computed(() => showAll() || props.currentTab === 'sw'
           <ConfigFieldRenderer
             setting-key="lossless_scaling_path"
             v-model="config.lossless_scaling_path"
-            label="Lossless Scaling executable"
+            :label="t('config.lossless_scaling_path')"
             desc=""
             :placeholder="LOSSLESS_DEFAULT_PATH"
             clearable
@@ -513,16 +512,15 @@ const shouldShowSoftware = computed(() => showAll() || props.currentTab === 'sw'
       v-model:show="losslessBrowseVisible"
       preset="card"
       class="max-w-2xl"
-      title="Select Lossless Scaling Executable"
+      :title="t('config.lossless_scaling_select_executable')"
     >
       <div class="space-y-4">
         <n-alert type="info" size="small" v-if="!losslessCandidates.length">
-          Vibeshine searched common Steam and program directories but could not locate
-          LosslessScaling.exe. Install Lossless Scaling from Steam or set the full path manually.
+          {{ t('config.lossless_scaling_not_found_alert') }}
         </n-alert>
         <div v-else class="space-y-2">
           <div class="text-xs font-semibold uppercase tracking-wide opacity-70">
-            Detected installations
+            {{ t('config.lossless_scaling_detected_installations') }}
           </div>
           <n-radio-group v-model:value="losslessBrowseSelection" class="space-y-2">
             <div
@@ -539,7 +537,7 @@ const shouldShowSoftware = computed(() => showAll() || props.currentTab === 'sw'
           type="warning"
           size="small"
         >
-          The current configuration points at a folder. Choose LosslessScaling.exe directly.
+          {{ t('config.lossless_scaling_folder_warning') }}
         </n-alert>
         <div class="flex items-center justify-between pt-2">
           <n-button
@@ -548,17 +546,19 @@ const shouldShowSoftware = computed(() => showAll() || props.currentTab === 'sw'
             @click="rescanLosslessCandidates"
             :loading="losslessLoading"
           >
-            Rescan
+            {{ t('config.lossless_scaling_rescan') }}
           </n-button>
           <div class="flex items-center gap-2">
-            <n-button size="small" tertiary @click="losslessBrowseVisible = false">Cancel</n-button>
+            <n-button size="small" tertiary @click="losslessBrowseVisible = false">
+              {{ t('_common.cancel') }}
+            </n-button>
             <n-button
               size="small"
               type="primary"
               :disabled="!losslessBrowseSelection"
               @click="applyLosslessBrowseSelection"
             >
-              Use Selected Path
+              {{ t('config.lossless_scaling_use_selected_path') }}
             </n-button>
           </div>
         </div>

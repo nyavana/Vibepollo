@@ -4,10 +4,7 @@ import { getConfigSelectOptions } from '@web/configs/configSelectOptions';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
-const captureSource = readFileSync(
-  resolve(process.cwd(), 'configs/tabs/Capture.vue'),
-  'utf8',
-);
+const captureSource = readFileSync(resolve(process.cwd(), 'configs/tabs/Capture.vue'), 'utf8');
 const displayOptionsSource = readFileSync(
   resolve(process.cwd(), 'configs/tabs/audiovideo/DisplayDeviceOptions.vue'),
   'utf8',
@@ -19,6 +16,10 @@ const appEditModalSource = readFileSync(
 const checkboxSource = readFileSync(resolve(process.cwd(), 'Checkbox.vue'), 'utf8');
 const appEditConfigOverridesSource = readFileSync(
   resolve(process.cwd(), 'components/app-edit/AppEditConfigOverridesSection.vue'),
+  'utf8',
+);
+const appEditLosslessSource = readFileSync(
+  resolve(process.cwd(), 'components/app-edit/AppEditLosslessScalingSection.vue'),
   'utf8',
 );
 const appEditBasicsSource = readFileSync(
@@ -67,10 +68,29 @@ describe('Chinese localization fluency', () => {
 
   it('moves visible English settings copy behind locale keys', () => {
     expect(captureSource).not.toContain('Lossless Scaling status unavailable.');
+    expect(captureSource).not.toContain('Override Path');
+    expect(captureSource).not.toContain('Hide Override');
+    expect(captureSource).not.toContain('Using:');
+    expect(captureSource).not.toContain('Enable Lossless Scaling per application');
+    expect(captureSource).not.toContain('Lossless Scaling executable');
+    expect(captureSource).not.toContain('Select Lossless Scaling Executable');
+    expect(captureSource).not.toContain('Detected installations');
+    expect(captureSource).not.toContain('Use Selected Path');
     expect(captureSource).not.toContain('Use Suggested');
     expect(captureSource).not.toContain('Default installation:');
     expect(captureSource).not.toContain('Vibeshine could not find Lossless Scaling');
+    expect(captureSource).not.toContain('Vibeshine searched common Steam');
     expect(captureSource).toContain("t('config.lossless_scaling_status_unavailable')");
+    expect(captureSource).toContain("t('config.lossless_scaling_apps_editor_hint')");
+    expect(appEditLosslessSource).not.toContain('Upscaling Filter');
+    expect(appEditLosslessSource).not.toContain('Filter used after downscaling');
+    expect(appEditLosslessSource).not.toContain('Resolution Scale');
+    expect(appEditLosslessSource).not.toContain('Performance Note:');
+    expect(appEditLosslessSource).not.toContain('Only use upscaling if');
+    expect(appEditLosslessSource).not.toContain('Sharpening (1-10)');
+    expect(appEditLosslessSource).not.toContain('Anime4K Size');
+    expect(appEditLosslessSource).not.toContain('Enable Variable Rate Shading');
+    expect(appEditLosslessSource).toContain("t('app_edit.lossless_upscaling_filter')");
     expect(displayOptionsSource).not.toContain('Overrides below are disabled');
     expect(displayOptionsSource).toContain("t('config.dd_manual_overrides_disabled')");
   });
@@ -86,7 +106,12 @@ describe('Chinese localization fluency', () => {
   });
 
   it('localizes app edit modal source copy shown during browser review', () => {
-    const sources = [appEditModalSource, appEditBasicsSource, appEditRtxHdrSource, appEditConfigOverridesSource];
+    const sources = [
+      appEditModalSource,
+      appEditBasicsSource,
+      appEditRtxHdrSource,
+      appEditConfigOverridesSource,
+    ];
     const hardcodedEnglish = [
       'Edit Application',
       'Exclude Global Prep',

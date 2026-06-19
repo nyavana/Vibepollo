@@ -1,4 +1,5 @@
 import { http } from '@/http';
+import { toIntlLocale } from '@/utils/intlLocale';
 
 let _i18n: any = null;
 
@@ -24,7 +25,7 @@ export async function ensureLocaleLoaded(locale: string): Promise<void> {
       }
     }
     _i18n.global.locale = locale;
-    document.querySelector('html')?.setAttribute('lang', locale);
+    document.querySelector('html')?.setAttribute('lang', toIntlLocale(locale) ?? locale);
   } catch (e) {
     console.error('ensureLocaleLoaded failed', e);
   }
