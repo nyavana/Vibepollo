@@ -547,6 +547,7 @@ import { useAppsStore } from '@/stores/apps';
 import { http } from '@/http';
 import type { CrashDumpStatus } from '@/utils/crashDump';
 import { isCrashDumpEligible, sanitizeCrashDumpStatus } from '@/utils/crashDump';
+import { toIntlLocale } from '@/utils/intlLocale';
 
 const installedVersion = ref<VibepolloVersion>(new VibepolloVersion('0.0.0'));
 const githubRelease = ref<GitHubRelease | null>(null);
@@ -625,7 +626,14 @@ const appsStore = useAppsStore();
 let started = false; // prevent duplicate concurrent checks
 const message = useMessage();
 const dialog = useDialog();
-const { t: $t } = useI18n();
+const { t: $t, locale } = useI18n();
+const crashDumpTimeFormatter = computed(
+  () =>
+    new Intl.DateTimeFormat(toIntlLocale(locale.value), {
+      dateStyle: 'medium',
+      timeStyle: 'short',
+    }),
+);
 
 const translate = (key: string, fallback: string) => {
   const value = $t(key);
@@ -1084,7 +1092,7 @@ const crashDumpDetails = computed(() => {
   if (crashDump.value.captured_at) {
     const captured = new Date(crashDump.value.captured_at);
     if (!Number.isNaN(captured.getTime())) {
-      parts.push(captured.toLocaleString());
+      parts.push(crashDumpTimeFormatter.value.format(captured));
     }
   }
   return parts.join(' • ');
@@ -1203,14 +1211,20 @@ const playniteMissingPluginBannerText = computed(() => {
   const details: string[] = [];
   if (playniteAutoSyncedAppsCount.value > 0) {
     const count = playniteAutoSyncedAppsCount.value;
-    details.push(`${count} auto-synced app${count === 1 ? '' : 's'}`);
+    details.push(
+      $t(count === 1 ? 'index.playnite_auto_synced_app_one' : 'index.playnite_auto_synced_app_many', {
+        count,
+      }),
+    );
   }
   if (hasPlayniteFullscreenApp.value) {
-    details.push('a Playnite (Fullscreen) launcher entry');
+    details.push($t('index.playnite_fullscreen_launcher_entry'));
   }
   const detected =
-    details.length > 1 ? `${details[0]} and ${details[1]}` : (details[0] ?? 'Playnite entries');
-  return `Detected ${detected}, but the Playnite plugin is no longer installed. Reinstall the plugin to restore integration, or purge Playnite games to remove all Playnite entries from Vibeshine.`;
+    details.length > 1
+      ? $t('index.playnite_detected_two_items', { first: details[0], second: details[1] })
+      : (details[0] ?? $t('index.playnite_entries'));
+  return $t('index.playnite_missing_plugin_banner', { detected });
 });
 
 async function resolvePlaynitePluginIssue() {
@@ -1225,14 +1239,18 @@ async function resolvePlaynitePluginIssue() {
     const body = r.data as any;
     const ok = r.status >= 200 && r.status < 300 && body && body.status === true;
     if (ok) {
-      message.success('Playnite plugin reinstalled.');
+      message.success($t('index.playnite_plugin_reinstalled'));
       await refreshPlayniteAndApps();
     } else {
       const err = (body && (body.error || body.message)) || `HTTP ${r.status}`;
-      message.error(`Failed to reinstall Playnite plugin: ${err}`);
+      message.error($t('index.playnite_plugin_reinstall_failed', { error: err }));
     }
   } catch (e: any) {
-    message.error(`Failed to reinstall Playnite plugin: ${e?.message || 'Request failed'}`);
+    message.error(
+      $t('index.playnite_plugin_reinstall_failed', {
+        error: e?.message || $t('index.request_failed'),
+      }),
+    );
   } finally {
     resolvingPlaynitePluginIssue.value = false;
   }
@@ -1246,7 +1264,7 @@ async function purgePlayniteGames() {
     const snapshot = getAppsSnapshot();
     const playniteApps = snapshot.filter((app) => isPlayniteApp(app) && !!app.uuid);
     if (!playniteApps.length) {
-      message.info('No Playnite apps found to purge.');
+      message.info($t('index.playnite_no_apps_to_purge'));
       await refreshPlayniteAndApps();
       return;
     }
@@ -1266,9 +1284,15 @@ async function purgePlayniteGames() {
     } catch {}
     await refreshPlayniteAndApps();
     const removed = playniteApps.length;
-    message.success(`Removed ${removed} Playnite app${removed === 1 ? '' : 's'}.`);
+    message.success(
+      $t(removed === 1 ? 'index.playnite_removed_app_one' : 'index.playnite_removed_app_many', {
+        count: removed,
+      }),
+    );
   } catch (e: any) {
-    message.error(`Failed to purge Playnite apps: ${e?.message || 'Request failed'}`);
+    message.error(
+      $t('index.playnite_purge_failed', { error: e?.message || $t('index.request_failed') }),
+    );
     await refreshPlayniteAndApps();
   } finally {
     purgingPlayniteApps.value = false;
@@ -1277,11 +1301,10 @@ async function purgePlayniteGames() {
 
 function openPurgePlayniteGamesConfirm() {
   dialog.warning({
-    title: 'Purge Playnite games?',
-    content:
-      'This removes all Playnite entries from Vibeshine, including auto-synced games and the Playnite (Fullscreen) launcher.',
-    positiveText: 'Purge',
-    negativeText: 'Cancel',
+    title: $t('index.playnite_purge_confirm_title'),
+    content: $t('index.playnite_purge_confirm_content'),
+    positiveText: $t('index.playnite_purge_confirm_positive'),
+    negativeText: $t('_common.cancel'),
     onPositiveClick: async () => {
       await purgePlayniteGames();
     },
@@ -1290,9 +1313,13 @@ function openPurgePlayniteGamesConfirm() {
 
 async function onPlayniteReinstallDone(res: { ok: boolean; error?: string }) {
   if (res.ok) {
-    message.success('Playnite Extension updated');
+    message.success($t('index.playnite_extension_updated'));
   } else {
-    message.error('Update failed' + (res.error ? `: ${res.error}` : ''));
+    message.error(
+      res.error
+        ? $t('index.playnite_extension_update_failed_with_error', { error: res.error })
+        : $t('index.playnite_extension_update_failed'),
+    );
   }
   await refreshPlayniteAndApps();
 }
