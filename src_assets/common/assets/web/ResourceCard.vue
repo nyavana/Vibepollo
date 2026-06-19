@@ -87,14 +87,14 @@ const resources = computed(() => [
     href: 'https://github.com/Nonary/Vibepollo/discussions',
     icon: 'fab fa-github',
     title: t('resource_card.github_discussions'),
-    description: 'GitHub Discussions',
+    description: t('resource_card.github_discussions_desc'),
     avatarStyle: 'background-color: rgba(16, 185, 129, 0.15); color: rgb(16, 185, 129);',
   },
   {
     href: 'https://github.com/Nonary/Vibepollo/issues',
     icon: 'fab fa-github',
     title: 'GitHub Issues',
-    description: 'Report bugs or request features',
+    description: t('resource_card.github_issues_desc'),
     avatarStyle: 'background-color: rgba(59, 130, 246, 0.15); color: rgb(59, 130, 246);',
   },
 ]);
@@ -104,14 +104,14 @@ const legalLinks = computed(() => [
     href: 'https://github.com/Nonary/Vibepollo/blob/master/LICENSE',
     icon: 'fas fa-file-alt',
     title: t('resource_card.license'),
-    description: 'View license',
+    description: t('resource_card.license_desc'),
     avatarStyle: 'background-color: rgba(34, 197, 94, 0.15); color: rgb(34, 197, 94);',
   },
   {
     href: 'https://github.com/Nonary/Vibepollo/blob/master/NOTICE',
     icon: 'fas fa-exclamation',
     title: t('resource_card.third_party_notice'),
-    description: 'Third-party notices',
+    description: t('resource_card.third_party_notice_desc'),
     avatarStyle: 'background-color: rgba(248, 113, 113, 0.15); color: rgb(248, 113, 113);',
   },
 ]);

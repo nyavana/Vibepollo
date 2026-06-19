@@ -2,11 +2,13 @@
 defineOptions({ inheritAttrs: false });
 
 import { computed, ref, useAttrs, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { NInputNumber } from 'naive-ui';
 import ConfigFieldShell from './ConfigFieldShell.vue';
 
 const model = defineModel<number | null>({ required: true });
 const attrs = useAttrs();
+const { t } = useI18n();
 
 const props = withDefaults(
   defineProps<{
@@ -78,15 +80,20 @@ function updateDurationPart(part: 'hours' | 'minutes' | 'seconds', value: number
 
 const durationSummary = computed(() => {
   if (model.value === null || model.value === undefined || !Number.isFinite(model.value)) {
-    return 'Stored as seconds.';
+    return t('config_duration.stored_seconds');
   }
 
   const totalSeconds = Math.max(0, Math.floor(model.value));
   const parts: string[] = [];
-  if (hoursPart.value) parts.push(`${hoursPart.value}h`);
-  if (minutesPart.value) parts.push(`${minutesPart.value}m`);
-  if (secondsPart.value || parts.length === 0) parts.push(`${secondsPart.value ?? 0}s`);
-  return `${parts.join(' ')} (${totalSeconds} seconds)`;
+  if (hoursPart.value) parts.push(t('config_duration.part_hours', { count: hoursPart.value }));
+  if (minutesPart.value)
+    parts.push(t('config_duration.part_minutes', { count: minutesPart.value }));
+  if (secondsPart.value || parts.length === 0)
+    parts.push(t('config_duration.part_seconds', { count: secondsPart.value ?? 0 }));
+  return t('config_duration.summary', {
+    parts: parts.join(' '),
+    seconds: totalSeconds,
+  });
 });
 </script>
 
@@ -101,7 +108,9 @@ const durationSummary = computed(() => {
     <template #control>
       <div class="grid grid-cols-3 gap-2">
         <div class="space-y-1">
-          <div class="text-[11px] font-medium uppercase tracking-wide opacity-60">Hours</div>
+          <div class="text-[11px] font-medium uppercase tracking-wide opacity-60">
+            {{ $t('config_duration.hours') }}
+          </div>
           <n-input-number
             :id="`${props.id}-hours`"
             :value="hoursPart"
@@ -116,7 +125,9 @@ const durationSummary = computed(() => {
         </div>
 
         <div class="space-y-1">
-          <div class="text-[11px] font-medium uppercase tracking-wide opacity-60">Minutes</div>
+          <div class="text-[11px] font-medium uppercase tracking-wide opacity-60">
+            {{ $t('config_duration.minutes') }}
+          </div>
           <n-input-number
             :id="`${props.id}-minutes`"
             :value="minutesPart"
@@ -132,7 +143,9 @@ const durationSummary = computed(() => {
         </div>
 
         <div class="space-y-1">
-          <div class="text-[11px] font-medium uppercase tracking-wide opacity-60">Seconds</div>
+          <div class="text-[11px] font-medium uppercase tracking-wide opacity-60">
+            {{ $t('config_duration.seconds') }}
+          </div>
           <n-input-number
             :id="`${props.id}-seconds`"
             :value="secondsPart"
