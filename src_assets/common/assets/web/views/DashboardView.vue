@@ -18,7 +18,7 @@
             <a :href="href" @click="navigate">
               <n-button tag="span" type="primary" strong class="w-full justify-center sm:w-auto">
                 <i class="fas fa-sliders" />
-                <span>Settings</span>
+                <span>{{ $t('index.settings') }}</span>
               </n-button>
             </a>
           </RouterLink>
@@ -26,7 +26,7 @@
             <a :href="href" @click="navigate">
               <n-button tag="span" type="default" strong class="w-full justify-center sm:w-auto">
                 <i class="fas fa-th" />
-                <span>Applications</span>
+                <span>{{ $t('index.applications') }}</span>
               </n-button>
             </a>
           </RouterLink>
@@ -43,7 +43,7 @@
         <n-card v-if="installedVersion" :segmented="{ content: true, footer: true }">
           <template #header>
             <h2 class="text-xl sm:text-2xl font-semibold tracking-tight mx-auto text-center break-words">
-              {{ 'Version ' + displayVersion }}
+              {{ $t('index.version', { version: displayVersion }) }}
             </h2>
           </template>
           <div class="space-y-4 text-sm">
@@ -456,7 +456,7 @@
         <n-card>
           <template #header>
             <h2 class="text-xl sm:text-2xl font-semibold tracking-tight mx-auto text-center">
-              Web Links
+              {{ $t('index.web_links') }}
             </h2>
           </template>
           <div class="text-xs space-y-2">

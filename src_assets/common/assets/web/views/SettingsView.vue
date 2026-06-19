@@ -5,9 +5,9 @@
     >
       <div class="flex items-center justify-between gap-4 flex-wrap">
         <div class="min-w-0">
-          <h2 class="text-sm font-semibold uppercase tracking-wider">Settings</h2>
+          <h2 class="text-sm font-semibold uppercase tracking-wider">{{ $t('settings.title') }}</h2>
           <p class="text-[11px] opacity-60">
-            Configuration auto-saves; restart to apply runtime changes.
+            {{ $t('settings.auto_save_hint') }}
           </p>
           <transition name="fade">
             <div
@@ -24,7 +24,7 @@
           <n-input
             v-model:value="searchQuery"
             type="text"
-            placeholder="Search settings... (Enter to jump)"
+            :placeholder="$t('settings.search_placeholder')"
             @focus="onSearchFocus"
             @blur="onSearchBlur"
             @keydown.enter.prevent="jumpFirstResult"
@@ -39,7 +39,7 @@
               class="absolute mt-2 w-full max-w-full z-30 bg-light/95 dark:bg-surface/95 backdrop-blur rounded-md shadow-lg border border-dark/10 dark:border-light/10 max-h-80 overflow-auto overflow-x-hidden overscroll-contain scroll-stable pr-2 py-1"
             >
               <div v-if="searchResults.length === 0" class="px-3 py-2 text-[12px] opacity-60">
-                No results
+                {{ $t('settings.search_no_results') }}
               </div>
               <n-button
                 v-for="(r, idx) in searchResults"
@@ -70,7 +70,7 @@
                     <span
                       v-if="r.options && r.options.length"
                       class="block text-[11px] opacity-60 mt-1 break-words whitespace-normal leading-5"
-                      >Options:
+                      >{{ $t('settings.search_options') }}:
                       {{
                         r.options
                           .map((o) =>
@@ -89,13 +89,13 @@
 
         <div v-if="showSave" class="flex items-center gap-3">
           <n-button v-if="saveState === 'saved' && !restarted" type="primary" strong @click="apply"
-            >Apply</n-button
+            >{{ $t('_common.apply') }}</n-button
           >
         </div>
         <div v-else class="text-[11px] font-medium min-h-[1rem] flex items-center gap-2">
-          <transition name="fade"><span v-if="saveState === 'saving'">Saving…</span></transition>
+          <transition name="fade"><span v-if="saveState === 'saving'">{{ $t('settings.saving') }}</span></transition>
           <transition name="fade">
-            <span v-if="saveState === 'saved'" class="text-success">Saved</span>
+            <span v-if="saveState === 'saved'" class="text-success">{{ $t('settings.saved') }}</span>
           </transition>
         </div>
       </div>
@@ -138,24 +138,24 @@
     </div>
 
     <div v-else class="text-xs opacity-60 space-y-2">
-      <div v-if="isLoading">Loading...</div>
+      <div v-if="isLoading">{{ $t('settings.loading') }}</div>
       <div v-else-if="isError" class="text-danger space-y-2">
-        <div>Failed to load configuration.</div>
+        <div>{{ $t('settings.load_failed') }}</div>
         <n-button type="primary" strong :disabled="isLoading" @click="store.reloadConfig?.()"
-          >Retry</n-button
+          >{{ $t('settings.retry') }}</n-button
         >
       </div>
-      <div v-else class="opacity-60">No configuration loaded.</div>
+      <div v-else class="opacity-60">{{ $t('settings.no_config') }}</div>
     </div>
 
     <div class="text-[11px]">
       <transition name="fade">
         <div v-if="saveState === 'saved' && !restarted && !autoSave" class="text-success">
-          Saved. Click Apply to restart.
+          {{ $t('settings.saved_apply_restart') }}
         </div>
       </transition>
       <transition name="fade">
-        <div v-if="restarted" class="text-success">Restart triggered.</div>
+        <div v-if="restarted" class="text-success">{{ $t('settings.restart_triggered') }}</div>
       </transition>
     </div>
     <transition name="slide-fade">
@@ -181,11 +181,11 @@
               strong
               :disabled="saveState === 'saving'"
               @click="save"
-              >Save</n-button
+              >{{ $t('_common.save') }}</n-button
             >
           </div>
           <div v-if="saveState === 'error'" class="mt-1 text-[11px] text-danger leading-snug">
-            {{ store.validationError || 'Save failed. Check fields for errors.' }}
+            {{ store.validationError || $t('settings.save_failed') }}
           </div>
         </div>
       </div>
@@ -207,6 +207,7 @@ import {
 } from 'vue';
 import { NInput, NButton, useMessage } from 'naive-ui';
 import { useRoute, useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import General from '@/configs/tabs/General.vue';
 import Inputs from '@/configs/tabs/Inputs.vue';
 import Network from '@/configs/tabs/Network.vue';
@@ -225,6 +226,7 @@ const store = useConfigStore();
 const { config, metadata } = storeToRefs(store);
 const platform = computed(() => (metadata.value?.platform || '').toLowerCase());
 const message = useMessage();
+const { t } = useI18n();
 // Auth store (top-level, single instance)
 const auth = useAuthStore();
 
@@ -241,8 +243,8 @@ const manualUnsaved = computed(() => store.manualDirty === true);
 const showSave = computed(() => manualUnsaved.value || !autoSave.value);
 const unsavedLabel = computed(() =>
   manualUnsaved.value
-    ? 'Manual save required for recent changes; these settings will not auto-save.'
-    : 'Unsaved changes',
+    ? t('settings.manual_save_required')
+    : t('settings.unsaved_changes'),
 );
 
 const mainEl = ref(null);
@@ -258,15 +260,15 @@ function setSectionRef(id, el) {
 }
 
 const tabs = [
-  { id: 'general', name: 'General', component: markRaw(General) },
-  { id: 'input', name: 'Input', component: markRaw(Inputs) },
-  { id: 'av', name: 'Audio / Video', component: markRaw(AudioVideo) },
-  { id: 'capture', name: 'Capture', component: markRaw(Capture) },
-  { id: 'network', name: 'Network', component: markRaw(Network) },
-  { id: 'files', name: 'Files', component: markRaw(Files) },
-  { id: 'advanced', name: 'Advanced', component: markRaw(Advanced) },
-  { id: 'stats', name: 'Stats', component: markRaw(RealtimeStats) },
-  { id: 'playnite', name: 'Playnite', component: markRaw(Playnite) },
+  { id: 'general', name: 'settings.tabs.general', component: markRaw(General) },
+  { id: 'input', name: 'settings.tabs.input', component: markRaw(Inputs) },
+  { id: 'av', name: 'settings.tabs.audio_video', component: markRaw(AudioVideo) },
+  { id: 'capture', name: 'settings.tabs.capture', component: markRaw(Capture) },
+  { id: 'network', name: 'settings.tabs.network', component: markRaw(Network) },
+  { id: 'files', name: 'settings.tabs.files', component: markRaw(Files) },
+  { id: 'advanced', name: 'settings.tabs.advanced', component: markRaw(Advanced) },
+  { id: 'stats', name: 'settings.tabs.stats', component: markRaw(RealtimeStats) },
+  { id: 'playnite', name: 'settings.tabs.playnite', component: markRaw(Playnite) },
 ];
 
 const tabsFiltered = computed(() =>
@@ -379,7 +381,7 @@ async function save() {
     dirty.value = false;
   } else {
     try {
-      message.error(store.validationError || 'Save failed. Check fields for errors.', {
+      message.error(store.validationError || t('settings.save_failed'), {
         duration: 5000,
       });
     } catch {}
