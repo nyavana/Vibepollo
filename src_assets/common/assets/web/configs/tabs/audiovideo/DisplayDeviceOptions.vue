@@ -494,11 +494,12 @@ function clearSnapshotHotkey(): void {
 
           <!-- Snapshot for recovery -->
           <template v-if="config.dd_configuration_option !== 'disabled'">
-            <div class="px-0 text-sm font-medium">Save a display snapshot (improves stability)</div>
+            <div class="px-0 text-sm font-medium">
+              {{ $t('troubleshooting.dd_golden_save_title') }}
+            </div>
             <p class="text-[11px] opacity-60 mt-1">
               {{ $t('troubleshooting.dd_golden_help') }}
-              Saving a snapshot of your ideal monitor setup helps Vibepollo recover when Windows
-              fails to restore displays after streaming.
+              {{ $t('troubleshooting.dd_golden_save_hint') }}
             </p>
 
             <div

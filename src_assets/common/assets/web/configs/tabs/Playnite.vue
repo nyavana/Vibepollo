@@ -354,8 +354,6 @@
                 id="playnite_fullscreen_entry_enabled"
                 :default="store.defaults.playnite_fullscreen_entry_enabled"
                 :localePrefix="'playnite'"
-                label="Add 'Playnite (Fullscreen)' to Applications"
-                desc="When enabled, Vibepollo adds a launcher entry that opens Playnite in fullscreen desktop mode."
               />
             </div>
             <div>

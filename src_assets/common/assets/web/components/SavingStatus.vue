@@ -17,12 +17,14 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { useConfigStore } from '@/stores/config';
 import { storeToRefs } from 'pinia';
 import { NButton, useMessage } from 'naive-ui';
 import { http } from '@/http';
 
 const route = useRoute();
+const { t } = useI18n();
 const store = useConfigStore();
 const { savingState, manualDirty, validationError } = storeToRefs(store);
 const message = useMessage();
@@ -59,23 +61,23 @@ const canSave = computed(
 
 const label = computed(() => {
   if (hasPending.value) {
-    return `Auto-save in ${countdown.value}s (Tap to Save Now)`;
+    return t('settings.save_status.auto_save_in', { seconds: countdown.value });
   }
   switch (savingState.value) {
     case 'saving':
-      return 'Save Status: Saving…';
+      return t('settings.save_status.saving');
     case 'dirty':
       return manualDirty.value
-        ? 'Save Status: Unsaved Changes (Click to Save)'
-        : 'Save Status: Unsaved Changes';
+        ? t('settings.save_status.unsaved_click')
+        : t('settings.save_status.unsaved');
     case 'saved':
       return restartRequired.value
-        ? 'Save Status: Saved; Restart Required (Tap to Apply)'
-        : 'Save Status: Saved';
+        ? t('settings.save_status.saved_restart')
+        : t('settings.save_status.saved');
     case 'error':
-      return 'Save Status: Error (Tap to Retry)';
+      return t('settings.save_status.error_retry');
     default:
-      return 'Save Status: Waiting for Changes';
+      return t('settings.save_status.waiting');
   }
 });
 
@@ -101,10 +103,12 @@ const iconClass = computed(() => {
 const tooltip = computed(() => {
   if (savingState.value === 'error' && validationError.value) return validationError.value;
   if (hasPending.value)
-    return `Auto-save flushes every ${Math.round(intervalMs.value / 1000)}s. Tap to save now.`;
+    return t('settings.save_status.auto_save_tooltip', {
+      seconds: Math.round(intervalMs.value / 1000),
+    });
   if (restartRequired.value)
-    return 'Saved; Restart required to apply runtime changes. Tap to apply now.';
-  return 'This page auto-saves most changes as you edit. Some fields may require clicking Save.';
+    return t('settings.save_status.restart_tooltip');
+  return t('settings.save_status.auto_save_hint');
 });
 
 async function onClick() {
@@ -122,7 +126,7 @@ async function onClick() {
       const ok = await store.flushPatchQueue();
       if (!ok) {
         try {
-          message.error(validationError.value || 'Save failed. Check fields for errors.', {
+          message.error(validationError.value || t('settings.save_status.save_failed'), {
             duration: 5000,
           });
         } catch {}
@@ -132,7 +136,7 @@ async function onClick() {
     const ok = await store.save();
     if (!ok) {
       try {
-        message.error(validationError.value || 'Save failed. Check fields for errors.', {
+        message.error(validationError.value || t('settings.save_status.save_failed'), {
           duration: 5000,
         });
       } catch {}
