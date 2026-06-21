@@ -1,14 +1,15 @@
 <template>
   <div v-if="sessions.length > 0" class="mb-4">
-    <div class="flex items-center gap-2 mb-3">
+    <div class="flex flex-wrap items-center gap-2 mb-3">
       <n-tag type="info" size="small" :bordered="false">RTSP</n-tag>
       <span class="text-sm font-medium">
         {{ t('sessions.rtsp_active', { count: sessions.length }) }}
       </span>
-      <n-tag v-if="appRunning" type="success" size="small" :bordered="false">
-        <span class="inline-flex items-center"
-          ><i class="fas fa-gamepad mr-1" />{{ appName || t('sessions.app_running') }}</span
-        >
+      <n-tag v-if="appRunning" type="success" size="small" :bordered="false" class="max-w-full">
+        <span class="inline-flex min-w-0 max-w-full items-center">
+          <i class="fas fa-gamepad mr-1 flex-shrink-0" />
+          <span class="truncate">{{ appName || t('sessions.app_running') }}</span>
+        </span>
       </n-tag>
     </div>
 
@@ -32,7 +33,7 @@
           <n-tag type="default" size="small" :bordered="false">{{ session.state }}</n-tag>
         </div>
 
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
+        <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
           <StatCell
             v-if="session.width && session.height"
             :label="t('sessions.resolution')"
@@ -148,15 +149,16 @@
     />
   </div>
   <div v-else-if="rtspCount > 0" class="mb-4">
-    <div class="flex items-center gap-2 mb-3">
+    <div class="flex flex-wrap items-center gap-2 mb-3">
       <n-tag type="info" size="small" :bordered="false">RTSP</n-tag>
       <span class="text-sm font-medium">
         {{ t('sessions.rtsp_active', { count: rtspCount }) }}
       </span>
-      <n-tag v-if="appRunning" type="success" size="small" :bordered="false">
-        <span class="inline-flex items-center"
-          ><i class="fas fa-gamepad mr-1" />{{ appName || t('sessions.app_running') }}</span
-        >
+      <n-tag v-if="appRunning" type="success" size="small" :bordered="false" class="max-w-full">
+        <span class="inline-flex min-w-0 max-w-full items-center">
+          <i class="fas fa-gamepad mr-1 flex-shrink-0" />
+          <span class="truncate">{{ appName || t('sessions.app_running') }}</span>
+        </span>
       </n-tag>
     </div>
   </div>
