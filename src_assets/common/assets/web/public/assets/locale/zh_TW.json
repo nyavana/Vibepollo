@@ -44,18 +44,6 @@
     "default_global": "預設（全域）",
     "learn_more": "深入瞭解"
   },
-  "Applications": "應用程式",
-  "Settings": "設定",
-  "Version": "版本",
-  "General": "一般",
-  "Input": "輸入",
-  "Audio / Video": "音訊 / 視訊",
-  "Capture": "擷取",
-  "Network": "網路",
-  "Files": "檔案",
-  "Advanced": "進階",
-  "Stats": "統計",
-  "Playnite": "Playnite",
   "apps": {
     "actions": "操作",
     "add_cmds": "新增指令",

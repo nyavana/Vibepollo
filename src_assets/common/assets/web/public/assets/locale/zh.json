@@ -44,18 +44,6 @@
     "default_global": "默认（全局）",
     "learn_more": "了解更多"
   },
-  "Applications": "应用程序",
-  "Settings": "设置",
-  "Version": "版本",
-  "General": "常规",
-  "Input": "输入",
-  "Audio / Video": "音频 / 视频",
-  "Capture": "捕捉",
-  "Network": "网络",
-  "Files": "文件",
-  "Advanced": "高级",
-  "Stats": "统计",
-  "Playnite": "Playnite",
   "apps": {
     "actions": "操作",
     "add_cmds": "添加命令",
