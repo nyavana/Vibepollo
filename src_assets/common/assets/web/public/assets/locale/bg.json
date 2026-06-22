@@ -864,7 +864,17 @@
     "realtime_stats_show_host_stats_desc": "Показва обобщение в реално време за CPU, GPU, памет и мрежа на страницата Статистика.",
     "realtime_stats_show_host_charts_desc": "Показва исторически графики на метриките на хоста на страницата Статистика.",
     "realtime_stats_show_session_history_desc": "Показва наскоро приключени стрийминг сесии на страницата Статистика.",
-    "vibeshine_file_state_desc": "Файл, използван за съхраняване на състоянието на виртуалния дисплей драйвер Vibeshine."
+    "vibeshine_file_state_desc": "Файл, използван за съхраняване на състоянието на виртуалния дисплей драйвер Vibeshine.",
+    "lossless_scaling_custom_path_attention": "Потребителският път до Lossless Scaling изисква внимание",
+    "lossless_scaling_configured_path_ready_desc": "Конфигурираният път до изпълнимия файл ще се стартира, когато Lossless Scaling е избран за приложение.",
+    "lossless_scaling_configured_path_error_desc": "Конфигурираният път не можа да бъде разрешен. Изберете път до изпълним файл или изчистете замяната, за да използвате автоматично откриване.",
+    "lossless_scaling_executable_path": "Път до изпълним файл",
+    "lossless_scaling_browse_executables": "Преглед на изпълними файлове",
+    "lossless_scaling_open_folder": "Отваряне на папка",
+    "lossless_scaling_computer": "Компютър",
+    "lossless_scaling_folder": "Папка",
+    "lossless_scaling_executable": "Изпълним файл",
+    "lossless_scaling_no_executable_entries": "В тази папка няма намерени изпълними файлове."
   },
   "index": {
     "description": "Vibepollo е самостоятелно хоствано приложение за стрийминг на игри към Moonlight.",
@@ -1903,12 +1913,12 @@
     "login": "Вход"
   },
   "permissions": {
-    "group_action": "Actions",
-    "group_operation": "Operations",
-    "group_input": "Inputs",
-    "list": "List applications",
-    "view": "View stream",
-    "launch": "Launch applications",
+    "group_action": "Действия",
+    "group_operation": "Операции",
+    "group_input": "Въвеждания",
+    "list": "Списък с приложения",
+    "view": "Преглед на поток",
+    "launch": "Стартиране на приложения",
     "clipboard_set": "Задаване на клипборда",
     "clipboard_read": "Четене на клипборда",
     "server_cmd": "Изпълнение на сървърни команди",
@@ -2130,7 +2140,12 @@
     "virtual_screen_in_use": "Виртуалният екран на Vibepollo се използва",
     "nvidia_smooth_motion_active": "NVIDIA Smooth Motion е активен",
     "wait_all": "Изчакване на всички",
-    "working_dir": "Работна директория"
+    "working_dir": "Работна директория",
+    "rtx_hdr_live_queued": "В опашката",
+    "rtx_hdr_live_applying": "Прилага се на живо",
+    "rtx_hdr_live_applied": "Приложено на живо",
+    "rtx_hdr_live_update_failed": "Неуспешно обновяване на живо",
+    "rtx_hdr_live_update_failed_desc": "Промените на RTX HDR не можаха да се приложат към активния поток."
   },
   "config_duration": {
     "hours": "Часове",

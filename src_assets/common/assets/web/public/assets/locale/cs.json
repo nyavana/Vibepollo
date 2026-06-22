@@ -877,7 +877,17 @@
     "realtime_stats_show_host_stats_desc": "Na stránce Statistiky zobrazit živý souhrn CPU, GPU, paměti a sítě.",
     "realtime_stats_show_host_charts_desc": "Na stránce Statistiky zobrazit historické grafy metrik hostitele.",
     "realtime_stats_show_session_history_desc": "Na stránce Statistiky zobrazit nedávno dokončené streamovací relace.",
-    "vibeshine_file_state_desc": "Soubor používaný k ukládání stavu ovladače virtuálního displeje Vibeshine."
+    "vibeshine_file_state_desc": "Soubor používaný k ukládání stavu ovladače virtuálního displeje Vibeshine.",
+    "lossless_scaling_custom_path_attention": "Vlastní cesta k Lossless Scaling vyžaduje pozornost",
+    "lossless_scaling_configured_path_ready_desc": "Nakonfigurovaný spustitelný soubor se spustí, když je pro aplikaci vybrán Lossless Scaling.",
+    "lossless_scaling_configured_path_error_desc": "Nakonfigurovanou cestu se nepodařilo vyhodnotit. Vyberte cestu ke spustitelnému souboru nebo zrušte přepsání a použijte automatickou detekci.",
+    "lossless_scaling_executable_path": "Cesta ke spustitelnému souboru",
+    "lossless_scaling_browse_executables": "Procházet spustitelné soubory",
+    "lossless_scaling_open_folder": "Otevřít složku",
+    "lossless_scaling_computer": "Počítač",
+    "lossless_scaling_folder": "Složka",
+    "lossless_scaling_executable": "Spustitelný soubor",
+    "lossless_scaling_no_executable_entries": "V této složce nebyly nalezeny žádné spustitelné soubory."
   },
   "index": {
     "description": "Vibepollo je samostatně hostovaný hostitel herních streamů pro Moonlight.",
@@ -1903,12 +1913,12 @@
     "login": "Přihlásit se"
   },
   "permissions": {
-    "group_action": "Actions",
-    "group_operation": "Operations",
-    "group_input": "Inputs",
-    "list": "List applications",
-    "view": "View stream",
-    "launch": "Launch applications",
+    "group_action": "Akce",
+    "group_operation": "Operace",
+    "group_input": "Vstupy",
+    "list": "Zobrazit seznam aplikací",
+    "view": "Zobrazit stream",
+    "launch": "Spouštět aplikace",
     "clipboard_set": "Nastavit schránku",
     "clipboard_read": "Číst schránku",
     "server_cmd": "Spouštět příkazy serveru",
@@ -2130,7 +2140,12 @@
     "virtual_screen_in_use": "Používá se virtuální obrazovka Vibepollo",
     "nvidia_smooth_motion_active": "NVIDIA Smooth Motion je aktivní",
     "wait_all": "Čekat na všechny procesy",
-    "working_dir": "Pracovní adresář"
+    "working_dir": "Pracovní adresář",
+    "rtx_hdr_live_queued": "Ve frontě",
+    "rtx_hdr_live_applying": "Používá se živě",
+    "rtx_hdr_live_applied": "Použito živě",
+    "rtx_hdr_live_update_failed": "Živá aktualizace selhala",
+    "rtx_hdr_live_update_failed_desc": "Změny RTX HDR se nepodařilo použít pro aktivní stream."
   },
   "config_duration": {
     "hours": "Hodiny",

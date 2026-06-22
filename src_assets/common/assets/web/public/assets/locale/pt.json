@@ -864,7 +864,17 @@
     "realtime_stats_show_host_stats_desc": "Mostra um resumo em direto de CPU, GPU, memória e rede na página Estatísticas.",
     "realtime_stats_show_host_charts_desc": "Mostra gráficos históricos de métricas do host na página Estatísticas.",
     "realtime_stats_show_session_history_desc": "Mostra sessões de transmissão concluídas recentemente na página Estatísticas.",
-    "vibeshine_file_state_desc": "Ficheiro usado para guardar o estado do controlador de ecrã virtual Vibeshine."
+    "vibeshine_file_state_desc": "Ficheiro usado para guardar o estado do controlador de ecrã virtual Vibeshine.",
+    "lossless_scaling_custom_path_attention": "O caminho personalizado do Lossless Scaling requer atenção",
+    "lossless_scaling_configured_path_ready_desc": "O caminho executável configurado será iniciado quando o Lossless Scaling for selecionado para uma aplicação.",
+    "lossless_scaling_configured_path_error_desc": "Não foi possível resolver o caminho configurado. Escolha um caminho executável ou limpe a substituição para usar a deteção automática.",
+    "lossless_scaling_executable_path": "Caminho do executável",
+    "lossless_scaling_browse_executables": "Procurar executáveis",
+    "lossless_scaling_open_folder": "Abrir pasta",
+    "lossless_scaling_computer": "Computador",
+    "lossless_scaling_folder": "Pasta",
+    "lossless_scaling_executable": "Executável",
+    "lossless_scaling_no_executable_entries": "Não foram encontrados executáveis nesta pasta."
   },
   "index": {
     "description": "O Vibepollo é um host autoalojado de transmissão de jogos para Moonlight.",
@@ -1903,12 +1913,12 @@
     "login": "Iniciar sessão"
   },
   "permissions": {
-    "group_action": "Actions",
-    "group_operation": "Operations",
-    "group_input": "Inputs",
-    "list": "List applications",
-    "view": "View stream",
-    "launch": "Launch applications",
+    "group_action": "Ações",
+    "group_operation": "Operações",
+    "group_input": "Entradas",
+    "list": "Listar aplicações",
+    "view": "Ver stream",
+    "launch": "Iniciar aplicações",
     "clipboard_set": "Definir área de transferência",
     "clipboard_read": "Ler área de transferência",
     "server_cmd": "Executar comandos do servidor",
@@ -2130,7 +2140,12 @@
     "virtual_screen_in_use": "Ecrã virtual Vibepollo em uso",
     "nvidia_smooth_motion_active": "NVIDIA Smooth Motion ativo",
     "wait_all": "Aguardar todos",
-    "working_dir": "Diretório trabalho"
+    "working_dir": "Diretório trabalho",
+    "rtx_hdr_live_queued": "Na fila",
+    "rtx_hdr_live_applying": "A aplicar em direto",
+    "rtx_hdr_live_applied": "Aplicado em direto",
+    "rtx_hdr_live_update_failed": "Falha na atualização em direto",
+    "rtx_hdr_live_update_failed_desc": "Não foi possível aplicar as alterações de RTX HDR ao stream ativo."
   },
   "config_duration": {
     "hours": "Horas",

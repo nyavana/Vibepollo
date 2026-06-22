@@ -864,7 +864,17 @@
     "realtime_stats_show_host_stats_desc": "統計ページに CPU、GPU、メモリ、ネットワークのライブ概要を表示します。",
     "realtime_stats_show_host_charts_desc": "統計ページにホスト メトリクスの履歴チャートを表示します。",
     "realtime_stats_show_session_history_desc": "統計ページに最近完了したストリームセッションを表示します。",
-    "vibeshine_file_state_desc": "Vibeshine 仮想ディスプレイ ドライバー状態を保存するファイルです。"
+    "vibeshine_file_state_desc": "Vibeshine 仮想ディスプレイ ドライバー状態を保存するファイルです。",
+    "lossless_scaling_custom_path_attention": "カスタム Lossless Scaling パスの確認が必要です",
+    "lossless_scaling_configured_path_ready_desc": "アプリケーションで Lossless Scaling が選択されたとき、設定済みの実行ファイルパスが起動されます。",
+    "lossless_scaling_configured_path_error_desc": "設定済みのパスを解決できませんでした。実行ファイルのパスを選択するか、上書きをクリアして自動検出を使用してください。",
+    "lossless_scaling_executable_path": "実行ファイルのパス",
+    "lossless_scaling_browse_executables": "実行ファイルを参照",
+    "lossless_scaling_open_folder": "フォルダーを開く",
+    "lossless_scaling_computer": "コンピューター",
+    "lossless_scaling_folder": "フォルダー",
+    "lossless_scaling_executable": "実行ファイル",
+    "lossless_scaling_no_executable_entries": "このフォルダーに実行ファイルは見つかりませんでした。"
   },
   "index": {
     "description": "Vibepollo は Moonlight 用のセルフホスト型ゲーム ストリーム ホストです。",
@@ -1903,12 +1913,12 @@
     "login": "ログイン"
   },
   "permissions": {
-    "group_action": "Actions",
-    "group_operation": "Operations",
-    "group_input": "Inputs",
-    "list": "List applications",
-    "view": "View stream",
-    "launch": "Launch applications",
+    "group_action": "操作",
+    "group_operation": "運用",
+    "group_input": "入力",
+    "list": "アプリケーション一覧を表示",
+    "view": "ストリームを表示",
+    "launch": "アプリケーションを起動",
     "clipboard_set": "クリップボードへ設定",
     "clipboard_read": "クリップボードを読み取り",
     "server_cmd": "サーバー コマンドを実行",
@@ -2130,7 +2140,12 @@
     "virtual_screen_in_use": "Vibepollo 仮想ディスプレイを使用中",
     "nvidia_smooth_motion_active": "NVIDIA Smooth Motion が有効",
     "wait_all": "すべて待機",
-    "working_dir": "作業ディレクトリ"
+    "working_dir": "作業ディレクトリ",
+    "rtx_hdr_live_queued": "キュー済み",
+    "rtx_hdr_live_applying": "ライブ適用中",
+    "rtx_hdr_live_applied": "ライブ適用済み",
+    "rtx_hdr_live_update_failed": "ライブ更新に失敗しました",
+    "rtx_hdr_live_update_failed_desc": "アクティブなストリームに RTX HDR の変更を適用できませんでした。"
   },
   "config_duration": {
     "hours": "時間",

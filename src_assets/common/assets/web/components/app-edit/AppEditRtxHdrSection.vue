@@ -22,7 +22,7 @@
     </div>
 
     <n-alert v-if="liveStatus === 'error'" type="error" size="small" :bordered="false">
-      {{ liveError || 'Unable to apply RTX HDR changes to the active stream.' }}
+      {{ liveError || t('app_edit.rtx_hdr_live_update_failed_desc') }}
     </n-alert>
 
     <label :class="cardClass(rtxHdrEnabled)">
@@ -113,13 +113,13 @@ const rtxHdrEnabled = computed({
 const liveStatusLabel = computed(() => {
   switch (props.liveStatus) {
     case 'queued':
-      return 'Queued';
+      return t('app_edit.rtx_hdr_live_queued');
     case 'applying':
-      return 'Applying live';
+      return t('app_edit.rtx_hdr_live_applying');
     case 'applied':
-      return 'Applied live';
+      return t('app_edit.rtx_hdr_live_applied');
     case 'error':
-      return 'Live update failed';
+      return t('app_edit.rtx_hdr_live_update_failed');
     default:
       return '';
   }

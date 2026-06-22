@@ -864,7 +864,17 @@
     "realtime_stats_show_host_stats_desc": "Показывать на странице статистики живую сводку CPU, GPU, памяти и сети.",
     "realtime_stats_show_host_charts_desc": "Показывать на странице статистики исторические графики показателей хоста.",
     "realtime_stats_show_session_history_desc": "Показывать на странице статистики недавно завершенные сеансы трансляции.",
-    "vibeshine_file_state_desc": "Файл, используемый для хранения состояния драйвера виртуального дисплея Vibeshine."
+    "vibeshine_file_state_desc": "Файл, используемый для хранения состояния драйвера виртуального дисплея Vibeshine.",
+    "lossless_scaling_custom_path_attention": "Пользовательский путь Lossless Scaling требует внимания",
+    "lossless_scaling_configured_path_ready_desc": "Настроенный исполняемый файл будет запускаться, когда для приложения выбран Lossless Scaling.",
+    "lossless_scaling_configured_path_error_desc": "Не удалось разрешить настроенный путь. Выберите путь к исполняемому файлу или очистите переопределение, чтобы использовать автообнаружение.",
+    "lossless_scaling_executable_path": "Путь к исполняемому файлу",
+    "lossless_scaling_browse_executables": "Обзор исполняемых файлов",
+    "lossless_scaling_open_folder": "Открыть папку",
+    "lossless_scaling_computer": "Компьютер",
+    "lossless_scaling_folder": "Папка",
+    "lossless_scaling_executable": "Исполняемый файл",
+    "lossless_scaling_no_executable_entries": "В этой папке не найдены исполняемые файлы."
   },
   "index": {
     "description": "Vibepollo — самостоятельно размещаемый хост игровых трансляций для Moonlight.",
@@ -1903,12 +1913,12 @@
     "login": "Войти"
   },
   "permissions": {
-    "group_action": "Actions",
-    "group_operation": "Operations",
-    "group_input": "Inputs",
-    "list": "List applications",
-    "view": "View stream",
-    "launch": "Launch applications",
+    "group_action": "Действия",
+    "group_operation": "Операции",
+    "group_input": "Ввод",
+    "list": "Список приложений",
+    "view": "Просмотр потока",
+    "launch": "Запуск приложений",
     "clipboard_set": "Запись буфера обмена",
     "clipboard_read": "Чтение буфера обмена",
     "server_cmd": "Запуск команд сервера",
@@ -2130,7 +2140,12 @@
     "virtual_screen_in_use": "Используется виртуальный экран Vibepollo",
     "nvidia_smooth_motion_active": "NVIDIA Smooth Motion активен",
     "wait_all": "Ждать все процессы",
-    "working_dir": "Рабочий каталог"
+    "working_dir": "Рабочий каталог",
+    "rtx_hdr_live_queued": "В очереди",
+    "rtx_hdr_live_applying": "Применяется вживую",
+    "rtx_hdr_live_applied": "Применено вживую",
+    "rtx_hdr_live_update_failed": "Не удалось обновить вживую",
+    "rtx_hdr_live_update_failed_desc": "Не удалось применить изменения RTX HDR к активному потоку."
   },
   "config_duration": {
     "hours": "Часы",

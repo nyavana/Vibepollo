@@ -865,7 +865,17 @@
     "realtime_stats_show_host_stats_desc": "Élő CPU-, GPU-, memória- és hálózati összefoglaló megjelenítése a Statisztika oldalon.",
     "realtime_stats_show_host_charts_desc": "Korábbi hosztmetrika-diagramok megjelenítése a Statisztika oldalon.",
     "realtime_stats_show_session_history_desc": "A nemrég befejezett streamelési munkamenetek megjelenítése a Statisztika oldalon.",
-    "vibeshine_file_state_desc": "A Vibeshine virtuális kijelző-illesztőprogram állapotának tárolására használt fájl."
+    "vibeshine_file_state_desc": "A Vibeshine virtuális kijelző-illesztőprogram állapotának tárolására használt fájl.",
+    "lossless_scaling_custom_path_attention": "Az egyéni Lossless Scaling útvonal figyelmet igényel",
+    "lossless_scaling_configured_path_ready_desc": "A beállított futtatható fájl indul el, amikor egy alkalmazáshoz a Lossless Scaling van kiválasztva.",
+    "lossless_scaling_configured_path_error_desc": "A beállított útvonal nem oldható fel. Válassz futtatható fájlt, vagy töröld a felülírást az automatikus felismeréshez.",
+    "lossless_scaling_executable_path": "Futtatható fájl útvonala",
+    "lossless_scaling_browse_executables": "Futtatható fájlok böngészése",
+    "lossless_scaling_open_folder": "Mappa megnyitása",
+    "lossless_scaling_computer": "Számítógép",
+    "lossless_scaling_folder": "Mappa",
+    "lossless_scaling_executable": "Futtatható fájl",
+    "lossless_scaling_no_executable_entries": "Ebben a mappában nem található futtatható fájl."
   },
   "index": {
     "description": "A Vibepollo saját üzemeltetésű játékstreaming-hoszt Moonlight-kliensekhez.",
@@ -1903,12 +1913,12 @@
     "login": "Bejelentkezés"
   },
   "permissions": {
-    "group_action": "Actions",
-    "group_operation": "Operations",
-    "group_input": "Inputs",
-    "list": "List applications",
-    "view": "View stream",
-    "launch": "Launch applications",
+    "group_action": "Műveletek",
+    "group_operation": "Üzemeltetési műveletek",
+    "group_input": "Bemenetek",
+    "list": "Alkalmazások listázása",
+    "view": "Stream megtekintése",
+    "launch": "Alkalmazások indítása",
     "clipboard_set": "Vágólap beállítása",
     "clipboard_read": "Vágólap olvasása",
     "server_cmd": "Szerverparancsok futtatása",
@@ -2130,7 +2140,12 @@
     "virtual_screen_in_use": "Vibepollo virtuális képernyője használatban",
     "nvidia_smooth_motion_active": "NVIDIA Smooth Motion aktív",
     "wait_all": "Várakozás minden folyamatra",
-    "working_dir": "Munkakönyvtár"
+    "working_dir": "Munkakönyvtár",
+    "rtx_hdr_live_queued": "Sorban áll",
+    "rtx_hdr_live_applying": "Élő alkalmazás folyamatban",
+    "rtx_hdr_live_applied": "Élőben alkalmazva",
+    "rtx_hdr_live_update_failed": "Az élő frissítés sikertelen",
+    "rtx_hdr_live_update_failed_desc": "Nem sikerült alkalmazni az RTX HDR módosításait az aktív streamre."
   },
   "config_duration": {
     "hours": "Óra",

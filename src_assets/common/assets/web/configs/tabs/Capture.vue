@@ -201,7 +201,7 @@ const losslessStatusText = computed(() => {
     return t('config.lossless_scaling_ready');
   }
   if (losslessHasConfiguredPath.value) {
-    return 'Custom Lossless Scaling path needs attention';
+    return t('config.lossless_scaling_custom_path_attention');
   }
   if (losslessStatus.value?.message) {
     return losslessStatus.value.message;
@@ -217,14 +217,14 @@ const losslessStatusHint = computed(() => {
   }
   if (losslessDetected.value) {
     if (losslessHasConfiguredPath.value) {
-      return 'The configured executable path will be launched when Lossless Scaling is selected for an application.';
+      return t('config.lossless_scaling_configured_path_ready_desc');
     }
     return t('config.lossless_scaling_ready_desc');
   }
   if (losslessHasConfiguredPath.value) {
     return (
       losslessStatus.value?.message ||
-      'The configured path could not be resolved. Choose an executable path or clear the override to use auto-detection.'
+      t('config.lossless_scaling_configured_path_error_desc')
     );
   }
   return t('config.lossless_scaling_not_found_desc');
@@ -595,7 +595,9 @@ const shouldShowSoftware = computed(() => showAll() || props.currentTab === 'sw'
           {{ t('config.lossless_scaling_not_found_alert') }}
         </n-alert>
         <div class="space-y-2">
-          <div class="text-xs font-semibold uppercase tracking-wide opacity-70">Executable path</div>
+          <div class="text-xs font-semibold uppercase tracking-wide opacity-70">
+            {{ t('config.lossless_scaling_executable_path') }}
+          </div>
           <n-input
             v-model:value="losslessBrowsePath"
             placeholder="C:\Program Files (x86)\Steam\steamapps\common\Lossless Scaling\LosslessScaling.exe"
@@ -624,7 +626,7 @@ const shouldShowSoftware = computed(() => showAll() || props.currentTab === 'sw'
         <div class="space-y-2">
           <div class="flex items-center justify-between gap-2">
             <div class="text-xs font-semibold uppercase tracking-wide opacity-70">
-              Browse executables
+              {{ t('config.lossless_scaling_browse_executables') }}
             </div>
             <n-button
               size="tiny"
@@ -632,10 +634,12 @@ const shouldShowSoftware = computed(() => showAll() || props.currentTab === 'sw'
               :loading="losslessBrowseLoading"
               @click="loadLosslessBrowseDirectory(losslessBrowsePath)"
             >
-              Open Folder
+              {{ t('config.lossless_scaling_open_folder') }}
             </n-button>
           </div>
-          <div class="truncate text-xs opacity-60">{{ losslessBrowseDirectory || 'Computer' }}</div>
+          <div class="truncate text-xs opacity-60">
+            {{ losslessBrowseDirectory || t('config.lossless_scaling_computer') }}
+          </div>
           <n-alert v-if="losslessBrowseError" type="warning" size="small">
             {{ losslessBrowseError }}
           </n-alert>
@@ -649,14 +653,18 @@ const shouldShowSoftware = computed(() => showAll() || props.currentTab === 'sw'
             >
               <span class="min-w-0 truncate">{{ entry.name }}</span>
               <span class="shrink-0 opacity-60">
-                {{ entry.type === 'directory' ? 'Folder' : 'Executable' }}
+                {{
+                  entry.type === 'directory'
+                    ? t('config.lossless_scaling_folder')
+                    : t('config.lossless_scaling_executable')
+                }}
               </span>
             </button>
             <div
               v-if="!losslessBrowseLoading && !losslessBrowseEntries.length"
               class="px-3 py-3 text-xs opacity-60"
             >
-              No executable entries found in this folder.
+              {{ t('config.lossless_scaling_no_executable_entries') }}
             </div>
           </div>
         </div>

@@ -864,7 +864,17 @@
     "realtime_stats_show_host_stats_desc": "Visa en liveöversikt över CPU, GPU, minne och nätverk på statistiksidan.",
     "realtime_stats_show_host_charts_desc": "Visa historiska diagram över värdmått på statistiksidan.",
     "realtime_stats_show_session_history_desc": "Visa nyligen avslutade strömningssessioner på statistiksidan.",
-    "vibeshine_file_state_desc": "Fil som används för att lagra tillstånd för Vibeshines virtuella skärmdrivrutin."
+    "vibeshine_file_state_desc": "Fil som används för att lagra tillstånd för Vibeshines virtuella skärmdrivrutin.",
+    "lossless_scaling_custom_path_attention": "Anpassad Lossless Scaling-sökväg kräver uppmärksamhet",
+    "lossless_scaling_configured_path_ready_desc": "Den konfigurerade körbara sökvägen startas när Lossless Scaling väljs för en applikation.",
+    "lossless_scaling_configured_path_error_desc": "Den konfigurerade sökvägen kunde inte lösas. Välj en körbar sökväg eller rensa åsidosättningen för att använda automatisk identifiering.",
+    "lossless_scaling_executable_path": "Sökväg till körbar fil",
+    "lossless_scaling_browse_executables": "Bläddra bland körbara filer",
+    "lossless_scaling_open_folder": "Öppna mapp",
+    "lossless_scaling_computer": "Dator",
+    "lossless_scaling_folder": "Mapp",
+    "lossless_scaling_executable": "Körbar fil",
+    "lossless_scaling_no_executable_entries": "Inga körbara filer hittades i den här mappen."
   },
   "index": {
     "description": "Vibepollo är en självhostad värd för spelströmning till Moonlight.",
@@ -1903,12 +1913,12 @@
     "login": "Logga in"
   },
   "permissions": {
-    "group_action": "Actions",
-    "group_operation": "Operations",
-    "group_input": "Inputs",
-    "list": "List applications",
-    "view": "View stream",
-    "launch": "Launch applications",
+    "group_action": "Åtgärder",
+    "group_operation": "Operationer",
+    "group_input": "Inmatningar",
+    "list": "Lista applikationer",
+    "view": "Visa ström",
+    "launch": "Starta applikationer",
     "clipboard_set": "Skriv till urklipp",
     "clipboard_read": "Läs urklipp",
     "server_cmd": "Kör serverkommandon",
@@ -2130,7 +2140,12 @@
     "virtual_screen_in_use": "Vibepollos virtuella skärm används",
     "nvidia_smooth_motion_active": "NVIDIA Smooth Motion aktiv",
     "wait_all": "Vänta på alla",
-    "working_dir": "Arbetskatalog"
+    "working_dir": "Arbetskatalog",
+    "rtx_hdr_live_queued": "I kö",
+    "rtx_hdr_live_applying": "Tillämpar live",
+    "rtx_hdr_live_applied": "Tillämpat live",
+    "rtx_hdr_live_update_failed": "Liveuppdatering misslyckades",
+    "rtx_hdr_live_update_failed_desc": "Det gick inte att tillämpa RTX HDR-ändringarna på den aktiva strömmen."
   },
   "config_duration": {
     "hours": "Timmar",

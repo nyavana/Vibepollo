@@ -864,7 +864,17 @@
     "realtime_stats_show_host_stats_desc": "Pokaż na stronie Statystyki podsumowanie CPU, GPU, pamięci i sieci na żywo.",
     "realtime_stats_show_host_charts_desc": "Pokaż historyczne wykresy metryk hosta na stronie Statystyki.",
     "realtime_stats_show_session_history_desc": "Pokaż ostatnio zakończone sesje strumieniowania na stronie Statystyki.",
-    "vibeshine_file_state_desc": "Plik używany do przechowywania stanu sterownika ekranu wirtualnego Vibeshine."
+    "vibeshine_file_state_desc": "Plik używany do przechowywania stanu sterownika ekranu wirtualnego Vibeshine.",
+    "lossless_scaling_custom_path_attention": "Niestandardowa ścieżka Lossless Scaling wymaga uwagi",
+    "lossless_scaling_configured_path_ready_desc": "Skonfigurowany plik wykonywalny zostanie uruchomiony, gdy dla aplikacji wybrano Lossless Scaling.",
+    "lossless_scaling_configured_path_error_desc": "Nie można rozwiązać skonfigurowanej ścieżki. Wybierz ścieżkę do pliku wykonywalnego albo wyczyść nadpisanie, aby użyć automatycznego wykrywania.",
+    "lossless_scaling_executable_path": "Ścieżka pliku wykonywalnego",
+    "lossless_scaling_browse_executables": "Przeglądaj pliki wykonywalne",
+    "lossless_scaling_open_folder": "Otwórz folder",
+    "lossless_scaling_computer": "Komputer",
+    "lossless_scaling_folder": "Katalog",
+    "lossless_scaling_executable": "Plik wykonywalny",
+    "lossless_scaling_no_executable_entries": "W tym folderze nie znaleziono plików wykonywalnych."
   },
   "index": {
     "description": "Vibepollo to samoobsługowy host strumieniowania gier dla Moonlight.",
@@ -1903,12 +1913,12 @@
     "login": "Zaloguj"
   },
   "permissions": {
-    "group_action": "Actions",
-    "group_operation": "Operations",
-    "group_input": "Inputs",
-    "list": "List applications",
-    "view": "View stream",
-    "launch": "Launch applications",
+    "group_action": "Akcje",
+    "group_operation": "Operacje",
+    "group_input": "Wejścia",
+    "list": "Wyświetlanie listy aplikacji",
+    "view": "Wyświetlanie strumienia",
+    "launch": "Uruchamianie aplikacji",
     "clipboard_set": "Ustaw schowek",
     "clipboard_read": "Odczyt schowka",
     "server_cmd": "Uruchamianie poleceń serwera",
@@ -2130,7 +2140,12 @@
     "virtual_screen_in_use": "Ekran wirtualny Vibepollo w użyciu",
     "nvidia_smooth_motion_active": "NVIDIA Smooth Motion aktywne",
     "wait_all": "Czekaj na wszystkie",
-    "working_dir": "Katalog roboczy"
+    "working_dir": "Katalog roboczy",
+    "rtx_hdr_live_queued": "W kolejce",
+    "rtx_hdr_live_applying": "Stosowanie na żywo",
+    "rtx_hdr_live_applied": "Zastosowano na żywo",
+    "rtx_hdr_live_update_failed": "Aktualizacja na żywo nie powiodła się",
+    "rtx_hdr_live_update_failed_desc": "Nie udało się zastosować zmian RTX HDR do aktywnego strumienia."
   },
   "config_duration": {
     "hours": "Godziny",

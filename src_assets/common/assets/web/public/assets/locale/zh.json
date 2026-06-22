@@ -406,7 +406,12 @@
     "virtual_screen_in_use": "正在使用 Vibepollo 虚拟屏幕",
     "nvidia_smooth_motion_active": "NVIDIA Smooth Motion 已启用",
     "wait_all": "等待所有进程",
-    "working_dir": "工作目录"
+    "working_dir": "工作目录",
+    "rtx_hdr_live_queued": "已排队",
+    "rtx_hdr_live_applying": "正在实时应用",
+    "rtx_hdr_live_applied": "已实时应用",
+    "rtx_hdr_live_update_failed": "实时更新失败",
+    "rtx_hdr_live_update_failed_desc": "无法将 RTX HDR 更改应用到当前串流。"
   },
   "config": {
     "adapter_name": "GPU 名称",
@@ -1024,7 +1029,17 @@
     "realtime_stats_show_active_sessions_desc": "在统计页面显示当前正在进行的串流会话。",
     "realtime_stats_show_host_stats_desc": "在统计页面显示 CPU、GPU、内存和网络的实时摘要。",
     "realtime_stats_show_host_charts_desc": "在统计页面显示主机指标的历史曲线。",
-    "realtime_stats_show_session_history_desc": "在统计页面显示最近完成的串流会话。"
+    "realtime_stats_show_session_history_desc": "在统计页面显示最近完成的串流会话。",
+    "lossless_scaling_custom_path_attention": "自定义 Lossless Scaling 路径需要检查",
+    "lossless_scaling_configured_path_ready_desc": "为应用选择 Lossless Scaling 时，将启动已配置的可执行文件路径。",
+    "lossless_scaling_configured_path_error_desc": "无法解析已配置的路径。请选择可执行文件路径，或清除覆盖项以使用自动检测。",
+    "lossless_scaling_executable_path": "可执行文件路径",
+    "lossless_scaling_browse_executables": "浏览可执行文件",
+    "lossless_scaling_open_folder": "打开文件夹",
+    "lossless_scaling_computer": "计算机",
+    "lossless_scaling_folder": "文件夹",
+    "lossless_scaling_executable": "可执行文件",
+    "lossless_scaling_no_executable_entries": "此文件夹中未找到可执行文件。"
   },
   "index": {
     "description": "Vibepollo 是一款可自托管的 Moonlight 游戏串流主机。",
@@ -2063,12 +2078,12 @@
     "login": "登录"
   },
   "permissions": {
-    "group_action": "Actions",
-    "group_operation": "Operations",
-    "group_input": "Inputs",
-    "list": "List applications",
-    "view": "View stream",
-    "launch": "Launch applications",
+    "group_action": "操作",
+    "group_operation": "运行操作",
+    "group_input": "输入",
+    "list": "列出应用",
+    "view": "查看串流",
+    "launch": "启动应用",
     "clipboard_set": "设置剪贴板",
     "clipboard_read": "读取剪贴板",
     "server_cmd": "运行服务器命令",

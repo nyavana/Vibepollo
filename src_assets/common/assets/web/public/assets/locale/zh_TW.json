@@ -864,7 +864,17 @@
     "lossless_scaling_detected_installations": "偵測到的安裝位置",
     "lossless_scaling_folder_warning": "目前設定指向資料夾。請直接選擇 LosslessScaling.exe。",
     "lossless_scaling_rescan": "重新掃描",
-    "lossless_scaling_use_selected_path": "使用所選路徑"
+    "lossless_scaling_use_selected_path": "使用所選路徑",
+    "lossless_scaling_custom_path_attention": "自訂 Lossless Scaling 路徑需要檢查",
+    "lossless_scaling_configured_path_ready_desc": "為應用程式選擇 Lossless Scaling 時，將啟動已設定的可執行檔路徑。",
+    "lossless_scaling_configured_path_error_desc": "無法解析已設定的路徑。請選擇可執行檔路徑，或清除覆寫以使用自動偵測。",
+    "lossless_scaling_executable_path": "可執行檔路徑",
+    "lossless_scaling_browse_executables": "瀏覽可執行檔",
+    "lossless_scaling_open_folder": "開啟資料夾",
+    "lossless_scaling_computer": "電腦",
+    "lossless_scaling_folder": "資料夾",
+    "lossless_scaling_executable": "可執行檔",
+    "lossless_scaling_no_executable_entries": "此資料夾中找不到可執行檔。"
   },
   "index": {
     "description": "Vibepollo 是一款供 Moonlight 使用的自架式遊戲串流主機。",
@@ -1903,12 +1913,12 @@
     "login": "登入"
   },
   "permissions": {
-    "group_action": "Actions",
-    "group_operation": "Operations",
-    "group_input": "Inputs",
-    "list": "List applications",
-    "view": "View stream",
-    "launch": "Launch applications",
+    "group_action": "動作",
+    "group_operation": "操作",
+    "group_input": "輸入",
+    "list": "列出應用程式",
+    "view": "檢視串流",
+    "launch": "啟動應用程式",
     "clipboard_set": "設定剪貼簿",
     "clipboard_read": "讀取剪貼簿",
     "server_cmd": "執行伺服器指令",
@@ -2152,6 +2162,11 @@
     "state_undo_placeholder": "串流停止時要執行的指令",
     "step_label": "步驟 {index}",
     "try_broader_filter": "嘗試更寬泛的關鍵字，或切回所有區段。",
-    "value_placeholder": "（值）"
+    "value_placeholder": "（值）",
+    "rtx_hdr_live_queued": "已排入佇列",
+    "rtx_hdr_live_applying": "正在即時套用",
+    "rtx_hdr_live_applied": "已即時套用",
+    "rtx_hdr_live_update_failed": "即時更新失敗",
+    "rtx_hdr_live_update_failed_desc": "無法將 RTX HDR 變更套用到目前串流。"
   }
 }

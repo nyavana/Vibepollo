@@ -864,7 +864,17 @@
     "realtime_stats_show_host_stats_desc": "İstatistikler sayfasında canlı CPU, GPU, bellek ve ağ özetini göster.",
     "realtime_stats_show_host_charts_desc": "İstatistikler sayfasında geçmiş ana makine metrik grafiklerini göster.",
     "realtime_stats_show_session_history_desc": "İstatistikler sayfasında yakın zamanda tamamlanan akış oturumlarını göster.",
-    "vibeshine_file_state_desc": "Vibeshine sanal ekran sürücüsü durumunu saklamak için kullanılan dosya."
+    "vibeshine_file_state_desc": "Vibeshine sanal ekran sürücüsü durumunu saklamak için kullanılan dosya.",
+    "lossless_scaling_custom_path_attention": "Özel Lossless Scaling yolu dikkat gerektiriyor",
+    "lossless_scaling_configured_path_ready_desc": "Bir uygulama için Lossless Scaling seçildiğinde yapılandırılmış yürütülebilir dosya yolu başlatılır.",
+    "lossless_scaling_configured_path_error_desc": "Yapılandırılmış yol çözümlenemedi. Bir yürütülebilir dosya yolu seçin veya otomatik algılamayı kullanmak için geçersiz kılmayı temizleyin.",
+    "lossless_scaling_executable_path": "Yürütülebilir dosya yolu",
+    "lossless_scaling_browse_executables": "Yürütülebilir dosyalara göz at",
+    "lossless_scaling_open_folder": "Klasörü aç",
+    "lossless_scaling_computer": "Bilgisayar",
+    "lossless_scaling_folder": "Klasör",
+    "lossless_scaling_executable": "Yürütülebilir dosya",
+    "lossless_scaling_no_executable_entries": "Bu klasörde yürütülebilir dosya bulunamadı."
   },
   "index": {
     "description": "Vibepollo, Moonlight için kendi barındırdığınız bir oyun akış ana makinesidir.",
@@ -1903,12 +1913,12 @@
     "login": "Giriş yap"
   },
   "permissions": {
-    "group_action": "Actions",
-    "group_operation": "Operations",
-    "group_input": "Inputs",
-    "list": "List applications",
-    "view": "View stream",
-    "launch": "Launch applications",
+    "group_action": "Eylemler",
+    "group_operation": "İşlemler",
+    "group_input": "Girişler",
+    "list": "Uygulamaları listele",
+    "view": "Akışı görüntüle",
+    "launch": "Uygulamaları başlat",
     "clipboard_set": "Panoya yaz",
     "clipboard_read": "Panoyu oku",
     "server_cmd": "Sunucu komutlarını çalıştır",
@@ -2130,7 +2140,12 @@
     "virtual_screen_in_use": "Vibepollo sanal ekranı kullanımda",
     "nvidia_smooth_motion_active": "NVIDIA Smooth Motion etkin",
     "wait_all": "Tümünü Bekle",
-    "working_dir": "Çalışma dizini"
+    "working_dir": "Çalışma dizini",
+    "rtx_hdr_live_queued": "Sırada",
+    "rtx_hdr_live_applying": "Canlı uygulanıyor",
+    "rtx_hdr_live_applied": "Canlı uygulandı",
+    "rtx_hdr_live_update_failed": "Canlı güncelleme başarısız",
+    "rtx_hdr_live_update_failed_desc": "RTX HDR değişiklikleri etkin akışa uygulanamadı."
   },
   "config_duration": {
     "hours": "Saat",
