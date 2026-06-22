@@ -759,7 +759,21 @@
     "realtime_stats_show_host_charts_desc": "Mostra i grafici storici delle metriche host nella pagina Statistiche.",
     "realtime_stats_show_session_history_desc": "Mostra le sessioni di streaming completate di recente nella pagina Statistiche.",
     "vibeshine_file_state": "File di stato Vibeshine",
-    "vibeshine_file_state_desc": "File utilizzato per archiviare lo stato del driver del display virtuale Vibeshine."
+    "vibeshine_file_state_desc": "File utilizzato per archiviare lo stato del driver del display virtuale Vibeshine.",
+    "vulkan_hdr_layer": "Layer Vulkan HDR per display virtuali",
+    "vulkan_hdr_layer_desc": "Registra un layer Vulkan a livello di sistema che espone i formati di superficie HDR sui display virtuali. Disattivalo se giochi o app Vulkan vanno in crash con una violazione di accesso dopo l’installazione del driver display.",
+    "rtx_hdr_sdr_brightness": "Luminosità SDR",
+    "rtx_hdr_sdr_brightness_desc": "Incremento della luminosità per desktop/fotogrammi non corrispondenti negli stream RTX HDR (0–100, 0 = neutro). Gli stream HDR non abilitati per RTX HDR restano invariati.",
+    "lossless_scaling_custom_path_attention": "Il percorso personalizzato di Lossless Scaling richiede attenzione",
+    "lossless_scaling_configured_path_ready_desc": "Il percorso dell’eseguibile configurato verrà avviato quando Lossless Scaling è selezionato per un’applicazione.",
+    "lossless_scaling_configured_path_error_desc": "Impossibile risolvere il percorso configurato. Scegli un percorso eseguibile o cancella la sostituzione per usare il rilevamento automatico.",
+    "lossless_scaling_executable_path": "Percorso eseguibile",
+    "lossless_scaling_browse_executables": "Sfoglia eseguibili",
+    "lossless_scaling_open_folder": "Apri cartella",
+    "lossless_scaling_computer": "Questo PC",
+    "lossless_scaling_folder": "Cartella",
+    "lossless_scaling_executable": "Eseguibile",
+    "lossless_scaling_no_executable_entries": "Nessun eseguibile trovato in questa cartella."
   },
   "index": {
     "description": "Vibepollo è uno streaming di gioco self-hosted host per Moonlight.",
@@ -1780,7 +1794,13 @@
     "input_touch": "Tocca l'input",
     "input_pen": "Inserimento tramite penna",
     "input_mouse": "Inserimento del mouse",
-    "input_kbd": "Inserimento da tastiera"
+    "input_kbd": "Inserimento da tastiera",
+    "group_action": "Azioni",
+    "group_operation": "Operazioni",
+    "group_input": "Input",
+    "list": "Elencare applicazioni",
+    "view": "Visualizzare stream",
+    "launch": "Avviare applicazioni"
   },
   "settings": {
     "title": "Impostazioni",
@@ -1983,7 +2003,12 @@
     "virtual_screen_in_use": "Vibepollo schermo virtuale in uso",
     "nvidia_smooth_motion_active": "NVIDIA Smooth Motion attivo",
     "wait_all": "Attendi tutti",
-    "working_dir": "Dir. lavoro"
+    "working_dir": "Dir. lavoro",
+    "rtx_hdr_live_queued": "In coda",
+    "rtx_hdr_live_applying": "Applicazione live",
+    "rtx_hdr_live_applied": "Applicato live",
+    "rtx_hdr_live_update_failed": "Aggiornamento live non riuscito",
+    "rtx_hdr_live_update_failed_desc": "Impossibile applicare le modifiche RTX HDR allo stream attivo."
   },
   "config_duration": {
     "hours": "Ore",
@@ -1994,5 +2019,16 @@
     "part_seconds": "{count}s",
     "stored_seconds": "Memorizzato in secondi.",
     "summary": "{parts} ({seconds} secondi)"
+  },
+  "vulkan_hdr": {
+    "dismiss": "Ignora",
+    "install": "Installa",
+    "install_error": "Impossibile installare il layer Vulkan HDR. Assicurati che Sunshine sia in esecuzione con privilegi di amministratore.",
+    "install_success": "Layer Vulkan HDR installato.",
+    "installed": "Il layer Vulkan HDR è installato.",
+    "not_installed_desc": "Il layer Vulkan HDR per display virtuali non è registrato, quindi HDR potrebbe non funzionare sui display virtuali. Puoi installarlo ora o disattivare questa funzione in Impostazioni se causa crash delle app.",
+    "not_installed_title": "Layer Vulkan HDR non installato",
+    "settings_hint": "Puoi abilitare o disabilitare questo layer in Impostazioni (Audio/Video).",
+    "troubleshooting_title": "Layer Vulkan HDR"
   }
 }

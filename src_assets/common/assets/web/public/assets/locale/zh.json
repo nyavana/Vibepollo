@@ -329,7 +329,12 @@
     "virtual_screen_in_use": "正在使用 Vibepollo 虚拟屏幕",
     "nvidia_smooth_motion_active": "NVIDIA Smooth Motion 已启用",
     "wait_all": "等待所有进程",
-    "working_dir": "工作目录"
+    "working_dir": "工作目录",
+    "rtx_hdr_live_queued": "已排队",
+    "rtx_hdr_live_applying": "正在实时应用",
+    "rtx_hdr_live_applied": "已实时应用",
+    "rtx_hdr_live_update_failed": "实时更新失败",
+    "rtx_hdr_live_update_failed_desc": "无法将 RTX HDR 更改应用到当前串流。"
   },
   "config": {
     "adapter_name": "GPU 名称",
@@ -931,7 +936,21 @@
     "realtime_stats_show_host_charts": "显示历史图表卡片",
     "realtime_stats_show_host_charts_desc": "在统计页面显示主机指标的历史曲线。",
     "realtime_stats_show_session_history": "显示会话历史记录卡片",
-    "realtime_stats_show_session_history_desc": "在统计页面显示最近完成的串流会话。"
+    "realtime_stats_show_session_history_desc": "在统计页面显示最近完成的串流会话。",
+    "vulkan_hdr_layer": "虚拟显示器 Vulkan HDR 层",
+    "vulkan_hdr_layer_desc": "注册一个系统级 Vulkan 层，让虚拟显示器暴露 HDR 表面格式。如果安装显示驱动后 Vulkan 游戏或应用因访问冲突而崩溃，请禁用此项。",
+    "rtx_hdr_sdr_brightness": "SDR 亮度",
+    "rtx_hdr_sdr_brightness_desc": "为 RTX HDR 串流中的桌面/不匹配帧提升亮度（0–100，0 = 中性）。未启用 RTX HDR 的 HDR 串流不会改变。",
+    "lossless_scaling_custom_path_attention": "自定义 Lossless Scaling 路径需要检查",
+    "lossless_scaling_configured_path_ready_desc": "为应用选择 Lossless Scaling 时，将启动已配置的可执行文件路径。",
+    "lossless_scaling_configured_path_error_desc": "无法解析已配置的路径。请选择可执行文件路径，或清除覆盖项以使用自动检测。",
+    "lossless_scaling_executable_path": "可执行文件路径",
+    "lossless_scaling_browse_executables": "浏览可执行文件",
+    "lossless_scaling_open_folder": "打开文件夹",
+    "lossless_scaling_computer": "计算机",
+    "lossless_scaling_folder": "文件夹",
+    "lossless_scaling_executable": "可执行文件",
+    "lossless_scaling_no_executable_entries": "此文件夹中未找到可执行文件。"
   },
   "index": {
     "applications": "应用程序",
@@ -2005,6 +2024,23 @@
     "input_touch": "触控输入",
     "input_pen": "触控笔输入",
     "input_mouse": "鼠标输入",
-    "input_kbd": "键盘输入"
+    "input_kbd": "键盘输入",
+    "group_action": "操作",
+    "group_operation": "运行操作",
+    "group_input": "输入",
+    "list": "列出应用",
+    "view": "查看串流",
+    "launch": "启动应用"
+  },
+  "vulkan_hdr": {
+    "dismiss": "忽略",
+    "install": "安装",
+    "install_error": "无法安装 Vulkan HDR 层。请确保 Sunshine 正以管理员权限运行。",
+    "install_success": "Vulkan HDR 层已安装。",
+    "installed": "Vulkan HDR 层已安装。",
+    "not_installed_desc": "虚拟显示器 Vulkan HDR 层尚未注册，因此 HDR 可能无法在虚拟显示器上工作。你可以立即安装，或在设置中禁用此功能（如果它导致应用崩溃）。",
+    "not_installed_title": "Vulkan HDR 层未安装",
+    "settings_hint": "你可以在设置（音频/视频）中启用或禁用此层。",
+    "troubleshooting_title": "Vulkan HDR 层"
   }
 }

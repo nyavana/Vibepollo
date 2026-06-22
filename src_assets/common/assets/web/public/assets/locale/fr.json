@@ -759,7 +759,21 @@
     "realtime_stats_show_host_charts_desc": "Affichez les graphiques de métriques historiques de l’hôte sur la page Statistiques.",
     "realtime_stats_show_session_history_desc": "Afficher les sessions de streaming récemment terminées sur la page Statistiques.",
     "vibeshine_file_state": "Fichier d’état Vibeshine",
-    "vibeshine_file_state_desc": "Fichier utilisé pour stocker l’état du pilote d’affichage virtuel Vibeshine."
+    "vibeshine_file_state_desc": "Fichier utilisé pour stocker l’état du pilote d’affichage virtuel Vibeshine.",
+    "vulkan_hdr_layer": "Couche Vulkan HDR pour les écrans virtuels",
+    "vulkan_hdr_layer_desc": "Enregistre une couche Vulkan à l’échelle du système qui expose les formats de surface HDR sur les écrans virtuels. Désactivez-la si des jeux ou applications Vulkan plantent avec une violation d’accès après l’installation du pilote d’affichage.",
+    "rtx_hdr_sdr_brightness": "Luminosité SDR",
+    "rtx_hdr_sdr_brightness_desc": "Gain de luminosité pour le bureau/les images non correspondantes dans les flux RTX HDR (0–100, 0 = neutre). Les flux HDR qui n’utilisent pas RTX HDR ne sont pas modifiés.",
+    "lossless_scaling_custom_path_attention": "Le chemin personnalisé de Lossless Scaling nécessite une attention",
+    "lossless_scaling_configured_path_ready_desc": "L’exécutable configuré sera lancé lorsque Lossless Scaling est sélectionné pour une application.",
+    "lossless_scaling_configured_path_error_desc": "Le chemin configuré n’a pas pu être résolu. Choisissez le chemin d’un exécutable ou effacez le remplacement pour utiliser la détection automatique.",
+    "lossless_scaling_executable_path": "Chemin de l’exécutable",
+    "lossless_scaling_browse_executables": "Parcourir les exécutables",
+    "lossless_scaling_open_folder": "Ouvrir le dossier",
+    "lossless_scaling_computer": "Ordinateur",
+    "lossless_scaling_folder": "Dossier",
+    "lossless_scaling_executable": "Exécutable",
+    "lossless_scaling_no_executable_entries": "Aucun exécutable trouvé dans ce dossier."
   },
   "index": {
     "description": "Vibepollo est un hôte de flux de jeu auto-hébergé pour Moonlight.",
@@ -1780,7 +1794,13 @@
     "input_touch": "Entrée tactile",
     "input_pen": "Entrée stylet",
     "input_mouse": "Entrée souris",
-    "input_kbd": "Entrée clavier"
+    "input_kbd": "Entrée clavier",
+    "group_action": "Commandes",
+    "group_operation": "Opérations",
+    "group_input": "Entrées",
+    "list": "Lister les applications",
+    "view": "Voir le flux",
+    "launch": "Lancer des applications"
   },
   "settings": {
     "title": "Paramètres",
@@ -1983,7 +2003,12 @@
     "virtual_screen_in_use": "Écran virtuel Vibepollo utilisé",
     "nvidia_smooth_motion_active": "NVIDIA Mouvement fluide actif",
     "wait_all": "Tout attendre",
-    "working_dir": "Répertoire de travail"
+    "working_dir": "Répertoire de travail",
+    "rtx_hdr_live_queued": "En file d’attente",
+    "rtx_hdr_live_applying": "Application en direct",
+    "rtx_hdr_live_applied": "Appliqué en direct",
+    "rtx_hdr_live_update_failed": "Échec de la mise à jour en direct",
+    "rtx_hdr_live_update_failed_desc": "Impossible d’appliquer les changements RTX HDR au flux actif."
   },
   "config_duration": {
     "hours": "Heures",
@@ -1994,5 +2019,16 @@
     "part_seconds": "{count}s",
     "stored_seconds": "Stocké en secondes.",
     "summary": "{parts} ({seconds} secondes)"
+  },
+  "vulkan_hdr": {
+    "dismiss": "Ignorer",
+    "install": "Installer",
+    "install_error": "Impossible d’installer la couche Vulkan HDR. Assurez-vous que Sunshine s’exécute avec les privilèges administrateur.",
+    "install_success": "Couche Vulkan HDR installée.",
+    "installed": "La couche Vulkan HDR est installée.",
+    "not_installed_desc": "La couche Vulkan HDR pour les écrans virtuels n’est pas enregistrée, donc le HDR peut ne pas fonctionner sur les écrans virtuels. Vous pouvez l’installer maintenant ou désactiver cette fonction dans les paramètres si elle provoque des plantages d’applications.",
+    "not_installed_title": "Couche Vulkan HDR non installée",
+    "settings_hint": "Vous pouvez activer ou désactiver cette couche dans les paramètres (Audio/Vidéo).",
+    "troubleshooting_title": "Couche Vulkan HDR"
   }
 }

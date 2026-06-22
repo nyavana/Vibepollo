@@ -759,7 +759,21 @@
     "realtime_stats_show_host_charts_desc": "Mostra gráficos históricos de métricas do host na página Estatísticas.",
     "realtime_stats_show_session_history_desc": "Mostra sessões de transmissão concluídas recentemente na página Estatísticas.",
     "vibeshine_file_state": "Ficheiro de estado do Vibeshine",
-    "vibeshine_file_state_desc": "Ficheiro usado para guardar o estado do controlador de ecrã virtual Vibeshine."
+    "vibeshine_file_state_desc": "Ficheiro usado para guardar o estado do controlador de ecrã virtual Vibeshine.",
+    "vulkan_hdr_layer": "Camada Vulkan HDR para ecrãs virtuais",
+    "vulkan_hdr_layer_desc": "Regista uma camada Vulkan de todo o sistema que expõe formatos de superfície HDR em ecrãs virtuais. Desative-a se jogos ou aplicações Vulkan falharem com uma violação de acesso depois de instalar o controlador de ecrã.",
+    "rtx_hdr_sdr_brightness": "Brilho SDR",
+    "rtx_hdr_sdr_brightness_desc": "Aumento de brilho para o ambiente de trabalho/fotogramas não correspondentes em streams RTX HDR (0–100, 0 = neutro). Streams HDR que não usam RTX HDR permanecem inalterados.",
+    "lossless_scaling_custom_path_attention": "O caminho personalizado do Lossless Scaling requer atenção",
+    "lossless_scaling_configured_path_ready_desc": "O caminho executável configurado será iniciado quando o Lossless Scaling for selecionado para uma aplicação.",
+    "lossless_scaling_configured_path_error_desc": "Não foi possível resolver o caminho configurado. Escolha um caminho executável ou limpe a substituição para usar a deteção automática.",
+    "lossless_scaling_executable_path": "Caminho do executável",
+    "lossless_scaling_browse_executables": "Procurar executáveis",
+    "lossless_scaling_open_folder": "Abrir pasta",
+    "lossless_scaling_computer": "Computador",
+    "lossless_scaling_folder": "Pasta",
+    "lossless_scaling_executable": "Executável",
+    "lossless_scaling_no_executable_entries": "Não foram encontrados executáveis nesta pasta."
   },
   "index": {
     "description": "O Vibepollo é um host autoalojado de transmissão de jogos para Moonlight.",
@@ -1780,7 +1794,13 @@
     "input_touch": "Entrada tátil",
     "input_pen": "Entrada de caneta",
     "input_mouse": "Entrada de rato",
-    "input_kbd": "Entrada de teclado"
+    "input_kbd": "Entrada de teclado",
+    "group_action": "Ações",
+    "group_operation": "Operações",
+    "group_input": "Entradas",
+    "list": "Listar aplicações",
+    "view": "Ver stream",
+    "launch": "Iniciar aplicações"
   },
   "settings": {
     "title": "Definições",
@@ -1983,7 +2003,12 @@
     "virtual_screen_in_use": "Ecrã virtual Vibepollo em uso",
     "nvidia_smooth_motion_active": "NVIDIA Smooth Motion ativo",
     "wait_all": "Aguardar todos",
-    "working_dir": "Diretório trabalho"
+    "working_dir": "Diretório trabalho",
+    "rtx_hdr_live_queued": "Na fila",
+    "rtx_hdr_live_applying": "A aplicar em direto",
+    "rtx_hdr_live_applied": "Aplicado em direto",
+    "rtx_hdr_live_update_failed": "Falha na atualização em direto",
+    "rtx_hdr_live_update_failed_desc": "Não foi possível aplicar as alterações de RTX HDR ao stream ativo."
   },
   "config_duration": {
     "hours": "Horas",
@@ -1994,5 +2019,16 @@
     "part_seconds": "{count}s",
     "stored_seconds": "Guardado como segundos.",
     "summary": "{parts} ({seconds} segundos)"
+  },
+  "vulkan_hdr": {
+    "dismiss": "Ignorar",
+    "install": "Instalar",
+    "install_error": "Não foi possível instalar a camada Vulkan HDR. Confirme que o Sunshine está a ser executado com privilégios de administrador.",
+    "install_success": "Camada Vulkan HDR instalada.",
+    "installed": "A camada Vulkan HDR está instalada.",
+    "not_installed_desc": "A camada Vulkan HDR para ecrãs virtuais não está registada, por isso o HDR pode não funcionar em ecrãs virtuais. Pode instalá-la agora ou desativar esta funcionalidade nas Definições se estiver a causar falhas nas aplicações.",
+    "not_installed_title": "Camada Vulkan HDR não instalada",
+    "settings_hint": "Pode ativar ou desativar esta camada em Definições (Áudio/Vídeo).",
+    "troubleshooting_title": "Camada Vulkan HDR"
   }
 }

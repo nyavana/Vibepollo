@@ -760,7 +760,21 @@
     "realtime_stats_show_host_charts_desc": "Hiển thị biểu đồ số liệu lịch sử của máy chủ trên trang Thống kê.",
     "realtime_stats_show_session_history_desc": "Hiển thị các phiên phát trực tuyến đã hoàn thành gần đây trên trang Thống kê.",
     "vibeshine_file_state": "Tập tin trạng thái Vibeshine",
-    "vibeshine_file_state_desc": "Tệp được sử dụng để lưu trữ trạng thái trình điều khiển hiển thị ảo Vibeshine."
+    "vibeshine_file_state_desc": "Tệp được sử dụng để lưu trữ trạng thái trình điều khiển hiển thị ảo Vibeshine.",
+    "vulkan_hdr_layer": "Lớp Vulkan HDR cho màn hình ảo",
+    "vulkan_hdr_layer_desc": "Đăng ký một lớp Vulkan toàn hệ thống để hiển thị các định dạng bề mặt HDR trên màn hình ảo. Tắt tùy chọn này nếu trò chơi hoặc ứng dụng Vulkan bị lỗi vi phạm truy cập sau khi cài đặt trình điều khiển màn hình.",
+    "rtx_hdr_sdr_brightness": "Độ sáng SDR",
+    "rtx_hdr_sdr_brightness_desc": "Tăng độ sáng cho màn hình nền/khung hình không khớp trong luồng RTX HDR (0–100, 0 = trung tính). Các luồng HDR không bật RTX HDR sẽ không bị thay đổi.",
+    "lossless_scaling_custom_path_attention": "Đường dẫn Lossless Scaling tùy chỉnh cần được kiểm tra",
+    "lossless_scaling_configured_path_ready_desc": "Đường dẫn tệp thực thi đã cấu hình sẽ được chạy khi Lossless Scaling được chọn cho một ứng dụng.",
+    "lossless_scaling_configured_path_error_desc": "Không thể phân giải đường dẫn đã cấu hình. Chọn đường dẫn tệp thực thi hoặc xóa ghi đè để dùng tự động phát hiện.",
+    "lossless_scaling_executable_path": "Đường dẫn tệp thực thi",
+    "lossless_scaling_browse_executables": "Duyệt tệp thực thi",
+    "lossless_scaling_open_folder": "Mở thư mục",
+    "lossless_scaling_computer": "Máy tính",
+    "lossless_scaling_folder": "Thư mục",
+    "lossless_scaling_executable": "Tệp thực thi",
+    "lossless_scaling_no_executable_entries": "Không tìm thấy tệp thực thi trong thư mục này."
   },
   "index": {
     "description": "Vibepollo là máy chủ phát trực tuyến trò chơi tự lưu trữ cho Moonlight.",
@@ -1780,7 +1794,13 @@
     "input_touch": "Chạm vào đầu vào",
     "input_pen": "Nhập bút",
     "input_mouse": "Nhập chuột",
-    "input_kbd": "Đầu vào bàn phím"
+    "input_kbd": "Đầu vào bàn phím",
+    "group_action": "Hành động",
+    "group_operation": "Thao tác",
+    "group_input": "Đầu vào",
+    "list": "Liệt kê ứng dụng",
+    "view": "Xem luồng",
+    "launch": "Khởi chạy ứng dụng"
   },
   "settings": {
     "title": "Cài đặt",
@@ -1983,7 +2003,12 @@
     "virtual_screen_in_use": "Vibepollo màn hình ảo đang được sử dụng",
     "nvidia_smooth_motion_active": "NVIDIA Chuyển động mượt mà đang hoạt động",
     "wait_all": "Đợi tất cả",
-    "working_dir": "Giám đốc làm việc"
+    "working_dir": "Giám đốc làm việc",
+    "rtx_hdr_live_queued": "Đang chờ",
+    "rtx_hdr_live_applying": "Đang áp dụng trực tiếp",
+    "rtx_hdr_live_applied": "Đã áp dụng trực tiếp",
+    "rtx_hdr_live_update_failed": "Cập nhật trực tiếp thất bại",
+    "rtx_hdr_live_update_failed_desc": "Không thể áp dụng thay đổi RTX HDR cho luồng đang hoạt động."
   },
   "config_duration": {
     "hours": "Giờ",
@@ -1994,5 +2019,16 @@
     "part_seconds": "{count}s",
     "stored_seconds": "Được lưu trữ dưới dạng giây.",
     "summary": "{parts} ({seconds} giây)"
+  },
+  "vulkan_hdr": {
+    "dismiss": "Bỏ qua",
+    "install": "Cài đặt",
+    "install_error": "Không thể cài đặt lớp Vulkan HDR. Hãy bảo đảm Sunshine đang chạy với quyền quản trị viên.",
+    "install_success": "Đã cài đặt lớp Vulkan HDR.",
+    "installed": "Lớp Vulkan HDR đã được cài đặt.",
+    "not_installed_desc": "Lớp Vulkan HDR cho màn hình ảo chưa được đăng ký, nên HDR có thể không hoạt động trên màn hình ảo. Bạn có thể cài đặt ngay hoặc tắt tính năng này trong Cài đặt nếu nó gây lỗi ứng dụng.",
+    "not_installed_title": "Chưa cài đặt lớp Vulkan HDR",
+    "settings_hint": "Bạn có thể bật hoặc tắt lớp này trong Cài đặt (Âm thanh/Video).",
+    "troubleshooting_title": "Lớp Vulkan HDR"
   }
 }

@@ -1156,25 +1156,6 @@ function toServerPayload(f: AppForm): Record<string, any> {
   }
   return payload;
 }
-// Normalize cmd to single string; rehydrate typed form when props.app changes while open
-watch(
-  () => props.app,
-  (val) => {
-    if (!open.value) return;
-    liveRtxHdrSuppress = true;
-    formHydratingFromServer = true;
-    form.value = fromServerApp(val as ServerApp | undefined, props.index ?? -1);
-    primeLiveRtxHdrState();
-    nextTick(() => {
-      liveRtxHdrSuppress = false;
-      formHydratingFromServer = false;
-    }).catch(() => {
-      liveRtxHdrSuppress = false;
-      formHydratingFromServer = false;
-    });
-  },
-  { immediate: true },
-);
 const cmdText = computed<string>({
   get: () => form.value.cmd || '',
   set: (v: string) => {
@@ -1239,12 +1220,15 @@ watch(
   (val) => {
     if (!open.value) return;
     liveRtxHdrSuppress = true;
+    formHydratingFromServer = true;
     form.value = fromServerApp(val as ServerApp | undefined, props.index ?? -1);
     primeLiveRtxHdrState();
     nextTick(() => {
       liveRtxHdrSuppress = false;
+      formHydratingFromServer = false;
     }).catch(() => {
       liveRtxHdrSuppress = false;
+      formHydratingFromServer = false;
     });
   },
   { immediate: true },
@@ -1316,7 +1300,7 @@ function enqueueRtxHdrLivePost(overrides: Record<string, unknown>, key: string):
       liveRtxHdrError.value =
         error instanceof Error && error.message
           ? error.message
-          : 'Unable to apply RTX HDR changes to the active stream.';
+          : t('app_edit.rtx_hdr_live_update_failed_desc');
     });
   return liveRtxHdrQueue;
 }

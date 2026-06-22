@@ -759,7 +759,21 @@
     "realtime_stats_show_host_charts_desc": "Visa historiska diagram över värdmått på statistiksidan.",
     "realtime_stats_show_session_history_desc": "Visa nyligen avslutade strömningssessioner på statistiksidan.",
     "vibeshine_file_state": "Vibeshine-tillståndsfil",
-    "vibeshine_file_state_desc": "Fil som används för att lagra tillstånd för Vibeshines virtuella skärmdrivrutin."
+    "vibeshine_file_state_desc": "Fil som används för att lagra tillstånd för Vibeshines virtuella skärmdrivrutin.",
+    "vulkan_hdr_layer": "Vulkan HDR-lager för virtuella skärmar",
+    "vulkan_hdr_layer_desc": "Registrerar ett systemomfattande Vulkan-lager som exponerar HDR-ytformat på virtuella skärmar. Inaktivera detta om Vulkan-spel eller appar kraschar med åtkomstfel efter att skärmdrivrutinen har installerats.",
+    "rtx_hdr_sdr_brightness": "SDR-ljusstyrka",
+    "rtx_hdr_sdr_brightness_desc": "Ljusstyrkeförstärkning för skrivbord/icke matchande bildrutor i RTX HDR-strömmar (0–100, 0 = neutralt). HDR-strömmar som inte använder RTX HDR ändras inte.",
+    "lossless_scaling_custom_path_attention": "Anpassad Lossless Scaling-sökväg kräver uppmärksamhet",
+    "lossless_scaling_configured_path_ready_desc": "Den konfigurerade körbara sökvägen startas när Lossless Scaling väljs för en applikation.",
+    "lossless_scaling_configured_path_error_desc": "Den konfigurerade sökvägen kunde inte lösas. Välj en körbar sökväg eller rensa åsidosättningen för att använda automatisk identifiering.",
+    "lossless_scaling_executable_path": "Sökväg till körbar fil",
+    "lossless_scaling_browse_executables": "Bläddra bland körbara filer",
+    "lossless_scaling_open_folder": "Öppna mapp",
+    "lossless_scaling_computer": "Dator",
+    "lossless_scaling_folder": "Mapp",
+    "lossless_scaling_executable": "Körbar fil",
+    "lossless_scaling_no_executable_entries": "Inga körbara filer hittades i den här mappen."
   },
   "index": {
     "description": "Vibepollo är en självhostad värd för spelströmning till Moonlight.",
@@ -1780,7 +1794,13 @@
     "input_touch": "Pekinmatning",
     "input_pen": "Penninmatning",
     "input_mouse": "Musinmatning",
-    "input_kbd": "Tangentbordsinmatning"
+    "input_kbd": "Tangentbordsinmatning",
+    "group_action": "Åtgärder",
+    "group_operation": "Operationer",
+    "group_input": "Inmatningar",
+    "list": "Lista applikationer",
+    "view": "Visa ström",
+    "launch": "Starta applikationer"
   },
   "settings": {
     "title": "Inställningar",
@@ -1983,7 +2003,12 @@
     "virtual_screen_in_use": "Vibepollos virtuella skärm används",
     "nvidia_smooth_motion_active": "NVIDIA Smooth Motion aktiv",
     "wait_all": "Vänta på alla",
-    "working_dir": "Arbetskatalog"
+    "working_dir": "Arbetskatalog",
+    "rtx_hdr_live_queued": "I kö",
+    "rtx_hdr_live_applying": "Tillämpar live",
+    "rtx_hdr_live_applied": "Tillämpat live",
+    "rtx_hdr_live_update_failed": "Liveuppdatering misslyckades",
+    "rtx_hdr_live_update_failed_desc": "Det gick inte att tillämpa RTX HDR-ändringarna på den aktiva strömmen."
   },
   "config_duration": {
     "hours": "Timmar",
@@ -1994,5 +2019,16 @@
     "part_seconds": "{count}s",
     "stored_seconds": "Lagras som sekunder.",
     "summary": "{parts} ({seconds} sekunder)"
+  },
+  "vulkan_hdr": {
+    "dismiss": "Avfärda",
+    "install": "Installera",
+    "install_error": "Det gick inte att installera Vulkan HDR-lagret. Kontrollera att Sunshine körs med administratörsbehörighet.",
+    "install_success": "Vulkan HDR-lagret installerades.",
+    "installed": "Vulkan HDR-lagret är installerat.",
+    "not_installed_desc": "Vulkan HDR-lagret för virtuella skärmar är inte registrerat, så HDR kanske inte fungerar på virtuella skärmar. Du kan installera det nu eller inaktivera funktionen i Inställningar om den orsakar appkrascher.",
+    "not_installed_title": "Vulkan HDR-lagret är inte installerat",
+    "settings_hint": "Du kan aktivera eller inaktivera det här lagret i Inställningar (Ljud/Video).",
+    "troubleshooting_title": "Vulkan HDR-lager"
   }
 }

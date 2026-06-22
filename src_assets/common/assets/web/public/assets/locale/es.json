@@ -759,7 +759,21 @@
     "realtime_stats_show_host_charts_desc": "Muestre gráficos históricos de métricas de host en la página de Estadísticas.",
     "realtime_stats_show_session_history_desc": "Muestre las sesiones de transmisión completadas recientemente en la página de Estadísticas.",
     "vibeshine_file_state": "Vibeshine Archivo de estado",
-    "vibeshine_file_state_desc": "Archivo utilizado para almacenar el estado del controlador de pantalla virtual Vibeshine."
+    "vibeshine_file_state_desc": "Archivo utilizado para almacenar el estado del controlador de pantalla virtual Vibeshine.",
+    "vulkan_hdr_layer": "Capa Vulkan HDR para pantallas virtuales",
+    "vulkan_hdr_layer_desc": "Registra una capa Vulkan de todo el sistema que expone formatos de superficie HDR en pantallas virtuales. Desactívala si los juegos o aplicaciones Vulkan se bloquean con una infracción de acceso después de instalar el controlador de pantalla.",
+    "rtx_hdr_sdr_brightness": "Brillo SDR",
+    "rtx_hdr_sdr_brightness_desc": "Aumento de brillo para el escritorio/fotogramas no coincidentes en transmisiones RTX HDR (0–100, 0 = neutro). Las transmisiones HDR que no usan RTX HDR no cambian.",
+    "lossless_scaling_custom_path_attention": "La ruta personalizada de Lossless Scaling necesita atención",
+    "lossless_scaling_configured_path_ready_desc": "La ruta del ejecutable configurada se iniciará cuando se seleccione Lossless Scaling para una aplicación.",
+    "lossless_scaling_configured_path_error_desc": "No se pudo resolver la ruta configurada. Elige una ruta de ejecutable o borra la anulación para usar la detección automática.",
+    "lossless_scaling_executable_path": "Ruta del ejecutable",
+    "lossless_scaling_browse_executables": "Examinar ejecutables",
+    "lossless_scaling_open_folder": "Abrir carpeta",
+    "lossless_scaling_computer": "Equipo",
+    "lossless_scaling_folder": "Carpeta",
+    "lossless_scaling_executable": "Ejecutable",
+    "lossless_scaling_no_executable_entries": "No se encontraron ejecutables en esta carpeta."
   },
   "index": {
     "description": "Vibepollo es un servidor de transmisión de juego autoalojado para Moonlight.",
@@ -1780,7 +1794,13 @@
     "input_touch": "Entrada táctil",
     "input_pen": "Entrada de lápiz",
     "input_mouse": "Entrada del mouse",
-    "input_kbd": "Entrada de teclado"
+    "input_kbd": "Entrada de teclado",
+    "group_action": "Acciones",
+    "group_operation": "Operaciones",
+    "group_input": "Entradas",
+    "list": "Listar aplicaciones",
+    "view": "Ver transmisión",
+    "launch": "Iniciar aplicaciones"
   },
   "settings": {
     "title": "Configuración",
@@ -1983,7 +2003,12 @@
     "virtual_screen_in_use": "Vibepollo pantalla virtual en uso",
     "nvidia_smooth_motion_active": "NVIDIA Smooth Motion activo",
     "wait_all": "Esperar todo",
-    "working_dir": "Directorio de trabajo"
+    "working_dir": "Directorio de trabajo",
+    "rtx_hdr_live_queued": "En cola",
+    "rtx_hdr_live_applying": "Aplicando en vivo",
+    "rtx_hdr_live_applied": "Aplicado en vivo",
+    "rtx_hdr_live_update_failed": "Falló la actualización en vivo",
+    "rtx_hdr_live_update_failed_desc": "No se pudieron aplicar los cambios de RTX HDR a la transmisión activa."
   },
   "config_duration": {
     "hours": "Horas",
@@ -1994,5 +2019,16 @@
     "part_seconds": "{count}s",
     "stored_seconds": "Almacenado como segundos.",
     "summary": "{parts} ({seconds} segundos)"
+  },
+  "vulkan_hdr": {
+    "dismiss": "Descartar",
+    "install": "Instalar",
+    "install_error": "No se pudo instalar la capa Vulkan HDR. Asegúrate de que Sunshine se esté ejecutando con privilegios de administrador.",
+    "install_success": "Capa Vulkan HDR instalada.",
+    "installed": "La capa Vulkan HDR está instalada.",
+    "not_installed_desc": "La capa Vulkan HDR para pantallas virtuales no está registrada, por lo que HDR puede no funcionar en pantallas virtuales. Puedes instalarla ahora o desactivar esta función en Configuración si provoca bloqueos de aplicaciones.",
+    "not_installed_title": "Capa Vulkan HDR no instalada",
+    "settings_hint": "Puedes activar o desactivar esta capa en Configuración (Audio/Vídeo).",
+    "troubleshooting_title": "Capa Vulkan HDR"
   }
 }

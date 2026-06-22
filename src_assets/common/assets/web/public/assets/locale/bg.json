@@ -759,7 +759,21 @@
     "realtime_stats_show_host_charts_desc": "Показва исторически графики на метриките на хоста на страницата Статистика.",
     "realtime_stats_show_session_history_desc": "Показва наскоро приключени стрийминг сесии на страницата Статистика.",
     "vibeshine_file_state": "Файл за състояние на Vibeshine",
-    "vibeshine_file_state_desc": "Файл, използван за съхраняване на състоянието на виртуалния дисплей драйвер Vibeshine."
+    "vibeshine_file_state_desc": "Файл, използван за съхраняване на състоянието на виртуалния дисплей драйвер Vibeshine.",
+    "vulkan_hdr_layer": "Vulkan HDR слой за виртуални дисплеи",
+    "vulkan_hdr_layer_desc": "Регистрира системен Vulkan слой, който предоставя HDR формати на повърхности за виртуални дисплеи. Изключете го, ако Vulkan игри или приложения се сриват с нарушение на достъпа след инсталиране на драйвера за дисплей.",
+    "rtx_hdr_sdr_brightness": "SDR яркост",
+    "rtx_hdr_sdr_brightness_desc": "Усилване на яркостта за работния плот/несъвпадащи кадри в RTX HDR потоци (0–100, 0 = неутрално). HDR потоците, които не използват RTX HDR, остават непроменени.",
+    "lossless_scaling_custom_path_attention": "Потребителският път до Lossless Scaling изисква внимание",
+    "lossless_scaling_configured_path_ready_desc": "Конфигурираният път до изпълнимия файл ще се стартира, когато Lossless Scaling е избран за приложение.",
+    "lossless_scaling_configured_path_error_desc": "Конфигурираният път не можа да бъде разрешен. Изберете път до изпълним файл или изчистете замяната, за да използвате автоматично откриване.",
+    "lossless_scaling_executable_path": "Път до изпълним файл",
+    "lossless_scaling_browse_executables": "Преглед на изпълними файлове",
+    "lossless_scaling_open_folder": "Отваряне на папка",
+    "lossless_scaling_computer": "Компютър",
+    "lossless_scaling_folder": "Папка",
+    "lossless_scaling_executable": "Изпълним файл",
+    "lossless_scaling_no_executable_entries": "В тази папка няма намерени изпълними файлове."
   },
   "index": {
     "description": "Vibepollo е самостоятелно хоствано приложение за стрийминг на игри към Moonlight.",
@@ -1780,7 +1794,13 @@
     "input_touch": "Сензорен вход",
     "input_pen": "Вход от писалка",
     "input_mouse": "Вход от мишка",
-    "input_kbd": "Вход от клавиатура"
+    "input_kbd": "Вход от клавиатура",
+    "group_action": "Действия",
+    "group_operation": "Операции",
+    "group_input": "Въвеждания",
+    "list": "Списък с приложения",
+    "view": "Преглед на поток",
+    "launch": "Стартиране на приложения"
   },
   "settings": {
     "title": "Настройки",
@@ -1983,7 +2003,12 @@
     "virtual_screen_in_use": "Виртуалният екран на Vibepollo се използва",
     "nvidia_smooth_motion_active": "NVIDIA Smooth Motion е активен",
     "wait_all": "Изчакване на всички",
-    "working_dir": "Работна директория"
+    "working_dir": "Работна директория",
+    "rtx_hdr_live_queued": "В опашката",
+    "rtx_hdr_live_applying": "Прилага се на живо",
+    "rtx_hdr_live_applied": "Приложено на живо",
+    "rtx_hdr_live_update_failed": "Неуспешно обновяване на живо",
+    "rtx_hdr_live_update_failed_desc": "Промените на RTX HDR не можаха да се приложат към активния поток."
   },
   "config_duration": {
     "hours": "Часове",
@@ -1994,5 +2019,16 @@
     "part_seconds": "{count}s",
     "stored_seconds": "Съхранява се като секунди.",
     "summary": "{parts} ({seconds} секунди)"
+  },
+  "vulkan_hdr": {
+    "dismiss": "Отхвърляне",
+    "install": "Инсталиране",
+    "install_error": "Vulkan HDR слоят не можа да бъде инсталиран. Уверете се, че Sunshine работи с администраторски права.",
+    "install_success": "Vulkan HDR слоят е инсталиран.",
+    "installed": "Vulkan HDR слоят е инсталиран.",
+    "not_installed_desc": "Vulkan HDR слоят за виртуални дисплеи не е регистриран, така че HDR може да не работи на виртуални дисплеи. Можете да го инсталирате сега или да изключите функцията в Настройки, ако причинява сривове на приложения.",
+    "not_installed_title": "Vulkan HDR слоят не е инсталиран",
+    "settings_hint": "Можете да включите или изключите този слой в Настройки (Аудио/Видео).",
+    "troubleshooting_title": "Vulkan HDR слой"
   }
 }

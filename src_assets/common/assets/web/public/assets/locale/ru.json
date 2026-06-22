@@ -759,7 +759,21 @@
     "realtime_stats_show_host_charts_desc": "Показывать на странице статистики исторические графики показателей хоста.",
     "realtime_stats_show_session_history_desc": "Показывать на странице статистики недавно завершенные сеансы трансляции.",
     "vibeshine_file_state": "Файл состояния Vibeshine",
-    "vibeshine_file_state_desc": "Файл, используемый для хранения состояния драйвера виртуального дисплея Vibeshine."
+    "vibeshine_file_state_desc": "Файл, используемый для хранения состояния драйвера виртуального дисплея Vibeshine.",
+    "vulkan_hdr_layer": "Слой Vulkan HDR для виртуальных дисплеев",
+    "vulkan_hdr_layer_desc": "Регистрирует системный слой Vulkan, который открывает HDR-форматы поверхностей на виртуальных дисплеях. Отключите его, если игры или приложения Vulkan падают с нарушением доступа после установки драйвера дисплея.",
+    "rtx_hdr_sdr_brightness": "Яркость SDR",
+    "rtx_hdr_sdr_brightness_desc": "Повышение яркости для рабочего стола/несовпадающих кадров в потоках RTX HDR (0–100, 0 = нейтрально). HDR-потоки, не включенные в RTX HDR, не изменяются.",
+    "lossless_scaling_custom_path_attention": "Пользовательский путь Lossless Scaling требует внимания",
+    "lossless_scaling_configured_path_ready_desc": "Настроенный исполняемый файл будет запускаться, когда для приложения выбран Lossless Scaling.",
+    "lossless_scaling_configured_path_error_desc": "Не удалось разрешить настроенный путь. Выберите путь к исполняемому файлу или очистите переопределение, чтобы использовать автообнаружение.",
+    "lossless_scaling_executable_path": "Путь к исполняемому файлу",
+    "lossless_scaling_browse_executables": "Обзор исполняемых файлов",
+    "lossless_scaling_open_folder": "Открыть папку",
+    "lossless_scaling_computer": "Компьютер",
+    "lossless_scaling_folder": "Папка",
+    "lossless_scaling_executable": "Исполняемый файл",
+    "lossless_scaling_no_executable_entries": "В этой папке не найдены исполняемые файлы."
   },
   "index": {
     "description": "Vibepollo — самостоятельно размещаемый хост игровых трансляций для Moonlight.",
@@ -1780,7 +1794,13 @@
     "input_touch": "Сенсорный ввод",
     "input_pen": "Ввод пером",
     "input_mouse": "Ввод мышью",
-    "input_kbd": "Ввод с клавиатуры"
+    "input_kbd": "Ввод с клавиатуры",
+    "group_action": "Действия",
+    "group_operation": "Операции",
+    "group_input": "Ввод",
+    "list": "Список приложений",
+    "view": "Просмотр потока",
+    "launch": "Запуск приложений"
   },
   "settings": {
     "title": "Настройки",
@@ -1983,7 +2003,12 @@
     "virtual_screen_in_use": "Используется виртуальный экран Vibepollo",
     "nvidia_smooth_motion_active": "NVIDIA Smooth Motion активен",
     "wait_all": "Ждать все процессы",
-    "working_dir": "Рабочий каталог"
+    "working_dir": "Рабочий каталог",
+    "rtx_hdr_live_queued": "В очереди",
+    "rtx_hdr_live_applying": "Применяется вживую",
+    "rtx_hdr_live_applied": "Применено вживую",
+    "rtx_hdr_live_update_failed": "Не удалось обновить вживую",
+    "rtx_hdr_live_update_failed_desc": "Не удалось применить изменения RTX HDR к активному потоку."
   },
   "config_duration": {
     "hours": "Часы",
@@ -1994,5 +2019,16 @@
     "part_seconds": "{count} с",
     "stored_seconds": "Хранится в секундах.",
     "summary": "{parts} ({seconds} секунд)"
+  },
+  "vulkan_hdr": {
+    "dismiss": "Закрыть",
+    "install": "Установить",
+    "install_error": "Не удалось установить слой Vulkan HDR. Убедитесь, что Sunshine запущен с правами администратора.",
+    "install_success": "Слой Vulkan HDR установлен.",
+    "installed": "Слой Vulkan HDR установлен.",
+    "not_installed_desc": "Слой Vulkan HDR для виртуальных дисплеев не зарегистрирован, поэтому HDR может не работать на виртуальных дисплеях. Вы можете установить его сейчас или отключить эту функцию в настройках, если она вызывает сбои приложений.",
+    "not_installed_title": "Слой Vulkan HDR не установлен",
+    "settings_hint": "Этот слой можно включить или отключить в настройках (Аудио/Видео).",
+    "troubleshooting_title": "Слой Vulkan HDR"
   }
 }

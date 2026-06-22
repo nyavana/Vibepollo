@@ -759,7 +759,21 @@
     "realtime_stats_show_host_charts_desc": "Historische Diagramme der Host-Metriken auf der Statistikseite anzeigen.",
     "realtime_stats_show_session_history_desc": "Kürzlich abgeschlossene Streaming-Sitzungen auf der Statistikseite anzeigen.",
     "vibeshine_file_state": "Vibeshine-Statusdatei",
-    "vibeshine_file_state_desc": "Datei zum Speichern des Zustands des virtuellen Vibeshine-Anzeigetreibers."
+    "vibeshine_file_state_desc": "Datei zum Speichern des Zustands des virtuellen Vibeshine-Anzeigetreibers.",
+    "vulkan_hdr_layer": "Vulkan-HDR-Schicht für virtuelle Displays",
+    "vulkan_hdr_layer_desc": "Registriert eine systemweite Vulkan-Schicht, die HDR-Oberflächenformate auf virtuellen Displays verfügbar macht. Deaktivieren Sie dies, wenn Vulkan-Spiele oder -Apps nach der Installation des Displaytreibers mit einer Zugriffsverletzung abstürzen.",
+    "rtx_hdr_sdr_brightness": "SDR-Helligkeit",
+    "rtx_hdr_sdr_brightness_desc": "Helligkeitsanhebung für Desktop/nicht passende Frames in RTX-HDR-Streams (0–100, 0 = neutral). HDR-Streams, die nicht für RTX HDR aktiviert sind, bleiben unverändert.",
+    "lossless_scaling_custom_path_attention": "Benutzerdefinierter Lossless-Scaling-Pfad benötigt Aufmerksamkeit",
+    "lossless_scaling_configured_path_ready_desc": "Der konfigurierte ausführbare Pfad wird gestartet, wenn Lossless Scaling für eine Anwendung ausgewählt ist.",
+    "lossless_scaling_configured_path_error_desc": "Der konfigurierte Pfad konnte nicht aufgelöst werden. Wählen Sie einen ausführbaren Pfad aus oder löschen Sie die Überschreibung, um die automatische Erkennung zu verwenden.",
+    "lossless_scaling_executable_path": "Pfad zur ausführbaren Datei",
+    "lossless_scaling_browse_executables": "Ausführbare Dateien durchsuchen",
+    "lossless_scaling_open_folder": "Ordner öffnen",
+    "lossless_scaling_computer": "Dieser PC",
+    "lossless_scaling_folder": "Ordner",
+    "lossless_scaling_executable": "Ausführbare Datei",
+    "lossless_scaling_no_executable_entries": "In diesem Ordner wurden keine ausführbaren Dateien gefunden."
   },
   "index": {
     "description": "Vibepollo ist ein selbst gehosteter Game-Stream-Host für Moonlight.",
@@ -1780,7 +1794,13 @@
     "input_touch": "Touch-Eingabe",
     "input_pen": "Stift-Eingabe",
     "input_mouse": "Mauseingabe",
-    "input_kbd": "Tastatureingabe"
+    "input_kbd": "Tastatureingabe",
+    "group_action": "Aktionen",
+    "group_operation": "Vorgänge",
+    "group_input": "Eingaben",
+    "list": "Anwendungen auflisten",
+    "view": "Stream anzeigen",
+    "launch": "Anwendungen starten"
   },
   "settings": {
     "title": "Einstellungen",
@@ -1983,7 +2003,12 @@
     "virtual_screen_in_use": "Virtueller Vibepollo-Bildschirm in Verwendung",
     "nvidia_smooth_motion_active": "NVIDIA Smooth Motion aktiv",
     "wait_all": "Auf alle warten",
-    "working_dir": "Arbeitsverzeichnis"
+    "working_dir": "Arbeitsverzeichnis",
+    "rtx_hdr_live_queued": "In Warteschlange",
+    "rtx_hdr_live_applying": "Live-Anwendung läuft",
+    "rtx_hdr_live_applied": "Live angewendet",
+    "rtx_hdr_live_update_failed": "Live-Aktualisierung fehlgeschlagen",
+    "rtx_hdr_live_update_failed_desc": "RTX-HDR-Änderungen konnten nicht auf den aktiven Stream angewendet werden."
   },
   "config_duration": {
     "hours": "Stunden",
@@ -1994,5 +2019,16 @@
     "part_seconds": "{count}s",
     "stored_seconds": "Als Sekunden gespeichert.",
     "summary": "{parts} ({seconds} Sekunden)"
+  },
+  "vulkan_hdr": {
+    "dismiss": "Ausblenden",
+    "install": "Installieren",
+    "install_error": "Die Vulkan-HDR-Schicht konnte nicht installiert werden. Stellen Sie sicher, dass Sunshine mit Administratorrechten ausgeführt wird.",
+    "install_success": "Vulkan-HDR-Schicht installiert.",
+    "installed": "Die Vulkan-HDR-Schicht ist installiert.",
+    "not_installed_desc": "Die Vulkan-HDR-Schicht für virtuelle Displays ist nicht registriert, daher funktioniert HDR auf virtuellen Displays möglicherweise nicht. Sie können sie jetzt installieren oder diese Funktion in den Einstellungen deaktivieren, falls sie App-Abstürze verursacht.",
+    "not_installed_title": "Vulkan-HDR-Schicht nicht installiert",
+    "settings_hint": "Sie können diese Schicht in den Einstellungen (Audio/Video) aktivieren oder deaktivieren.",
+    "troubleshooting_title": "Vulkan-HDR-Schicht"
   }
 }

@@ -759,7 +759,21 @@
     "realtime_stats_show_host_charts_desc": "統計ページにホスト メトリクスの履歴チャートを表示します。",
     "realtime_stats_show_session_history_desc": "統計ページに最近完了したストリームセッションを表示します。",
     "vibeshine_file_state": "Vibeshine 状態ファイル",
-    "vibeshine_file_state_desc": "Vibeshine 仮想ディスプレイ ドライバー状態を保存するファイルです。"
+    "vibeshine_file_state_desc": "Vibeshine 仮想ディスプレイ ドライバー状態を保存するファイルです。",
+    "vulkan_hdr_layer": "仮想ディスプレイ用 Vulkan HDR レイヤー",
+    "vulkan_hdr_layer_desc": "仮想ディスプレイで HDR サーフェス形式を公開するシステム全体の Vulkan レイヤーを登録します。ディスプレイドライバーのインストール後に Vulkan ゲームやアプリがアクセス違反でクラッシュする場合は無効にしてください。",
+    "rtx_hdr_sdr_brightness": "SDR 明るさ",
+    "rtx_hdr_sdr_brightness_desc": "RTX HDR ストリーム内のデスクトップ/一致しないフレーム向けの明るさブーストです（0–100、0 = ニュートラル）。RTX HDR に参加していない HDR ストリームは変更されません。",
+    "lossless_scaling_custom_path_attention": "カスタム Lossless Scaling パスの確認が必要です",
+    "lossless_scaling_configured_path_ready_desc": "アプリケーションで Lossless Scaling が選択されたとき、設定済みの実行ファイルパスが起動されます。",
+    "lossless_scaling_configured_path_error_desc": "設定済みのパスを解決できませんでした。実行ファイルのパスを選択するか、上書きをクリアして自動検出を使用してください。",
+    "lossless_scaling_executable_path": "実行ファイルのパス",
+    "lossless_scaling_browse_executables": "実行ファイルを参照",
+    "lossless_scaling_open_folder": "フォルダーを開く",
+    "lossless_scaling_computer": "コンピューター",
+    "lossless_scaling_folder": "フォルダー",
+    "lossless_scaling_executable": "実行ファイル",
+    "lossless_scaling_no_executable_entries": "このフォルダーに実行ファイルは見つかりませんでした。"
   },
   "index": {
     "description": "Vibepollo は Moonlight 用のセルフホスト型ゲーム ストリーム ホストです。",
@@ -1780,7 +1794,13 @@
     "input_touch": "タッチ入力",
     "input_pen": "ペン入力",
     "input_mouse": "マウス入力",
-    "input_kbd": "キーボード入力"
+    "input_kbd": "キーボード入力",
+    "group_action": "操作",
+    "group_operation": "運用",
+    "group_input": "入力",
+    "list": "アプリケーション一覧を表示",
+    "view": "ストリームを表示",
+    "launch": "アプリケーションを起動"
   },
   "settings": {
     "title": "設定",
@@ -1983,7 +2003,12 @@
     "virtual_screen_in_use": "Vibepollo 仮想ディスプレイを使用中",
     "nvidia_smooth_motion_active": "NVIDIA Smooth Motion が有効",
     "wait_all": "すべて待機",
-    "working_dir": "作業ディレクトリ"
+    "working_dir": "作業ディレクトリ",
+    "rtx_hdr_live_queued": "キュー済み",
+    "rtx_hdr_live_applying": "ライブ適用中",
+    "rtx_hdr_live_applied": "ライブ適用済み",
+    "rtx_hdr_live_update_failed": "ライブ更新に失敗しました",
+    "rtx_hdr_live_update_failed_desc": "アクティブなストリームに RTX HDR の変更を適用できませんでした。"
   },
   "config_duration": {
     "hours": "時間",
@@ -1994,5 +2019,16 @@
     "part_seconds": "{count}s",
     "stored_seconds": "秒として保存されます。",
     "summary": "{parts} ({seconds} 秒)"
+  },
+  "vulkan_hdr": {
+    "dismiss": "閉じる",
+    "install": "インストール",
+    "install_error": "Vulkan HDR レイヤーをインストールできませんでした。Sunshine が管理者権限で実行されていることを確認してください。",
+    "install_success": "Vulkan HDR レイヤーをインストールしました。",
+    "installed": "Vulkan HDR レイヤーはインストール済みです。",
+    "not_installed_desc": "仮想ディスプレイ用 Vulkan HDR レイヤーが登録されていないため、仮想ディスプレイで HDR が動作しない場合があります。今すぐインストールするか、アプリのクラッシュ原因になる場合は設定でこの機能を無効にできます。",
+    "not_installed_title": "Vulkan HDR レイヤーがインストールされていません",
+    "settings_hint": "このレイヤーは設定（音声/映像）で有効または無効にできます。",
+    "troubleshooting_title": "Vulkan HDR レイヤー"
   }
 }

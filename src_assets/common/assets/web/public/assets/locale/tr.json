@@ -759,7 +759,21 @@
     "realtime_stats_show_host_charts_desc": "İstatistikler sayfasında geçmiş ana makine metrik grafiklerini göster.",
     "realtime_stats_show_session_history_desc": "İstatistikler sayfasında yakın zamanda tamamlanan akış oturumlarını göster.",
     "vibeshine_file_state": "Vibeshine durum dosyası",
-    "vibeshine_file_state_desc": "Vibeshine sanal ekran sürücüsü durumunu saklamak için kullanılan dosya."
+    "vibeshine_file_state_desc": "Vibeshine sanal ekran sürücüsü durumunu saklamak için kullanılan dosya.",
+    "vulkan_hdr_layer": "Sanal ekranlar için Vulkan HDR katmanı",
+    "vulkan_hdr_layer_desc": "Sanal ekranlarda HDR yüzey biçimlerini sunan sistem genelinde bir Vulkan katmanı kaydeder. Ekran sürücüsü yüklendikten sonra Vulkan oyunları veya uygulamaları erişim ihlaliyle çöküyorsa bunu devre dışı bırakın.",
+    "rtx_hdr_sdr_brightness": "SDR parlaklığı",
+    "rtx_hdr_sdr_brightness_desc": "RTX HDR akışlarında masaüstü/eşleşmeyen kareler için parlaklık artırımı (0–100, 0 = nötr). RTX HDR’ye dahil edilmeyen HDR akışları değişmeden kalır.",
+    "lossless_scaling_custom_path_attention": "Özel Lossless Scaling yolu dikkat gerektiriyor",
+    "lossless_scaling_configured_path_ready_desc": "Bir uygulama için Lossless Scaling seçildiğinde yapılandırılmış yürütülebilir dosya yolu başlatılır.",
+    "lossless_scaling_configured_path_error_desc": "Yapılandırılmış yol çözümlenemedi. Bir yürütülebilir dosya yolu seçin veya otomatik algılamayı kullanmak için geçersiz kılmayı temizleyin.",
+    "lossless_scaling_executable_path": "Yürütülebilir dosya yolu",
+    "lossless_scaling_browse_executables": "Yürütülebilir dosyalara göz at",
+    "lossless_scaling_open_folder": "Klasörü aç",
+    "lossless_scaling_computer": "Bilgisayar",
+    "lossless_scaling_folder": "Klasör",
+    "lossless_scaling_executable": "Yürütülebilir dosya",
+    "lossless_scaling_no_executable_entries": "Bu klasörde yürütülebilir dosya bulunamadı."
   },
   "index": {
     "description": "Vibepollo, Moonlight için kendi barındırdığınız bir oyun akış ana makinesidir.",
@@ -1780,7 +1794,13 @@
     "input_touch": "Dokunma girişi",
     "input_pen": "Kalem girişi",
     "input_mouse": "Fare girişi",
-    "input_kbd": "Klavye girişi"
+    "input_kbd": "Klavye girişi",
+    "group_action": "Eylemler",
+    "group_operation": "İşlemler",
+    "group_input": "Girişler",
+    "list": "Uygulamaları listele",
+    "view": "Akışı görüntüle",
+    "launch": "Uygulamaları başlat"
   },
   "settings": {
     "title": "Ayarlar",
@@ -1983,7 +2003,12 @@
     "virtual_screen_in_use": "Vibepollo sanal ekranı kullanımda",
     "nvidia_smooth_motion_active": "NVIDIA Smooth Motion etkin",
     "wait_all": "Tümünü Bekle",
-    "working_dir": "Çalışma dizini"
+    "working_dir": "Çalışma dizini",
+    "rtx_hdr_live_queued": "Sırada",
+    "rtx_hdr_live_applying": "Canlı uygulanıyor",
+    "rtx_hdr_live_applied": "Canlı uygulandı",
+    "rtx_hdr_live_update_failed": "Canlı güncelleme başarısız",
+    "rtx_hdr_live_update_failed_desc": "RTX HDR değişiklikleri etkin akışa uygulanamadı."
   },
   "config_duration": {
     "hours": "Saat",
@@ -1994,5 +2019,16 @@
     "part_seconds": "{count}s",
     "stored_seconds": "Saniye olarak saklanır.",
     "summary": "{parts} ({seconds} saniye)"
+  },
+  "vulkan_hdr": {
+    "dismiss": "Kapat",
+    "install": "Yükle",
+    "install_error": "Vulkan HDR katmanı yüklenemedi. Sunshine’ın yönetici ayrıcalıklarıyla çalıştığından emin olun.",
+    "install_success": "Vulkan HDR katmanı yüklendi.",
+    "installed": "Vulkan HDR katmanı yüklü.",
+    "not_installed_desc": "Sanal ekranlar için Vulkan HDR katmanı kayıtlı değil, bu nedenle HDR sanal ekranlarda çalışmayabilir. Şimdi yükleyebilir veya uygulama çökmelerine neden oluyorsa bu özelliği Ayarlar’dan devre dışı bırakabilirsiniz.",
+    "not_installed_title": "Vulkan HDR katmanı yüklü değil",
+    "settings_hint": "Bu katmanı Ayarlar’da (Ses/Video) etkinleştirebilir veya devre dışı bırakabilirsiniz.",
+    "troubleshooting_title": "Vulkan HDR katmanı"
   }
 }

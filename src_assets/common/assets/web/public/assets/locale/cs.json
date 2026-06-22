@@ -772,7 +772,21 @@
     "realtime_stats_show_host_charts_desc": "Na stránce Statistiky zobrazit historické grafy metrik hostitele.",
     "realtime_stats_show_session_history_desc": "Na stránce Statistiky zobrazit nedávno dokončené streamovací relace.",
     "vibeshine_file_state": "Stavový soubor Vibeshine",
-    "vibeshine_file_state_desc": "Soubor používaný k ukládání stavu ovladače virtuálního displeje Vibeshine."
+    "vibeshine_file_state_desc": "Soubor používaný k ukládání stavu ovladače virtuálního displeje Vibeshine.",
+    "vulkan_hdr_layer": "Vrstva Vulkan HDR pro virtuální displeje",
+    "vulkan_hdr_layer_desc": "Zaregistruje systémovou vrstvu Vulkan, která na virtuálních displejích zpřístupní HDR formáty povrchů. Vypněte ji, pokud hry nebo aplikace Vulkan po instalaci ovladače displeje padají s chybou přístupu.",
+    "rtx_hdr_sdr_brightness": "Jas SDR",
+    "rtx_hdr_sdr_brightness_desc": "Zvýšení jasu pro plochu/neshodné snímky ve streamech RTX HDR (0–100, 0 = neutrální). HDR streamy, které nejsou zapojené do RTX HDR, se nemění.",
+    "lossless_scaling_custom_path_attention": "Vlastní cesta k Lossless Scaling vyžaduje pozornost",
+    "lossless_scaling_configured_path_ready_desc": "Nakonfigurovaný spustitelný soubor se spustí, když je pro aplikaci vybrán Lossless Scaling.",
+    "lossless_scaling_configured_path_error_desc": "Nakonfigurovanou cestu se nepodařilo vyhodnotit. Vyberte cestu ke spustitelnému souboru nebo zrušte přepsání a použijte automatickou detekci.",
+    "lossless_scaling_executable_path": "Cesta ke spustitelnému souboru",
+    "lossless_scaling_browse_executables": "Procházet spustitelné soubory",
+    "lossless_scaling_open_folder": "Otevřít složku",
+    "lossless_scaling_computer": "Počítač",
+    "lossless_scaling_folder": "Složka",
+    "lossless_scaling_executable": "Spustitelný soubor",
+    "lossless_scaling_no_executable_entries": "V této složce nebyly nalezeny žádné spustitelné soubory."
   },
   "index": {
     "description": "Vibepollo je samostatně hostovaný hostitel herních streamů pro Moonlight.",
@@ -1780,7 +1794,13 @@
     "input_touch": "Dotykový vstup",
     "input_pen": "Vstup pera",
     "input_mouse": "Vstup myši",
-    "input_kbd": "Vstup klávesnice"
+    "input_kbd": "Vstup klávesnice",
+    "group_action": "Akce",
+    "group_operation": "Operace",
+    "group_input": "Vstupy",
+    "list": "Zobrazit seznam aplikací",
+    "view": "Zobrazit stream",
+    "launch": "Spouštět aplikace"
   },
   "settings": {
     "title": "Nastavení",
@@ -1983,7 +2003,12 @@
     "virtual_screen_in_use": "Používá se virtuální obrazovka Vibepollo",
     "nvidia_smooth_motion_active": "NVIDIA Smooth Motion je aktivní",
     "wait_all": "Čekat na všechny procesy",
-    "working_dir": "Pracovní adresář"
+    "working_dir": "Pracovní adresář",
+    "rtx_hdr_live_queued": "Ve frontě",
+    "rtx_hdr_live_applying": "Používá se živě",
+    "rtx_hdr_live_applied": "Použito živě",
+    "rtx_hdr_live_update_failed": "Živá aktualizace selhala",
+    "rtx_hdr_live_update_failed_desc": "Změny RTX HDR se nepodařilo použít pro aktivní stream."
   },
   "config_duration": {
     "hours": "Hodiny",
@@ -1994,5 +2019,16 @@
     "part_seconds": "{count}s",
     "stored_seconds": "Uloženo jako sekundy.",
     "summary": "{parts} ({seconds} sekund)"
+  },
+  "vulkan_hdr": {
+    "dismiss": "Zavřít",
+    "install": "Instalovat",
+    "install_error": "Vrstva Vulkan HDR se nepodařila nainstalovat. Ujistěte se, že Sunshine běží s oprávněními správce.",
+    "install_success": "Vrstva Vulkan HDR byla nainstalována.",
+    "installed": "Vrstva Vulkan HDR je nainstalovaná.",
+    "not_installed_desc": "Vrstva Vulkan HDR pro virtuální displeje není zaregistrovaná, takže HDR nemusí na virtuálních displejích fungovat. Můžete ji nainstalovat nyní nebo tuto funkci vypnout v Nastavení, pokud způsobuje pády aplikací.",
+    "not_installed_title": "Vrstva Vulkan HDR není nainstalovaná",
+    "settings_hint": "Tuto vrstvu můžete zapnout nebo vypnout v Nastavení (Audio/Video).",
+    "troubleshooting_title": "Vrstva Vulkan HDR"
   }
 }
