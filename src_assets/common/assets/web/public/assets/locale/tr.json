@@ -967,6 +967,8 @@
     "pin_pairing": "PIN Eşleştirme",
     "send": "Eşleştir",
     "warning_msg": "Eşleştirdiğiniz istemciye erişiminiz olduğundan emin olun. Bu yazılım bilgisayarınıza tam kontrol verebilir, dikkatli olun!",
+    "enable_legacy_ordering": "Eski sıralamayı etkinleştir",
+    "enable_legacy_ordering_desc": "Eski istemciler için uygulama sıralamasını etkinleştirir. Bu istemci UTF8’i doğru işleyemiyorsa veya MoonDeck ya da Moonlight CLI gibi üçüncü taraf entegrasyonları tarafından kullanılıyorsa devre dışı bırakın. Gelişmiş ayarlarda “Eski istemciler için uygulama sıralaması” seçeneğinin etkin olması gerekir.",
     "display_mode_override": "Ekran modu geçersiz kılma",
     "display_mode_override_desc": "Vibepollo'yu bu istemci için bu çözünürlük ve yenileme hızını kullanmaya zorlayın (biçim: 1920x1080x60). İstemcinin isteğini kullanmak için boş bırakın.",
     "allow_client_commands": "İstemci komutlarına izin ver",

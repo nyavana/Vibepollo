@@ -967,6 +967,8 @@
     "pin_pairing": "Appairage par PIN",
     "send": "Appairer",
     "warning_msg": "Assurez-vous d’avoir accès au client que vous appairez. Ce logiciel peut donner un contrôle total de votre ordinateur, soyez donc prudent !",
+    "enable_legacy_ordering": "Activer l’ordre hérité",
+    "enable_legacy_ordering_desc": "Active le classement des applications pour les clients hérités. Désactivez cette option si ce client ne gère pas correctement UTF8 ou s’il est utilisé par des intégrations tierces comme MoonDeck ou Moonlight CLI. Nécessite d’activer « Classement des applications pour les clients hérités » dans les paramètres avancés.",
     "display_mode_override": "Remplacement du mode d’affichage",
     "display_mode_override_desc": "Force Vibepollo à utiliser cette résolution et cette fréquence de rafraîchissement pour ce client (format : 1920x1080x60). Laissez vide pour utiliser la demande du client.",
     "allow_client_commands": "Autoriser les commandes du client",

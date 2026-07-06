@@ -967,6 +967,8 @@
     "pin_pairing": "Emparelhamento por PIN",
     "send": "Emparelhar",
     "warning_msg": "Certifique-se de que tem acesso ao cliente com o qual está a emparelhar. Este software pode dar controlo total ao seu computador, por isso tenha cuidado.",
+    "enable_legacy_ordering": "Ativar ordenação legada",
+    "enable_legacy_ordering_desc": "Ativa a ordenação de aplicações para clientes legados. Desative se este cliente não processar UTF8 corretamente ou for usado por integrações de terceiros como MoonDeck ou Moonlight CLI. Requer ativar “Ordenação de aplicações para clientes legados” nas definições avançadas.",
     "display_mode_override": "Substituição do modo de ecrã",
     "display_mode_override_desc": "Forçar o Vibepollo a usar esta resolução e taxa de atualização para este cliente (formato: 1920x1080x60). Deixe em branco para usar o pedido do cliente.",
     "allow_client_commands": "Permitir comandos do cliente",

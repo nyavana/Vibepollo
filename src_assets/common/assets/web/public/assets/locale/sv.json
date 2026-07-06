@@ -967,6 +967,8 @@
     "pin_pairing": "PIN-parkoppling",
     "send": "Parkoppla",
     "warning_msg": "Se till att du har åtkomst till klienten du parkopplar med. Den här programvaran kan ge full kontroll över din dator, så var försiktig!",
+    "enable_legacy_ordering": "Aktivera äldre ordning",
+    "enable_legacy_ordering_desc": "Aktiverar programordning för äldre klienter. Inaktivera om klienten inte hanterar UTF8 korrekt eller används av tredjepartsintegrationer som MoonDeck eller Moonlight CLI. Kräver att “Programordning för äldre klienter” är aktiverat i de avancerade inställningarna.",
     "display_mode_override": "Åsidosättning av skärmläge",
     "display_mode_override_desc": "Tvinga Vibepollo att använda den här upplösningen och uppdateringsfrekvensen för klienten (format: 1920x1080x60). Lämna tomt för att använda klientens begäran.",
     "allow_client_commands": "Tillåt klientkommandon",

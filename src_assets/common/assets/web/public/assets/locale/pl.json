@@ -967,6 +967,8 @@
     "pin_pairing": "Parowanie PIN",
     "send": "Sparuj",
     "warning_msg": "Upewnij się, że masz dostęp do klienta, którego parujesz. To oprogramowanie może dać pełną kontrolę nad komputerem, więc zachowaj ostrożność!",
+    "enable_legacy_ordering": "Włącz starsze sortowanie",
+    "enable_legacy_ordering_desc": "Włącza sortowanie aplikacji dla starszych klientów. Wyłącz, jeśli ten klient nie obsługuje poprawnie UTF8 albo jest używany przez integracje firm trzecich, takie jak MoonDeck lub Moonlight CLI. Wymaga włączenia opcji „Sortowanie aplikacji dla starszych klientów” w ustawieniach zaawansowanych.",
     "display_mode_override": "Nadpisanie trybu ekranu",
     "display_mode_override_desc": "Wymuś na Vibepollo tę rozdzielczość i częstotliwość odświeżania dla tego klienta (format: 1920x1080x60). Zostaw puste, aby użyć żądania klienta.",
     "allow_client_commands": "Zezwalaj na polecenia klienta",
