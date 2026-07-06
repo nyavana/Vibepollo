@@ -200,8 +200,8 @@
       "notice_virtual_generic": "Màn hình ảo dùng điều phối khung hình tự động để frame generation mượt mà hơn.",
       "health_capture_wgc_auto": "Thu hình tự động dùng Windows Graphics Capture trên bản Windows này.",
       "health_capture_wgc_active": "Windows Graphics Capture đang hoạt động trên hệ thống này.",
-      "health_capture_autodetect": "Tự động phát hiện có thể quay về dùng Desktop Duplication. Hãy chọn Windows Graphics Capture trong Settings -> Capture.",
-      "health_capture_switch": "Đổi phương thức thu hình sang Windows Graphics Capture trong Settings -> Capture để giữ frame generation tương thích.",
+      "health_capture_autodetect": "Tự động phát hiện có thể quay về dùng Desktop Duplication. Hãy chọn Windows Graphics Capture trong Cấu hình -> Thu hình.",
+      "health_capture_switch": "Đổi phương thức thu hình sang Windows Graphics Capture trong Cấu hình -> Thu hình để giữ frame generation tương thích.",
       "health_rtss_unverified": "Không thể xác minh RTSS.",
       "health_rtss_hooks": "Đã phát hiện hook của RTSS. Vibepollo có thể điều khiển bộ giới hạn khung hình.",
       "health_rtss_no_hooks": "RTSS đã được cài đặt nhưng không phát hiện được hook. Hãy khởi chạy RTSS và đảm bảo hồ sơ Vibepollo đang hoạt động.",
@@ -1936,9 +1936,9 @@
     "install_error": "Không cài được lớp Vulkan HDR. Hãy đảm bảo Sunshine đang chạy với quyền quản trị viên.",
     "install_success": "Đã cài đặt lớp Vulkan HDR.",
     "installed": "Lớp Vulkan HDR đã được cài đặt.",
-    "not_installed_desc": "Lớp Vulkan HDR cho màn hình ảo chưa được đăng ký, vì vậy HDR có thể không hoạt động trên màn hình ảo. Bạn có thể cài đặt ngay bây giờ, hoặc tắt tính năng này trong Settings nếu nó gây sập ứng dụng.",
+    "not_installed_desc": "Lớp Vulkan HDR cho màn hình ảo chưa được đăng ký, vì vậy HDR có thể không hoạt động trên màn hình ảo. Bạn có thể cài đặt ngay bây giờ, hoặc tắt tính năng này trong Cấu hình nếu nó gây sập ứng dụng.",
     "not_installed_title": "Lớp Vulkan HDR chưa được cài đặt",
-    "settings_hint": "Bạn có thể bật hoặc tắt lớp này trong Settings (Audio/Video).",
+    "settings_hint": "Bạn có thể bật hoặc tắt lớp này trong Cấu hình (Âm thanh/Video).",
     "troubleshooting_title": "Lớp Vulkan HDR"
   },
   "settings": {
