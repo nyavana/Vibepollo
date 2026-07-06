@@ -190,14 +190,14 @@ function isFiniteNumber(value: unknown): value is number {
   return typeof value === 'number' && Number.isFinite(value);
 }
 
-function encodeLatencyClass(value: number | null | undefined): string {
+function encodeLatencyClass(value: unknown): string {
   if (!isFiniteNumber(value)) return '';
   if (value > 16) return 'text-danger';
   if (value > 8) return 'text-warning';
   return '';
 }
 
-function formatEncodeLatency(value: number | null | undefined): string {
+function formatEncodeLatency(value: unknown): string {
   if (!isFiniteNumber(value)) return t('sessions.metric_unavailable');
   return `${value.toFixed(1)}ms`;
 }

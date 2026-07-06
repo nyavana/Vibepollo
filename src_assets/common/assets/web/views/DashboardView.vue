@@ -1212,9 +1212,12 @@ const playniteMissingPluginBannerText = computed(() => {
   if (playniteAutoSyncedAppsCount.value > 0) {
     const count = playniteAutoSyncedAppsCount.value;
     details.push(
-      $t(count === 1 ? 'index.playnite_auto_synced_app_one' : 'index.playnite_auto_synced_app_many', {
-        count,
-      }),
+      $t(
+        count === 1 ? 'index.playnite_auto_synced_app_one' : 'index.playnite_auto_synced_app_many',
+        {
+          count,
+        },
+      ),
     );
   }
   if (hasPlayniteFullscreenApp.value) {

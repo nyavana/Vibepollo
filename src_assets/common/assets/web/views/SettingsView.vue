@@ -88,14 +88,22 @@
         </div>
 
         <div v-if="showSave" class="flex items-center gap-3">
-          <n-button v-if="saveState === 'saved' && !restarted" type="primary" strong @click="apply"
+          <n-button
+            v-if="saveState === 'saved' && !restarted"
+            type="primary"
+            strong
+            @click="apply"
             >{{ $t('_common.apply') }}</n-button
           >
         </div>
         <div v-else class="text-[11px] font-medium min-h-[1rem] flex items-center gap-2">
-          <transition name="fade"><span v-if="saveState === 'saving'">{{ $t('settings.saving') }}</span></transition>
+          <transition name="fade"
+            ><span v-if="saveState === 'saving'">{{ $t('settings.saving') }}</span></transition
+          >
           <transition name="fade">
-            <span v-if="saveState === 'saved'" class="text-success">{{ $t('settings.saved') }}</span>
+            <span v-if="saveState === 'saved'" class="text-success">{{
+              $t('settings.saved')
+            }}</span>
           </transition>
         </div>
       </div>
@@ -141,9 +149,9 @@
       <div v-if="isLoading">{{ $t('settings.loading') }}</div>
       <div v-else-if="isError" class="text-danger space-y-2">
         <div>{{ $t('settings.load_failed') }}</div>
-        <n-button type="primary" strong :disabled="isLoading" @click="store.reloadConfig?.()"
-          >{{ $t('settings.retry') }}</n-button
-        >
+        <n-button type="primary" strong :disabled="isLoading" @click="store.reloadConfig?.()">{{
+          $t('settings.retry')
+        }}</n-button>
       </div>
       <div v-else class="opacity-60">{{ $t('settings.no_config') }}</div>
     </div>
@@ -242,9 +250,7 @@ const autoSave = ref(true);
 const manualUnsaved = computed(() => store.manualDirty === true);
 const showSave = computed(() => manualUnsaved.value || !autoSave.value);
 const unsavedLabel = computed(() =>
-  manualUnsaved.value
-    ? t('settings.manual_save_required')
-    : t('settings.unsaved_changes'),
+  manualUnsaved.value ? t('settings.manual_save_required') : t('settings.unsaved_changes'),
 );
 
 const mainEl = ref(null);
@@ -607,7 +613,12 @@ function buildSearchIndex() {
   ) => {
     const label = (labelText || '').trim();
     if (!label) return;
-    const target = resolveTarget(sectionEl, sourceEl, sourceEl?.getAttribute?.('for'), targetOverride);
+    const target = resolveTarget(
+      sectionEl,
+      sourceEl,
+      sourceEl?.getAttribute?.('for'),
+      targetOverride,
+    );
     if (!target) return;
     const key = `${sectionId ?? 'unknown'}::${label}`;
     if (seen.has(key)) return;

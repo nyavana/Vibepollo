@@ -106,8 +106,7 @@ const tooltip = computed(() => {
     return t('settings.save_status.auto_save_tooltip', {
       seconds: Math.round(intervalMs.value / 1000),
     });
-  if (restartRequired.value)
-    return t('settings.save_status.restart_tooltip');
+  if (restartRequired.value) return t('settings.save_status.restart_tooltip');
   return t('settings.save_status.auto_save_hint');
 });
 

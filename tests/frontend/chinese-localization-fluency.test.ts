@@ -101,7 +101,8 @@ describe('Chinese localization fluency', () => {
   });
 
   it('guards optional app override description translation lookups', () => {
-    expect(appEditConfigOverridesSource).toContain('const { t, te } = useI18n();');
+    expect(appEditConfigOverridesSource).toContain('const i18n = useI18n();');
+    expect(appEditConfigOverridesSource).toContain('const te: typeof i18n.te = i18n.te.bind(i18n)');
     expect(appEditConfigOverridesSource).toContain('if (!te(k)) return');
   });
 

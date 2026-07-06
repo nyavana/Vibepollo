@@ -5,7 +5,9 @@ import { useI18n } from 'vue-i18n';
 
 const model = defineModel({ required: true });
 const slots = defineSlots();
-const { t, te } = useI18n();
+const i18n = useI18n();
+const t: typeof i18n.t = i18n.t.bind(i18n);
+const te: typeof i18n.te = i18n.te.bind(i18n);
 interface Props {
   id: string;
   label?: string | null;

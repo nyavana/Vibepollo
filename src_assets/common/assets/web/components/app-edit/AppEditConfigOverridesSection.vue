@@ -768,7 +768,9 @@ type EditTarget = 'live' | 'draft';
 const overrides = defineModel<Record<string, unknown>>('overrides', { required: true });
 const browseModalOpen = defineModel<boolean>('pickerOpen', { default: false });
 const draftOverrides = ref<Record<string, unknown>>({});
-const { t, te } = useI18n();
+const i18n = useI18n();
+const t: typeof i18n.t = i18n.t.bind(i18n);
+const te: typeof i18n.te = i18n.te.bind(i18n);
 
 const props = withDefaults(
   defineProps<{

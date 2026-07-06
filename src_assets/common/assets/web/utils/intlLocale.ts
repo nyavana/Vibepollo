@@ -1,4 +1,4 @@
-export function toIntlLocale(locale?: string): string | undefined {
+export function toIntlLocale(locale?: string) {
   const value = String(locale ?? '').trim();
   if (!value) return undefined;
   if (value === 'zh') return 'zh-CN';
