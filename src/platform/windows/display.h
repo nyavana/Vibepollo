@@ -6,7 +6,9 @@
 
 // standard includes
 #include <atomic>
+#include <array>
 #include <cstdint>
+#include <memory>
 #include <optional>
 #include <string>
 
@@ -28,6 +30,10 @@
 #include "src/platform/windows/ipc/process_handler.h"
 #include "src/utility.h"
 #include "src/video.h"
+
+namespace platf::game_activity {
+  class refresh_target_t;
+}
 
 namespace platf::dxgi {
   extern const char *format_str[];
@@ -177,6 +183,7 @@ namespace platf::dxgi {
 
     capture_e capture(const push_captured_image_cb_t &push_captured_image_cb, const pull_free_image_cb_t &pull_free_image_cb, bool *cursor) override;
     void prepare_for_reinit() override;
+    bool refresh_output_after_expected_mode_change();
 
     factory1_t factory;
     adapter_t adapter;
@@ -185,6 +192,12 @@ namespace platf::dxgi {
     device_ctx_t device_ctx;
     DXGI_RATIONAL display_refresh_rate {0, 1};
     int display_refresh_rate_rounded {};
+    DXGI_OUTPUT_DESC captured_output_desc {};
+    LUID captured_adapter_luid {};
+    bool captured_hdr_state {false};
+    bool captured_hdr_state_valid {false};
+    bool refresh_only_changes_supported {false};
+    std::shared_ptr<platf::game_activity::refresh_target_t> game_refresh_target;
 
     DXGI_MODE_ROTATION display_rotation = DXGI_MODE_ROTATION_UNSPECIFIED;
     int width_before_rotation;
@@ -449,27 +462,16 @@ namespace platf::dxgi {
 
   protected:
     /**
-     * @brief Acquires the next frame from the display.
-     * @param timeout Maximum time to wait for a frame.
-     * @param src Output parameter for the source texture.
-     * @param frame_qpc Output parameter for the frame's QPC timestamp.
-     * @param cursor_visible Whether the cursor should be included in the capture.
-     * @return Status of the frame acquisition operation.
-     */
-    capture_e acquire_next_frame(std::chrono::milliseconds timeout, texture2d_t &src, uint64_t &frame_qpc, bool cursor_visible);
-
-    /**
      * @brief Releases resources or state after a snapshot.
      * @return Status of the release operation.
      */
     capture_e release_snapshot() override;
 
   private:
-    std::unique_ptr<class ipc_session_t> _ipc_session;
+    std::shared_ptr<class ipc_session_t> _ipc_session;
     ::video::config_t _config;
     std::string _display_name;
-    bool _session_initialized_logged = false;
-    bool _frame_locked = false;
+    std::array<uint32_t, WGC_IPC_TEXTURE_SLOT_COUNT> _slot_image_ids {};
     std::shared_ptr<platf::img_t> _last_cached_frame;
     std::chrono::steady_clock::time_point _wgc_stall_start {};  ///< Start of the current frame-wait stall (zero when frames are flowing).
     std::chrono::steady_clock::time_point _last_secure_desktop_probe {};  ///< Last secure-desktop probe performed during a stall.
@@ -534,7 +536,7 @@ namespace platf::dxgi {
     /**
      * @brief IPC session for communication with capture helper.
      */
-    std::unique_ptr<class ipc_session_t> _ipc_session;
+    std::shared_ptr<class ipc_session_t> _ipc_session;
     /**
      * @brief Video configuration used for capture.
      */

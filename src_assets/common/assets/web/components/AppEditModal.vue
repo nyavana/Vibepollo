@@ -34,14 +34,14 @@
                 v-if="hasHeaderArtwork"
                 class="app-modal-icon__image"
                 :src="headerArtworkUrl"
-                :alt="form.name || t('apps.image_alt_application')"
+                :alt="form.name || t('apps.application')"
                 @error="headerArtworkFailed = true"
               />
               <i v-else class="fas fa-window-restore text-xl" />
             </div>
             <div class="flex flex-col">
               <span class="text-xl font-semibold">{{
-                form.index === -1 ? t('apps.add_application') : t('app_edit.edit_application')
+                isNew ? t('apps.add_application') : t('apps.edit_application')
               }}</span>
             </div>
           </div>
@@ -50,13 +50,13 @@
               v-if="isPlayniteManaged"
               class="inline-flex items-center px-2 py-0.5 rounded bg-primary/15 text-primary text-[11px] font-semibold"
             >
-              Playnite
+              {{ t('apps.playnite_badge') }}
             </span>
             <span
               v-else
               class="inline-flex items-center px-2 py-0.5 rounded bg-dark/10 dark:bg-light/10 text-[11px] font-semibold"
             >
-              {{ t('apps.custom_badge') }}
+              {{ t('apps.source_custom') }}
             </span>
           </div>
         </div>
@@ -100,14 +100,14 @@
 
           <div class="grid grid-cols-2 gap-3">
             <n-checkbox v-model:checked="form.excludeGlobalPrepCmd" size="small">
-              {{ t('app_edit.exclude_global_prep') }}
+              {{ t('apps.exclude_global_prep') }}
             </n-checkbox>
             <n-checkbox v-if="!isPlayniteManaged" v-model:checked="form.autoDetach" size="small">
-              {{ t('app_edit.auto_detach') }}
+              {{ t('apps.auto_detach') }}
             </n-checkbox>
-            <n-checkbox v-if="!isPlayniteManaged" v-model:checked="form.waitAll" size="small">
-              {{ t('app_edit.wait_all') }}
-            </n-checkbox>
+            <n-checkbox v-if="!isPlayniteManaged" v-model:checked="form.waitAll" size="small"
+              >{{ t('apps.wait_all') }}</n-checkbox
+            >
             <n-checkbox
               v-if="isWindows && !isPlayniteManaged"
               v-model:checked="form.elevated"
@@ -116,13 +116,13 @@
               {{ t('_common.elevated') }}
             </n-checkbox>
             <n-checkbox v-model:checked="form.terminateOnPause" size="small">
-              {{ t('app_edit.terminate_on_pause') }}
+              {{ t('apps.terminate_on_pause') }}
             </n-checkbox>
             <n-checkbox v-model:checked="form.allowClientCommands" size="small" class="md:col-span-2">
-              {{ t('app_edit.allow_client_commands') }}
+              {{ t('apps.allow_client_commands') }}
             </n-checkbox>
             <n-checkbox v-model:checked="form.useAppIdentity" size="small">
-              {{ t('app_edit.use_app_identity') }}
+              {{ t('apps.use_app_identity') }}
             </n-checkbox>
             <n-checkbox
               v-if="form.useAppIdentity"
@@ -130,7 +130,7 @@
               size="small"
               class="md:col-span-2"
             >
-              {{ t('app_edit.per_client_app_identity') }}
+              {{ t('apps.per_client_app_identity') }}
             </n-checkbox>
             <n-checkbox
               v-if="isWindows"
@@ -417,25 +417,21 @@
                 {{ t('apps.cmd_state_name') }}
               </h3>
               <n-button size="small" type="primary" @click="addState">
-                <i class="fas fa-plus" /> {{ t('_common.add') }}
+                <i class="fas fa-plus" /> Add
               </n-button>
             </div>
             <n-checkbox v-model:checked="form.excludeGlobalStateCmd" size="small">
-              {{ t('app_edit.exclude_global_state') }}
+              {{ t('apps.exclude_global_state_cmd') }}
             </n-checkbox>
-            <div v-if="form.stateCmd.length === 0" class="text-[12px] opacity-60">
-              {{ t('app_edit.none') }}
-            </div>
+            <div v-if="form.stateCmd.length === 0" class="text-[12px] opacity-60">None</div>
             <div v-else class="space-y-2">
               <div v-for="(s, i) in form.stateCmd" :key="`state-${i}`"
                 class="rounded-md border border-dark/10 dark:border-light/10 p-2">
                 <div class="flex items-center justify-between gap-2 mb-2">
-                  <div class="text-xs opacity-70">
-                    {{ t('app_edit.step_label', { index: i + 1 }) }}
-                  </div>
+                  <div class="text-xs opacity-70">Step {{ i + 1 }}</div>
                   <div class="flex items-center gap-2">
                     <n-checkbox v-if="isWindows" v-model:checked="s.elevated" size="small">
-                      {{ t('_common.elevated') }}
+                      Elevated
                     </n-checkbox>
                     <n-button size="small" type="error" strong @click="form.stateCmd.splice(i, 1)">
                       <i class="fas fa-trash" />
@@ -446,12 +442,12 @@
                   <div>
                     <label class="text-[11px] opacity-60">{{ t('_common.do_cmd') }}</label>
                     <n-input v-model:value="s.do" type="textarea" :autosize="{ minRows: 1, maxRows: 3 }"
-                      class="font-mono" :placeholder="t('app_edit.state_do_placeholder')" />
+                      class="font-mono" :placeholder="t('_common.do_cmd')" />
                   </div>
                   <div>
                     <label class="text-[11px] opacity-60">{{ t('_common.undo_cmd') }}</label>
                     <n-input v-model:value="s.undo" type="textarea" :autosize="{ minRows: 1, maxRows: 3 }"
-                      class="font-mono" :placeholder="t('app_edit.state_undo_placeholder')" />
+                      class="font-mono" :placeholder="t('_common.undo_cmd')" />
                   </div>
                 </div>
               </div>
@@ -714,7 +710,7 @@ function extractRtxHdrOverrides(overrides: Record<string, unknown>) {
     mode,
     valuesOverride: hasRtxHdrValueOverride,
     forceSdr: parseBooleanOverride(overrides['rtx_hdr_force_sdr'], false),
-    peakBrightness: parseNumberOverride(overrides['rtx_hdr_peak_brightness'], 1000, 400, 1500),
+    peakBrightness: parseNumberOverride(overrides['rtx_hdr_peak_brightness'], 1000, 400, 2000),
     middleGray: parseNumberOverride(overrides['rtx_hdr_middle_gray'], 50, 10, 100),
     contrast: parseNumberOverride(overrides['rtx_hdr_contrast'], 0, -100, 100),
     saturation: parseNumberOverride(overrides['rtx_hdr_saturation'], 0, -100, 100),
@@ -1151,6 +1147,26 @@ function toServerPayload(f: AppForm): Record<string, any> {
   }
   return payload;
 }
+let liveRtxHdrSuppress = false;
+// Normalize cmd to single string; rehydrate typed form when props.app changes while open
+watch(
+  () => props.app,
+  (val) => {
+    if (!open.value) return;
+    liveRtxHdrSuppress = true;
+    formHydratingFromServer = true;
+    form.value = fromServerApp(val as ServerApp | undefined, props.index ?? -1);
+    primeLiveRtxHdrState();
+    nextTick(() => {
+      liveRtxHdrSuppress = false;
+      formHydratingFromServer = false;
+    }).catch(() => {
+      liveRtxHdrSuppress = false;
+      formHydratingFromServer = false;
+    });
+  },
+  { immediate: true },
+);
 const cmdText = computed<string>({
   get: () => form.value.cmd || '',
   set: (v: string) => {
@@ -1204,30 +1220,9 @@ type RtxHdrLiveStatus = 'idle' | 'queued' | 'applying' | 'applied' | 'error';
 const liveRtxHdrStatus = ref<RtxHdrLiveStatus>('idle');
 const liveRtxHdrError = ref('');
 let liveRtxHdrTimer: ReturnType<typeof setTimeout> | null = null;
-let liveRtxHdrSuppress = false;
 let liveRtxHdrLastSentKey = '';
 let liveRtxHdrQueue: Promise<void> = Promise.resolve();
 let liveRtxHdrProgrammaticClose = false;
-
-// Normalize cmd to single string; rehydrate typed form when props.app changes while open
-watch(
-  () => props.app,
-  (val) => {
-    if (!open.value) return;
-    liveRtxHdrSuppress = true;
-    formHydratingFromServer = true;
-    form.value = fromServerApp(val as ServerApp | undefined, props.index ?? -1);
-    primeLiveRtxHdrState();
-    nextTick(() => {
-      liveRtxHdrSuppress = false;
-      formHydratingFromServer = false;
-    }).catch(() => {
-      liveRtxHdrSuppress = false;
-      formHydratingFromServer = false;
-    });
-  },
-  { immediate: true },
-);
 
 function activeAppUuid(): string {
   return String((props.app as ServerApp | null | undefined)?.uuid || '');
@@ -1298,7 +1293,7 @@ function enqueueRtxHdrLivePost(overrides: Record<string, unknown>, key: string):
       liveRtxHdrError.value =
         error instanceof Error && error.message
           ? error.message
-          : t('app_edit.rtx_hdr_live_update_failed_desc');
+          : t('apps.rtx_hdr_live_update_failed');
     });
   return liveRtxHdrQueue;
 }
@@ -1693,7 +1688,11 @@ const nameSelectOptions = computed(() => {
   if (nameOptions.value.length) return nameOptions.value;
   const list: { label: string; value: string }[] = [];
   const cur = String(form.value.name || '').trim();
-  if (cur) list.push({ label: `Custom: "${cur}"`, value: `__custom__:${cur}` });
+  if (cur)
+    list.push({
+      label: t('apps.source_custom_named', { name: cur }),
+      value: `__custom__:${cur}`,
+    });
   if (playniteOptions.value.length) {
     list.push(...playniteOptions.value.slice(0, 20));
   }
@@ -1705,7 +1704,7 @@ async function onNameFocus() {
   // Show a friendly placeholder immediately to avoid "No Data"
   if (!playniteOptions.value.length) {
     nameOptions.value = [
-      { label: 'Loading Playnite games…', value: '__loading__', disabled: true } as any,
+      { label: t('apps.loading'), value: '__loading__', disabled: true } as any,
     ];
   }
   // Kick off loading (don’t block the UI), then refresh list
@@ -1720,7 +1719,10 @@ function ensureNameSelectionFromForm() {
   const currentName = String(form.value.name || '').trim();
   const opts: { label: string; value: string }[] = [];
   if (currentName) {
-    opts.push({ label: `Custom: "${currentName}"`, value: `__custom__:${currentName}` });
+    opts.push({
+      label: t('apps.source_custom_named', { name: currentName }),
+      value: `__custom__:${currentName}`,
+    });
   }
   const pid = form.value.playniteId;
   if (pid) {
@@ -2149,7 +2151,7 @@ const displayDeviceOptions = computed(() => {
   for (const d of displayDevices.value) {
     const value = d.device_id || d.display_name || '';
     if (!value || seen.has(value)) continue;
-    const displayName = d.friendly_name || d.display_name || 'Display';
+    const displayName = d.friendly_name || d.display_name || t('config.display_fallback');
     const guid = d.device_id || '';
     const dispName = d.display_name || '';
     const info = d.info as any;
@@ -2538,7 +2540,7 @@ async function refreshFrameGenHealth(options: FrameGenHealthOptions = {}): Promi
               displayLabel =
                 (typeof target.friendly_name === 'string' && target.friendly_name) ||
                 (typeof target.display_name === 'string' && target.display_name) ||
-                'Active display';
+                t('apps.framegen.health_display_active_label');
               displayId =
                 (typeof target.device_id === 'string' && target.device_id) ||
                 (typeof target.display_name === 'string' && target.display_name) ||
@@ -2602,7 +2604,7 @@ async function refreshFrameGenHealth(options: FrameGenHealthOptions = {}): Promi
                 }
               } catch (e: any) {
                 if (!edidFetchError) {
-                  edidFetchError = e?.message || 'EDID refresh validation failed.';
+                  edidFetchError = e?.message || t('apps.framegen.health_edid_refresh_failed');
                 }
               }
 
@@ -2656,31 +2658,51 @@ async function refreshFrameGenHealth(options: FrameGenHealthOptions = {}): Promi
                 displayStatus = 'pass';
                 if (only144Fails) {
                   const baseHz = hasActive ? (activeRefresh ?? evaluationHz) : evaluationHz;
-                  displayMessage = `Current refresh is ${Math.round(baseHz)} Hz. Streams up to 120 FPS are covered. Only 144 FPS streams require the Vibepollo virtual screen or a higher-refresh display.`;
+                  displayMessage = t('apps.framegen.health_display_120_only_current', {
+                    hz: Math.round(baseHz),
+                  });
                   if (!hasActive && highestSupported !== null) {
-                    displayMessage = `Display supports up to ${Math.round(highestSupported)} Hz. Streams up to 120 FPS are covered. Only 144 FPS streams require the Vibepollo virtual screen or a higher-refresh display.`;
+                    displayMessage = t('apps.framegen.health_display_120_only_supported', {
+                      hz: Math.round(highestSupported),
+                    });
                   } else if (deltaSupported && highestSupported !== null) {
-                    displayMessage += ` Vibepollo can switch to ${Math.round(highestSupported)} Hz when a stream starts if Display Device Step 1 keeps that monitor active.`;
+                    displayMessage += ` ${t('apps.framegen.health_display_switch_when_stream_starts', {
+                      hz: Math.round(highestSupported),
+                    })}`;
                   }
                 } else if (!hasActive && highestSupported !== null) {
-                  displayMessage = `Display supports up to ${Math.round(highestSupported)} Hz. Vibepollo can double 120 FPS streams.`;
+                  displayMessage = t('apps.framegen.health_display_double_120', {
+                    hz: Math.round(highestSupported),
+                  });
                 } else if (deltaSupported && highestSupported !== null) {
-                  displayMessage = `Current refresh is ${Math.round(activeRefresh ?? evaluationHz)} Hz. Vibepollo can switch to ${Math.round(highestSupported)} Hz during streams to keep frame generation smooth.`;
+                  displayMessage = t('apps.framegen.health_display_switch_smooth', {
+                    currentHz: Math.round(activeRefresh ?? evaluationHz),
+                    targetHz: Math.round(highestSupported),
+                  });
                 } else {
                   displayMessage = t('apps.framegen.health_display_ok_120');
                 }
               } else if (evaluationHz >= 180 - tolerance) {
                 displayStatus = 'warn';
                 if (!hasActive && highestSupported !== null) {
-                  displayMessage = `Display supports up to ${Math.round(evaluationHz)} Hz. Configure Display Device Step 1 to enforce the higher refresh or use the display override below to switch to the Vibepollo virtual display.`;
+                  displayMessage = t('apps.framegen.health_display_enforce_or_virtual', {
+                    hz: Math.round(evaluationHz),
+                  });
                 } else if (hasActive) {
                   if (highestFailUnder144 !== null) {
-                    displayMessage = `Current refresh is ${Math.round(activeRefresh ?? evaluationHz)} Hz. Streams targeting up to ${highestFailUnder144} FPS need the Vibepollo virtual screen or a higher-refresh display.`;
+                    displayMessage = t('apps.framegen.health_display_target_needs_virtual', {
+                      hz: Math.round(activeRefresh ?? evaluationHz),
+                      fps: highestFailUnder144,
+                    });
                   } else {
-                    displayMessage = `Current refresh is ${Math.round(activeRefresh ?? evaluationHz)} Hz. 120 FPS frame generation may stutter without a higher refresh display. Use the display override below to switch to the Vibepollo virtual display or move the stream to a higher-refresh monitor.`;
+                    displayMessage = t('apps.framegen.health_display_120_stutter', {
+                      hz: Math.round(activeRefresh ?? evaluationHz),
+                    });
                   }
                   if (deltaSupported && highestSupported !== null) {
-                    displayMessage += ` Vibepollo can switch up to ${Math.round(highestSupported)} Hz if Display Device Step 1 keeps only that monitor active.`;
+                    displayMessage += ` ${t('apps.framegen.health_display_switch_if_active', {
+                      hz: Math.round(highestSupported),
+                    })}`;
                   }
                 } else {
                   displayMessage = t('apps.framegen.health_display_maybe_low');
@@ -2688,12 +2710,19 @@ async function refreshFrameGenHealth(options: FrameGenHealthOptions = {}): Promi
               } else {
                 displayStatus = 'fail';
                 if (!hasActive && highestSupported !== null) {
-                  displayMessage = `Display tops out at ${Math.round(evaluationHz)} Hz. Use the display override below to switch to the Vibepollo virtual display or switch to a 240 Hz display for frame generation.`;
+                  displayMessage = t('apps.framegen.health_display_tops_out', {
+                    hz: Math.round(evaluationHz),
+                  });
                 } else if (hasActive) {
                   const mention = highestFailUnder144 ?? 120;
-                  displayMessage = `Current refresh is ${Math.round(activeRefresh ?? evaluationHz)} Hz. Streams targeting up to ${mention} FPS need the Vibepollo virtual screen or a higher-refresh display.`;
+                  displayMessage = t('apps.framegen.health_display_target_needs_virtual', {
+                    hz: Math.round(activeRefresh ?? evaluationHz),
+                    fps: mention,
+                  });
                   if (deltaSupported && highestSupported !== null) {
-                    displayMessage += ` Vibepollo can switch up to ${Math.round(highestSupported)} Hz if configured in Display Device Step 1.`;
+                    displayMessage += ` ${t('apps.framegen.health_display_switch_if_configured', {
+                      hz: Math.round(highestSupported),
+                    })}`;
                   }
                 } else {
                   displayMessage = t('apps.framegen.health_display_unavailable_240');
@@ -3017,10 +3046,11 @@ function onNameSearch(q: string) {
     .toLowerCase();
   const list: { label: string; value: string }[] = [];
   if (query.length) {
-    list.push({ label: `Custom: "${q}"`, value: `__custom__:${q}` });
+    list.push({ label: t('apps.source_custom_named', { name: q }), value: `__custom__:${q}` });
   } else {
     const cur = String(form.value.name || '').trim();
-    if (cur) list.push({ label: `Custom: "${cur}"`, value: `__custom__:${cur}` });
+    if (cur)
+      list.push({ label: t('apps.source_custom_named', { name: cur }), value: `__custom__:${cur}` });
   }
   if (playniteOptions.value.length) {
     const filtered = (
@@ -3091,8 +3121,8 @@ async function save() {
     if (!okStatus || (responseData && responseData.status === false)) {
       const errMessage =
         responseData && typeof responseData === 'object' && 'error' in responseData
-          ? String(responseData.error ?? 'Failed to save application.')
-          : 'Failed to save application.';
+          ? String(responseData.error ?? t('validation.save_failed'))
+          : t('validation.save_failed');
       message?.error(errMessage);
       return;
     }
@@ -3135,7 +3165,7 @@ async function del() {
 
     const target = deleteTargetForForm(form.value);
     if (!target) {
-      message?.error('Cannot delete an application without a valid UUID or index.');
+      message?.error(t('apps.delete_invalid_target'));
       return;
     }
 
@@ -3147,8 +3177,8 @@ async function del() {
     if (!ok) {
       const errMessage =
         responseData && typeof responseData === 'object' && 'error' in responseData
-          ? String(responseData.error ?? 'Failed to delete application.')
-          : `Failed to delete application. HTTP ${r.status}`;
+          ? String(responseData.error ?? t('apps.delete_failed'))
+          : t('apps.delete_failed_http', { status: r.status });
       message?.error(errMessage);
       return;
     }
@@ -3159,7 +3189,7 @@ async function del() {
         } catch {}
         try {
           message?.info(
-            'Playnite Fullscreen entry removed. The Playnite Desktop option was turned off in Settings -> Playnite.',
+            t('playnite.fullscreen_entry_removed'),
           );
         } catch {}
       }

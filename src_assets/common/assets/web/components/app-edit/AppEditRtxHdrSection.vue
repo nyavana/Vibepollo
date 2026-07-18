@@ -5,16 +5,16 @@
     <div class="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
       <div class="space-y-1">
         <h3 class="text-base font-semibold text-dark dark:text-light">
-          {{ t('app_edit.rtx_hdr_title') }}
+          {{ $t('config.rtx_hdr') }}
         </h3>
         <p class="text-[12px] leading-relaxed opacity-70">
-          {{ t('app_edit.rtx_hdr_desc') }}
+          {{ $t('config.rtx_hdr_intro') }}
         </p>
       </div>
       <div class="flex flex-wrap items-center gap-2">
-        <n-tag v-if="rtxHdrEnabled" size="small" type="primary">
-          {{ t('app_edit.enabled') }}
-        </n-tag>
+        <n-tag v-if="rtxHdrEnabled" size="small" type="primary">{{
+          $t('_common.enabled')
+        }}</n-tag>
         <n-tag v-if="liveStatus !== 'idle'" size="small" :type="liveStatusTagType">
           {{ liveStatusLabel }}
         </n-tag>
@@ -22,17 +22,15 @@
     </div>
 
     <n-alert v-if="liveStatus === 'error'" type="error" size="small" :bordered="false">
-      {{ liveError || t('app_edit.rtx_hdr_live_update_failed_desc') }}
+      {{ liveError || $t('apps.rtx_hdr_live_update_failed') }}
     </n-alert>
 
     <label :class="cardClass(rtxHdrEnabled)">
       <n-switch v-model:value="rtxHdrEnabled" />
       <div class="min-w-0 space-y-1">
-        <div class="text-sm font-semibold leading-snug">
-          {{ t('app_edit.enable_rtx_hdr') }}
-        </div>
+        <div class="text-sm font-semibold leading-snug">{{ $t('config.rtx_hdr') }}</div>
         <p class="text-[12px] leading-relaxed opacity-70">
-          {{ t('app_edit.enable_rtx_hdr_desc') }}
+          {{ $t('config.rtx_hdr_desc') }}
         </p>
       </div>
     </label>
@@ -42,10 +40,10 @@
         <n-switch v-model:value="form.rtxHdrValuesOverride" />
         <div class="min-w-0 space-y-1">
           <div class="text-sm font-semibold leading-snug">
-            {{ t('app_edit.override_hdr_values') }}
+            {{ $t('apps.overrides.title') }}
           </div>
           <p class="text-[12px] leading-relaxed opacity-70">
-            {{ t('app_edit.override_hdr_values_desc') }}
+            {{ $t('config.rtx_hdr_intro') }}
           </p>
         </div>
       </label>
@@ -113,13 +111,13 @@ const rtxHdrEnabled = computed({
 const liveStatusLabel = computed(() => {
   switch (props.liveStatus) {
     case 'queued':
-      return t('app_edit.rtx_hdr_live_queued');
+      return t('_common.loading');
     case 'applying':
-      return t('app_edit.rtx_hdr_live_applying');
+      return t('_common.loading');
     case 'applied':
-      return t('app_edit.rtx_hdr_live_applied');
+      return t('_common.success');
     case 'error':
-      return t('app_edit.rtx_hdr_live_update_failed');
+      return t('_common.error');
     default:
       return '';
   }

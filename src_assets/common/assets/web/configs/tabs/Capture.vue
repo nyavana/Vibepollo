@@ -190,23 +190,34 @@ const losslessActivePath = computed(() => {
   }
   return '';
 });
+const losslessApiStatusMessage = computed(() => {
+  switch (losslessStatus.value?.status) {
+    case 'unavailable':
+      return t('config.lossless.status_query_failed');
+    case 'path-is-directory':
+      return t('config.lossless.browser_directory_warning');
+    case 'path-not-found':
+      return t('config.lossless.status_path_unresolved');
+    case 'not-configured':
+      return t('config.lossless.status_not_found');
+    default:
+      return '';
+  }
+});
 const losslessStatusText = computed(() => {
   if (losslessLoading.value) {
-    return t('config.lossless_scaling_checking');
+    return t('config.lossless.status_checking');
   }
   if (losslessError.value) {
-    return t(losslessError.value);
+    return losslessError.value;
   }
   if (losslessDetected.value) {
-    return t('config.lossless_scaling_ready');
+    return t('config.lossless.status_ready');
   }
   if (losslessHasConfiguredPath.value) {
-    return t('config.lossless_scaling_custom_path_attention');
+    return t('config.lossless.status_custom_path_attention');
   }
-  if (losslessStatus.value?.message) {
-    return losslessStatus.value.message;
-  }
-  return t('config.lossless_scaling_status_unavailable');
+  return t('config.lossless.status_unavailable');
 });
 const losslessStatusHint = computed(() => {
   if (losslessLoading.value) {
@@ -217,17 +228,14 @@ const losslessStatusHint = computed(() => {
   }
   if (losslessDetected.value) {
     if (losslessHasConfiguredPath.value) {
-      return t('config.lossless_scaling_configured_path_ready_desc');
+      return t('config.lossless.status_configured_hint');
     }
-    return t('config.lossless_scaling_ready_desc');
+    return t('config.lossless.status_detected_hint');
   }
   if (losslessHasConfiguredPath.value) {
-    return (
-      losslessStatus.value?.message ||
-      t('config.lossless_scaling_configured_path_error_desc')
-    );
+    return losslessApiStatusMessage.value || t('config.lossless.status_path_unresolved');
   }
-  return t('config.lossless_scaling_not_found_desc');
+  return losslessApiStatusMessage.value || t('config.lossless.status_not_found');
 });
 
 async function refreshLosslessStatus() {
@@ -272,11 +280,11 @@ async function refreshLosslessStatus() {
       losslessStatus.value = payload;
       losslessError.value = null;
     } else {
-      losslessError.value = 'config.lossless_scaling_query_failed';
+      losslessError.value = t('config.lossless.status_query_failed');
       losslessStatus.value = null;
     }
   } catch (err) {
-    losslessError.value = 'config.lossless_scaling_query_failed';
+    losslessError.value = t('config.lossless.status_query_failed');
     losslessStatus.value = null;
   } finally {
     losslessLoading.value = false;
@@ -358,11 +366,11 @@ async function loadLosslessBrowseDirectory(path: string) {
             !!entry.name && !!entry.path,
         );
     } else {
-      losslessBrowseError.value = 'Unable to browse this folder.';
+      losslessBrowseError.value = t('config.lossless.browser_failed');
       losslessBrowseEntries.value = [];
     }
   } catch (err) {
-    losslessBrowseError.value = 'Unable to browse this folder.';
+    losslessBrowseError.value = t('config.lossless.browser_failed');
     losslessBrowseEntries.value = [];
   } finally {
     losslessBrowseLoading.value = false;
@@ -476,7 +484,7 @@ const shouldShowSoftware = computed(() => showAll() || props.currentTab === 'sw'
         v-if="platform === 'windows'"
         class="space-y-4 rounded-xl border border-dark/35 p-4 dark:border-light/25"
       >
-        <legend class="px-2 text-sm font-medium">Lossless Scaling</legend>
+        <legend class="px-2 text-sm font-medium">{{ $t('apps.framegen.lossless_title') }}</legend>
         <div :class="['rounded-lg px-4 py-3 text-[12px]', losslessStatusClass]">
           <div class="flex items-center justify-between gap-3">
             <div class="flex items-center gap-2">
@@ -492,7 +500,7 @@ const shouldShowSoftware = computed(() => showAll() || props.currentTab === 'sw'
                 @click="refreshLosslessStatus"
               >
                 <i class="fas fa-sync" />
-                <span class="ml-1">{{ t('config.lossless_scaling_check') }}</span>
+                <span class="ml-1">{{ $t('config.lossless.check') }}</span>
               </n-button>
               <n-button
                 v-if="losslessDetected && !losslessForceAdvanced"
@@ -500,7 +508,7 @@ const shouldShowSoftware = computed(() => showAll() || props.currentTab === 'sw'
                 tertiary
                 @click="showLosslessOverride"
               >
-                {{ t('config.lossless_scaling_override_path') }}
+                {{ $t('config.lossless.override_path') }}
               </n-button>
               <n-button
                 v-else-if="losslessDetected && losslessForceAdvanced"
@@ -508,7 +516,7 @@ const shouldShowSoftware = computed(() => showAll() || props.currentTab === 'sw'
                 tertiary
                 @click="hideLosslessOverride"
               >
-                {{ t('config.lossless_scaling_hide_override') }}
+                {{ $t('config.lossless.hide_override') }}
               </n-button>
             </div>
           </div>
@@ -516,12 +524,12 @@ const shouldShowSoftware = computed(() => showAll() || props.currentTab === 'sw'
             {{ losslessStatusHint }}
           </p>
           <p v-if="!losslessLoading && losslessActivePath" class="mt-1 text-xs opacity-70">
-            {{ t('config.lossless_scaling_using_path', { path: losslessActivePath }) }}
+            {{ $t('config.lossless.using_path', { path: losslessActivePath }) }}
           </p>
         </div>
 
         <p class="mt-3 text-[11px] opacity-70">
-          {{ t('config.lossless_scaling_apps_editor_hint') }}
+          {{ $t('config.lossless.app_hint') }}
         </p>
 
         <div
@@ -546,7 +554,7 @@ const shouldShowSoftware = computed(() => showAll() || props.currentTab === 'sw'
           <ConfigFieldRenderer
             setting-key="lossless_scaling_path"
             v-model="config.lossless_scaling_path"
-            :label="t('config.lossless_scaling_path')"
+            :label="$t('config.lossless_scaling_path')"
             desc=""
             :placeholder="LOSSLESS_DEFAULT_PATH"
             clearable
@@ -554,14 +562,14 @@ const shouldShowSoftware = computed(() => showAll() || props.currentTab === 'sw'
             <template #actions>
               <div class="flex items-center gap-2 text-xs">
                 <n-button size="tiny" tertiary @click="applyLosslessSuggestion">
-                  {{ t('config.lossless_scaling_use_suggested') }}
+                  {{ $t('config.lossless.use_suggested') }}
                 </n-button>
                 <n-button size="tiny" tertiary @click="openLosslessBrowse">
-                  {{ t('config.lossless_scaling_browse') }}
+                  {{ $t('_common.browse') }}
                 </n-button>
               </div>
             </template>
-            {{ t('config.lossless_scaling_default_installation') }} {{ LOSSLESS_DEFAULT_PATH }}
+            {{ $t('config.lossless.default_installation', { path: LOSSLESS_DEFAULT_PATH }) }}
           </ConfigFieldRenderer>
         </div>
       </fieldset>
@@ -588,15 +596,15 @@ const shouldShowSoftware = computed(() => showAll() || props.currentTab === 'sw'
       v-model:show="losslessBrowseVisible"
       preset="card"
       class="max-w-2xl"
-      :title="t('config.lossless_scaling_select_executable')"
+      :title="$t('config.lossless.browser_title')"
     >
       <div class="space-y-4">
         <n-alert type="info" size="small" v-if="!losslessCandidates.length">
-          {{ t('config.lossless_scaling_not_found_alert') }}
+          {{ $t('config.lossless.browser_not_found') }}
         </n-alert>
         <div class="space-y-2">
           <div class="text-xs font-semibold uppercase tracking-wide opacity-70">
-            {{ t('config.lossless_scaling_executable_path') }}
+            {{ $t('config.lossless.browser_path_label') }}
           </div>
           <n-input
             v-model:value="losslessBrowsePath"
@@ -607,7 +615,7 @@ const shouldShowSoftware = computed(() => showAll() || props.currentTab === 'sw'
         </div>
         <div v-if="losslessCandidates.length" class="space-y-2">
           <div class="text-xs font-semibold uppercase tracking-wide opacity-70">
-            {{ t('config.lossless_scaling_detected_installations') }}
+            {{ $t('config.lossless.browser_detected_installations') }}
           </div>
           <n-radio-group
             v-model:value="losslessBrowseSelection"
@@ -626,7 +634,7 @@ const shouldShowSoftware = computed(() => showAll() || props.currentTab === 'sw'
         <div class="space-y-2">
           <div class="flex items-center justify-between gap-2">
             <div class="text-xs font-semibold uppercase tracking-wide opacity-70">
-              {{ t('config.lossless_scaling_browse_executables') }}
+              {{ $t('config.lossless.browser_executables') }}
             </div>
             <n-button
               size="tiny"
@@ -634,11 +642,11 @@ const shouldShowSoftware = computed(() => showAll() || props.currentTab === 'sw'
               :loading="losslessBrowseLoading"
               @click="loadLosslessBrowseDirectory(losslessBrowsePath)"
             >
-              {{ t('config.lossless_scaling_open_folder') }}
+              {{ $t('config.lossless.browser_open_folder') }}
             </n-button>
           </div>
           <div class="truncate text-xs opacity-60">
-            {{ losslessBrowseDirectory || t('config.lossless_scaling_computer') }}
+            {{ losslessBrowseDirectory || $t('config.lossless.browser_computer') }}
           </div>
           <n-alert v-if="losslessBrowseError" type="warning" size="small">
             {{ losslessBrowseError }}
@@ -655,8 +663,8 @@ const shouldShowSoftware = computed(() => showAll() || props.currentTab === 'sw'
               <span class="shrink-0 opacity-60">
                 {{
                   entry.type === 'directory'
-                    ? t('config.lossless_scaling_folder')
-                    : t('config.lossless_scaling_executable')
+                    ? $t('config.lossless.browser_folder')
+                    : $t('config.lossless.browser_executable')
                 }}
               </span>
             </button>
@@ -664,7 +672,7 @@ const shouldShowSoftware = computed(() => showAll() || props.currentTab === 'sw'
               v-if="!losslessBrowseLoading && !losslessBrowseEntries.length"
               class="px-3 py-3 text-xs opacity-60"
             >
-              {{ t('config.lossless_scaling_no_executable_entries') }}
+              {{ $t('config.lossless.browser_empty') }}
             </div>
           </div>
         </div>
@@ -673,7 +681,7 @@ const shouldShowSoftware = computed(() => showAll() || props.currentTab === 'sw'
           type="warning"
           size="small"
         >
-          {{ t('config.lossless_scaling_folder_warning') }}
+          {{ $t('config.lossless.browser_directory_warning') }}
         </n-alert>
         <div class="flex items-center justify-between pt-2">
           <n-button
@@ -682,19 +690,19 @@ const shouldShowSoftware = computed(() => showAll() || props.currentTab === 'sw'
             @click="rescanLosslessCandidates"
             :loading="losslessLoading"
           >
-            {{ t('config.lossless_scaling_rescan') }}
+            {{ $t('config.lossless.rescan') }}
           </n-button>
           <div class="flex items-center gap-2">
-            <n-button size="small" tertiary @click="losslessBrowseVisible = false">
-              {{ t('_common.cancel') }}
-            </n-button>
+            <n-button size="small" tertiary @click="losslessBrowseVisible = false">{{
+              $t('_common.cancel')
+            }}</n-button>
             <n-button
               size="small"
               type="primary"
               :disabled="!losslessBrowsePath && !losslessBrowseSelection"
               @click="applyLosslessBrowseSelection"
             >
-              {{ t('config.lossless_scaling_use_selected_path') }}
+              {{ $t('config.lossless.use_path') }}
             </n-button>
           </div>
         </div>

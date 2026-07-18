@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard-page space-y-6 px-2 sm:space-y-8 md:px-4">
+  <div class="dashboard-page space-y-6 sm:space-y-8">
     <!-- Hero / Intro -->
     <section
       class="rounded-xl border border-dark/10 bg-light/70 p-4 shadow-sm backdrop-blur dark:border-light/10 dark:bg-surface/70 sm:p-5 md:p-6"
@@ -18,7 +18,7 @@
             <a :href="href" @click="navigate">
               <n-button tag="span" type="primary" strong class="w-full justify-center sm:w-auto">
                 <i class="fas fa-sliders" />
-                <span>{{ $t('index.settings') }}</span>
+                <span>{{ $t('navbar.configuration') }}</span>
               </n-button>
             </a>
           </RouterLink>
@@ -26,7 +26,7 @@
             <a :href="href" @click="navigate">
               <n-button tag="span" type="default" strong class="w-full justify-center sm:w-auto">
                 <i class="fas fa-th" />
-                <span>{{ $t('index.applications') }}</span>
+                <span>{{ $t('apps.applications_title') }}</span>
               </n-button>
             </a>
           </RouterLink>
@@ -45,7 +45,7 @@
             <h2
               class="text-xl sm:text-2xl font-semibold tracking-tight mx-auto text-center break-words"
             >
-              {{ $t('index.version', { version: displayVersion }) }}
+              {{ $t('changelog.current_version_title', { version: displayVersion }) }}
             </h2>
           </template>
           <div class="space-y-4 text-sm">
@@ -60,12 +60,14 @@
                 class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 w-full"
               >
                 <div class="min-w-0">
-                  <p class="text-sm m-0 font-medium">Playnite Extension update available</p>
+                  <p class="text-sm m-0 font-medium">
+                    {{ $t('playnite.extension_update_available') }}
+                  </p>
                   <p class="text-xs opacity-80 m-0">
                     {{
-                      (playnite?.installed_version || 'unknown') +
+                      (playnite?.installed_version || $t('_common.unknown')) +
                       ' → ' +
-                      (playnite?.packaged_version || 'unknown')
+                      (playnite?.packaged_version || $t('_common.unknown'))
                     }}
                   </p>
                 </div>
@@ -74,7 +76,7 @@
                     size="small"
                     :strong="true"
                     :restart="true"
-                    :label="'Update Playnite Extension'"
+                    :label="$t('playnite.update_extension')"
                     @done="onPlayniteReinstallDone"
                   />
                 </div>
@@ -90,7 +92,7 @@
                 class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 w-full"
               >
                 <div class="min-w-0">
-                  <p class="text-sm m-0 font-medium">Playnite Extension missing</p>
+                  <p class="text-sm m-0 font-medium">{{ $t('playnite.extension_missing') }}</p>
                   <p class="text-xs opacity-80 m-0">
                     {{ playniteMissingPluginBannerText }}
                   </p>
@@ -106,7 +108,7 @@
                     @click="resolvePlaynitePluginIssue"
                   >
                     <i class="fas fa-plug" />
-                    <span>Resolve Issue</span>
+                    <span>{{ $t('playnite.resolve_issue') }}</span>
                   </n-button>
                   <n-button
                     size="small"
@@ -119,7 +121,7 @@
                     @click="openPurgePlayniteGamesConfirm"
                   >
                     <i class="fas fa-trash" />
-                    <span>Purge Playnite Games</span>
+                    <span>{{ $t('playnite.purge_games') }}</span>
                   </n-button>
                 </div>
               </div>
@@ -131,14 +133,10 @@
               >
                 <div class="min-w-0 space-y-1">
                   <p class="text-sm m-0 font-medium">
-                    {{ $t('config.crash_dump_title') || 'Recent crash detected' }}
+                    {{ $t('config.crash_dump_title') }}
                   </p>
                   <p class="text-xs opacity-80 m-0">
-                    {{
-                      crashDumpMessage ||
-                      $t('config.crash_dump_desc') ||
-                      'Vibepollo detected a recent crash dump. Please export a crash bundle and include it when filing an issue.'
-                    }}
+                    {{ crashDumpMessage || $t('config.crash_dump_desc') }}
                   </p>
                   <p v-if="crashDumpDetails" class="text-xs opacity-60 m-0">
                     {{ crashDumpDetails }}
@@ -151,12 +149,12 @@
                     strong
                     size="small"
                     class="w-full justify-center sm:w-auto"
-                    href="https://github.com/Nonary/vibeshine/issues/new?template=bug_report.yml"
+                    href="https://github.com/Nonary/Vibepollo/issues/new?template=bug_report.yml"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     <i class="fas fa-bug" />
-                    <span>{{ $t('config.crash_dump_report') || 'Report Issue' }}</span>
+                    <span>{{ $t('config.crash_dump_report') }}</span>
                   </n-button>
                   <n-button
                     type="primary"
@@ -171,11 +169,8 @@
                     <span>
                       {{
                         exportCrashPending
-                          ? translate(
-                              'config.crash_dump_export_preparing',
-                              'Preparing Crash Bundle...',
-                            )
-                          : translate('config.crash_dump_export', 'Export Crash Bundle')
+                          ? $t('config.crash_dump_export_preparing')
+                          : $t('config.crash_dump_export')
                       }}
                     </span>
                   </n-button>
@@ -186,7 +181,7 @@
                     @click="dismissCrashBundle"
                   >
                     <i class="fas fa-xmark" />
-                    <span>{{ $t('config.crash_dump_dismiss') || 'Dismiss' }}</span>
+                    <span>{{ $t('config.crash_dump_dismiss') }}</span>
                   </n-button>
                 </div>
               </div>
@@ -198,18 +193,12 @@
               >
                 <div class="min-w-0">
                   <p class="text-sm m-0 font-medium">
-                    {{
-                      $t('config.vigem_missing_title') ||
-                      'Virtual Gamepad Driver (ViGEm) not installed'
-                    }}
+                    {{ $t('config.vigem_missing_title') }}
                   </p>
                   <p class="text-xs opacity-80 m-0">
-                    {{
-                      $t('config.vigem_missing_desc') ||
-                      'Vibepollo requires the ViGEmBus driver to emulate controllers on Windows. It is no longer bundled. Please download and install it manually:'
-                    }}
+                    {{ $t('config.vigem_missing_desc') }}
                     <span v-if="vigemVersion" class="ml-2 opacity-60">
-                      ({{ $t('config.vigem_detected_version') || 'Detected' }}: {{ vigemVersion }})
+                      ({{ $t('config.vigem_detected_version') }}: {{ vigemVersion }})
                     </span>
                   </p>
                 </div>
@@ -224,7 +213,7 @@
                     rel="noopener noreferrer"
                   >
                     <i class="fas fa-download" />
-                    <span>{{ $t('config.vigem_install') || 'Download ViGEmBus' }}</span>
+                    <span>{{ $t('config.vigem_install') }}</span>
                   </n-button>
                 </div>
               </div>
@@ -241,13 +230,10 @@
               >
                 <div class="min-w-0">
                   <p class="text-sm m-0 font-medium">
-                    {{ $t('vulkan_hdr.not_installed_title') || 'Vulkan HDR layer not installed' }}
+                    {{ $t('vulkan_hdr.not_installed_title') }}
                   </p>
                   <p class="text-xs opacity-80 m-0">
-                    {{
-                      $t('vulkan_hdr.not_installed_desc') ||
-                      "The Vulkan HDR layer for virtual displays isn't registered, so HDR may not work on virtual displays. You can install it now, or disable this feature in Settings if it's causing app crashes."
-                    }}
+                    {{ $t('vulkan_hdr.not_installed_desc') }}
                   </p>
                 </div>
                 <div class="grid gap-2 sm:flex sm:flex-wrap sm:items-center shrink-0">
@@ -261,7 +247,7 @@
                     @click="installVulkanHdrLayer"
                   >
                     <i class="fas fa-download" />
-                    <span>{{ $t('vulkan_hdr.install') || 'Install' }}</span>
+                    <span>{{ $t('vulkan_hdr.install') }}</span>
                   </n-button>
                   <n-button
                     tertiary
@@ -270,7 +256,7 @@
                     @click="dismissVulkanHdrLayerBanner"
                   >
                     <i class="fas fa-xmark" />
-                    <span>{{ $t('vulkan_hdr.dismiss') || 'Dismiss' }}</span>
+                    <span>{{ $t('vulkan_hdr.dismiss') }}</span>
                   </n-button>
                 </div>
               </div>
@@ -286,20 +272,10 @@
               >
                 <div class="min-w-0">
                   <p class="text-sm m-0 font-medium">
-                    {{
-                      translate(
-                        'config.golden_snapshot_outdated_title',
-                        'Display snapshot may be out of date',
-                      )
-                    }}
+                    {{ $t('config.golden_snapshot_outdated_title') }}
                   </p>
                   <p class="text-xs opacity-80 m-0">
-                    {{
-                      translate(
-                        'config.golden_snapshot_outdated_desc',
-                        'Display restore has not completed successfully for the last few days, which may mean your saved snapshot is out of date. If your monitors have not been restoring properly when you return to the PC, recreate the snapshot. Otherwise, you can ignore this message.',
-                      )
-                    }}
+                    {{ $t('config.golden_snapshot_outdated_desc') }}
                   </p>
                 </div>
                 <div class="grid gap-2 sm:flex sm:flex-wrap sm:items-center shrink-0">
@@ -320,12 +296,7 @@
                         class="w-full justify-center sm:w-auto"
                       >
                         <i class="fas fa-rotate-right" />
-                        <span>{{
-                          translate(
-                            'config.golden_snapshot_outdated_action',
-                            'Open Display Settings',
-                          )
-                        }}</span>
+                        <span>{{ $t('config.golden_snapshot_outdated_action') }}</span>
                       </n-button>
                     </a>
                   </RouterLink>
@@ -348,7 +319,7 @@
                 <div>
                   <RouterLink to="/troubleshooting#logs">
                     <n-button type="error" strong>
-                      <i class="fas fa-file-lines" /> {{ $t('index.view_logs') || 'View Logs' }}
+                      <i class="fas fa-file-lines" /> {{ $t('index.view_logs') }}
                     </n-button>
                   </RouterLink>
                 </div>
@@ -416,9 +387,7 @@
                     >
                       <i class="fas fa-bars-staggered" />
                       <span>{{
-                        showPreNotes
-                          ? $t('index.hide_notes') || 'Hide Notes'
-                          : $t('index.view_notes') || 'Release Notes'
+                        showPreNotes ? $t('index.hide_notes') : $t('index.view_notes')
                       }}</span>
                     </n-button>
                     <n-button
@@ -479,9 +448,7 @@
                     >
                       <i class="fas fa-bars-staggered" />
                       <span>{{
-                        showStableNotes
-                          ? $t('index.hide_notes') || 'Hide Notes'
-                          : $t('index.view_notes') || 'Release Notes'
+                        showStableNotes ? $t('index.hide_notes') : $t('index.view_notes')
                       }}</span>
                     </n-button>
                     <n-button
@@ -634,11 +601,6 @@ const crashDumpTimeFormatter = computed(
       timeStyle: 'short',
     }),
 );
-
-const translate = (key: string, fallback: string) => {
-  const value = $t(key);
-  return value === key ? fallback : value;
-};
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return !!value && typeof value === 'object';
@@ -890,7 +852,7 @@ async function exportCrashBundleAsync() {
       await downloadCrashBundlePart(1);
     }
   } catch {
-    message.error(translate('config.crash_dump_export_error', 'Failed to export crash bundle.'));
+    message.error($t('config.crash_dump_export_error'));
   } finally {
     exportCrashPending.value = false;
   }
@@ -967,23 +929,13 @@ async function installVulkanHdrLayer() {
       r.status >= 200 && r.status < 300 && (r.data?.status === true || r.data?.installed === true);
     await refreshVulkanHdrLayerStatus();
     if (ok && vulkanHdrLayer.value?.installed) {
-      message.success(translate('vulkan_hdr.install_success', 'Vulkan HDR layer installed.'));
+      message.success($t('vulkan_hdr.install_success'));
     } else {
-      message.error(
-        translate(
-          'vulkan_hdr.install_error',
-          'Failed to install the Vulkan HDR layer. Make sure Sunshine is running with administrator privileges.',
-        ),
-      );
+      message.error($t('vulkan_hdr.install_error'));
     }
   } catch {
     await refreshVulkanHdrLayerStatus();
-    message.error(
-      translate(
-        'vulkan_hdr.install_error',
-        'Failed to install the Vulkan HDR layer. Make sure Sunshine is running with administrator privileges.',
-      ),
-    );
+    message.error($t('vulkan_hdr.install_error'));
   } finally {
     vulkanHdrLayerInstalling.value = false;
   }
@@ -1005,7 +957,7 @@ async function dismissCrashBundle() {
     captured_at: crashDump.value.captured_at,
   };
   if (!payload.filename || !payload.captured_at) {
-    message.error($t('config.crash_dump_dismiss_error') || 'Failed to dismiss crash notification.');
+    message.error($t('config.crash_dump_dismiss_error'));
     return;
   }
   try {
@@ -1018,7 +970,7 @@ async function dismissCrashBundle() {
         dismissed: true,
         dismissed_at: r.data.dismissed_at || new Date().toISOString(),
       };
-      message.success($t('config.crash_dump_dismiss_success') || 'Crash notification dismissed.');
+      message.success($t('config.crash_dump_dismiss_success'));
       await refreshCrashDumpStatus();
     } else {
       const errData = r.data && (r.data.error || r.data.message);
@@ -1032,15 +984,11 @@ async function dismissCrashBundle() {
           await refreshCrashDumpStatus();
         }
       }
-      message.error(
-        errMessage ||
-          $t('config.crash_dump_dismiss_error') ||
-          'Failed to dismiss crash notification.',
-      );
+      message.error(errMessage || $t('config.crash_dump_dismiss_error'));
     }
   } catch {
     await refreshCrashDumpStatus();
-    message.error($t('config.crash_dump_dismiss_error') || 'Failed to dismiss crash notification.');
+    message.error($t('config.crash_dump_dismiss_error'));
   }
 }
 
@@ -1104,7 +1052,7 @@ const crashDumpMessage = computed(() => {
     const captured = new Date(crashDump.value.captured_at);
     if (!Number.isNaN(captured.getTime())) {
       const rel = formatRelativeTime(captured);
-      if (rel) return `Crash detected ${rel}.`;
+      if (rel) return $t('config.crash_dump_detected_relative', { time: rel });
     }
   }
   return '';
@@ -1211,23 +1159,13 @@ const playniteMissingPluginBannerText = computed(() => {
   const details: string[] = [];
   if (playniteAutoSyncedAppsCount.value > 0) {
     const count = playniteAutoSyncedAppsCount.value;
-    details.push(
-      $t(
-        count === 1 ? 'index.playnite_auto_synced_app_one' : 'index.playnite_auto_synced_app_many',
-        {
-          count,
-        },
-      ),
-    );
+    details.push($t('playnite.auto_synced_apps', { count }));
   }
   if (hasPlayniteFullscreenApp.value) {
-    details.push($t('index.playnite_fullscreen_launcher_entry'));
+    details.push($t('playnite.fullscreen_launcher_entry'));
   }
-  const detected =
-    details.length > 1
-      ? $t('index.playnite_detected_two_items', { first: details[0], second: details[1] })
-      : (details[0] ?? $t('index.playnite_entries'));
-  return $t('index.playnite_missing_plugin_banner', { detected });
+  const detected = details.join(', ') || $t('playnite.entries');
+  return $t('playnite.missing_plugin_message', { details: detected });
 });
 
 async function resolvePlaynitePluginIssue() {
@@ -1242,16 +1180,16 @@ async function resolvePlaynitePluginIssue() {
     const body = r.data as any;
     const ok = r.status >= 200 && r.status < 300 && body && body.status === true;
     if (ok) {
-      message.success($t('index.playnite_plugin_reinstalled'));
+      message.success($t('playnite.plugin_reinstalled'));
       await refreshPlayniteAndApps();
     } else {
       const err = (body && (body.error || body.message)) || `HTTP ${r.status}`;
-      message.error($t('index.playnite_plugin_reinstall_failed', { error: err }));
+      message.error($t('playnite.plugin_reinstall_failed', { error: err }));
     }
   } catch (e: any) {
     message.error(
-      $t('index.playnite_plugin_reinstall_failed', {
-        error: e?.message || $t('index.request_failed'),
+      $t('playnite.plugin_reinstall_failed', {
+        error: e?.message || $t('playnite.update_failed'),
       }),
     );
   } finally {
@@ -1267,7 +1205,7 @@ async function purgePlayniteGames() {
     const snapshot = getAppsSnapshot();
     const playniteApps = snapshot.filter((app) => isPlayniteApp(app) && !!app.uuid);
     if (!playniteApps.length) {
-      message.info($t('index.playnite_no_apps_to_purge'));
+      message.info($t('playnite.no_apps_to_purge'));
       await refreshPlayniteAndApps();
       return;
     }
@@ -1287,14 +1225,12 @@ async function purgePlayniteGames() {
     } catch {}
     await refreshPlayniteAndApps();
     const removed = playniteApps.length;
-    message.success(
-      $t(removed === 1 ? 'index.playnite_removed_app_one' : 'index.playnite_removed_app_many', {
-        count: removed,
-      }),
-    );
+    message.success($t('playnite.apps_purged', { count: removed }));
   } catch (e: any) {
     message.error(
-      $t('index.playnite_purge_failed', { error: e?.message || $t('index.request_failed') }),
+      $t('playnite.apps_purge_failed', {
+        error: e?.message || $t('playnite.update_failed'),
+      }),
     );
     await refreshPlayniteAndApps();
   } finally {
@@ -1304,9 +1240,9 @@ async function purgePlayniteGames() {
 
 function openPurgePlayniteGamesConfirm() {
   dialog.warning({
-    title: $t('index.playnite_purge_confirm_title'),
-    content: $t('index.playnite_purge_confirm_content'),
-    positiveText: $t('index.playnite_purge_confirm_positive'),
+    title: $t('playnite.purge_apps_title'),
+    content: $t('playnite.purge_apps_body'),
+    positiveText: $t('_common.delete'),
     negativeText: $t('_common.cancel'),
     onPositiveClick: async () => {
       await purgePlayniteGames();
@@ -1316,12 +1252,10 @@ function openPurgePlayniteGamesConfirm() {
 
 async function onPlayniteReinstallDone(res: { ok: boolean; error?: string }) {
   if (res.ok) {
-    message.success($t('index.playnite_extension_updated'));
+    message.success($t('playnite.extension_updated'));
   } else {
     message.error(
-      res.error
-        ? $t('index.playnite_extension_update_failed_with_error', { error: res.error })
-        : $t('index.playnite_extension_update_failed'),
+      res.error ? `${$t('playnite.update_failed')}: ${res.error}` : $t('playnite.update_failed'),
     );
   }
   await refreshPlayniteAndApps();

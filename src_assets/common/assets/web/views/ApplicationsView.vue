@@ -1,14 +1,14 @@
 <template>
-  <div class="applications-page space-y-5 px-2 md:px-4">
+  <div class="applications-page space-y-5">
     <!-- Header card -->
     <section class="apps-header">
       <div class="apps-header__intro">
-        <h2 class="apps-header__title">{{ $t('apps.page_title') }}</h2>
+        <h2 class="apps-header__title">{{ $t('apps.applications_title') }}</h2>
         <p class="apps-header__description">
-          {{ $t('apps.page_desc') }}
+          {{ $t('apps.applications_intro') }}
           <span v-if="apps && apps.length" class="apps-header__count">
             <span aria-hidden="true">•</span>
-            {{ appCountLabel }}
+            {{ $t('apps.app_count', { count: apps.length }) }}
           </span>
         </p>
       </div>
@@ -73,7 +73,7 @@
               v-if="appHasPlayniteIcon(app)"
               class="apps-row__icon"
               :src="playniteIconUrl(app)"
-              :alt="app.name || $t('apps.image_alt_application')"
+              :alt="app.name || $t('apps.app_name')"
               loading="lazy"
               @error="onPlayniteIconError(app)"
             />
@@ -88,7 +88,7 @@
             <div class="apps-row__title-line">
               <span class="apps-row__title">{{ app.name || $t('apps.untitled') }}</span>
               <span v-if="app['playnite-id']" class="apps-row__badge apps-row__badge--playnite">
-                Playnite
+                {{ $t('apps.playnite_badge') }}
                 <span v-if="playniteSourceLabel(app)" class="apps-row__badge-detail">
                   · {{ playniteSourceLabel(app) }}
                 </span>
@@ -110,9 +110,9 @@
         <div class="apps-empty__icon">
           <i class="fas fa-th-large" aria-hidden="true" />
         </div>
-        <h3 class="apps-empty__title">{{ $t('apps.empty_title') }}</h3>
+        <h3 class="apps-empty__title">{{ $t('apps.no_applications_yet') }}</h3>
         <p class="apps-empty__description">
-          {{ $t('apps.empty_desc') }}
+          {{ $t('apps.no_applications_hint') }}
         </p>
         <div class="apps-empty__actions">
           <n-button type="primary" size="medium" strong @click="openAdd">
@@ -143,8 +143,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, defineAsyncComponent } from 'vue';
-import { useI18n } from 'vue-i18n';
+import { ref, onMounted, computed } from 'vue';
+import AppEditModal from '@/components/AppEditModal.vue';
 import { useAppsStore } from '@/stores/apps';
 import { storeToRefs } from 'pinia';
 import { NButton } from 'naive-ui';
@@ -152,9 +152,9 @@ import { useConfigStore } from '@/stores/config';
 import { http } from '@/http';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
+import { useI18n } from 'vue-i18n';
 import type { App } from '@/stores/apps';
 
-const AppEditModal = defineAsyncComponent(() => import('@/components/AppEditModal.vue'));
 const appsStore = useAppsStore();
 const { apps } = storeToRefs(appsStore);
 const configStore = useConfigStore();
@@ -170,10 +170,6 @@ const isWindows = computed(
 const playniteInstalled = ref(false);
 const playniteStatusReady = ref(false);
 const playniteEnabled = computed(() => playniteInstalled.value);
-const appCountLabel = computed(() => {
-  const count = apps.value?.length || 0;
-  return t(count === 1 ? 'apps.count_one' : 'apps.count_many', { count });
-});
 
 const showModal = ref(false);
 const currentApp = ref<App | null>(null);
@@ -243,10 +239,17 @@ function appSubtitle(app: App): string {
 }
 
 function playniteSourceLabel(app: App): string {
-  if (app['playnite-managed'] === 'manual') return t('apps.source_manual');
+  if (app['playnite-managed'] === 'manual') return t('apps.playnite_source_manual');
   const src = app['playnite-source'];
-  if (typeof src === 'string' && src.length > 0) return src.split('+').join(' + ');
-  return t('apps.source_managed');
+  if (typeof src === 'string' && src.length > 0) {
+    const normalized = src.replace(/\s/g, '');
+    if (normalized === 'recent') return t('apps.playnite_source_recent');
+    if (normalized === 'category') return t('apps.playnite_source_category');
+    if (normalized === 'recent+category' || normalized === 'category+recent')
+      return t('apps.playnite_source_both');
+    return t('apps.playnite_source_unknown');
+  }
+  return t('apps.playnite_source_managed');
 }
 
 async function forceSync(): Promise<void> {

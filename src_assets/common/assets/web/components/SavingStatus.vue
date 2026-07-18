@@ -4,13 +4,15 @@
     type="default"
     strong
     size="small"
-    class="flex items-center gap-2 text-xs select-none n-button--linkish"
-    :class="{ 'cursor-pointer': canSave }"
+    :circle="props.compact"
+    class="saving-status flex items-center gap-2 text-xs select-none n-button--linkish"
+    :class="{ 'cursor-pointer': canSave, 'saving-status--compact': props.compact }"
+    :aria-label="label"
     :title="tooltip"
     @click="onClick"
   >
     <i :class="iconClass" />
-    <span class="opacity-80">{{ label }}</span>
+    <span v-if="!props.compact" class="saving-status__label opacity-80">{{ label }}</span>
   </n-button>
 </template>
 
@@ -24,10 +26,16 @@ import { NButton, useMessage } from 'naive-ui';
 import { http } from '@/http';
 
 const route = useRoute();
-const { t } = useI18n();
+const props = defineProps<{
+  compact?: boolean;
+}>();
 const store = useConfigStore();
 const { savingState, manualDirty, validationError } = storeToRefs(store);
 const message = useMessage();
+const { t } = useI18n();
+const validationMessage = computed(() =>
+  validationError.value ? t(validationError.value) : t('validation.save_failed'),
+);
 const hasPending = computed(() => store.hasPendingPatch());
 const restartRequired = computed(
   () => !!(store.lastSaveResult && store.lastSaveResult.restartRequired),
@@ -61,23 +69,23 @@ const canSave = computed(
 
 const label = computed(() => {
   if (hasPending.value) {
-    return t('settings.save_status.auto_save_in', { seconds: countdown.value });
+    return t('saving_status.autosave_in', { seconds: countdown.value });
   }
   switch (savingState.value) {
     case 'saving':
-      return t('settings.save_status.saving');
+      return t('saving_status.saving');
     case 'dirty':
       return manualDirty.value
-        ? t('settings.save_status.unsaved_click')
-        : t('settings.save_status.unsaved');
+        ? t('saving_status.dirty_manual')
+        : t('saving_status.dirty');
     case 'saved':
       return restartRequired.value
-        ? t('settings.save_status.saved_restart')
-        : t('settings.save_status.saved');
+        ? t('saving_status.saved_restart')
+        : t('saving_status.saved');
     case 'error':
-      return t('settings.save_status.error_retry');
+      return t('saving_status.error');
     default:
-      return t('settings.save_status.waiting');
+      return t('saving_status.waiting');
   }
 });
 
@@ -101,13 +109,14 @@ const iconClass = computed(() => {
 });
 
 const tooltip = computed(() => {
-  if (savingState.value === 'error' && validationError.value) return validationError.value;
+  if (savingState.value === 'error' && validationError.value) return validationMessage.value;
   if (hasPending.value)
-    return t('settings.save_status.auto_save_tooltip', {
+    return t('saving_status.tooltip_autosave', {
       seconds: Math.round(intervalMs.value / 1000),
     });
-  if (restartRequired.value) return t('settings.save_status.restart_tooltip');
-  return t('settings.save_status.auto_save_hint');
+  if (restartRequired.value)
+    return t('saving_status.tooltip_restart');
+  return t('saving_status.tooltip_general');
 });
 
 async function onClick() {
@@ -125,7 +134,7 @@ async function onClick() {
       const ok = await store.flushPatchQueue();
       if (!ok) {
         try {
-          message.error(validationError.value || t('settings.save_status.save_failed'), {
+          message.error(validationMessage.value, {
             duration: 5000,
           });
         } catch {}
@@ -135,7 +144,7 @@ async function onClick() {
     const ok = await store.save();
     if (!ok) {
       try {
-        message.error(validationError.value || t('settings.save_status.save_failed'), {
+        message.error(validationMessage.value, {
           duration: 5000,
         });
       } catch {}

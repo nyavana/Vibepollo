@@ -13,9 +13,8 @@ const store = useConfigStore();
 const config = store.config;
 const dummyPlugHdrActive = computed(() => !!config.dd_wa_dummy_plug_hdr10);
 
-// Mirror the virtual-display detection used in DisplayDeviceOptions so the limiter copy can
-// explain the automatic behavior (4x refresh + auto limiter + NVIDIA Reflex) that kicks in
-// whenever a virtual screen is in use.
+// Mirror the virtual-display detection used in DisplayDeviceOptions so the capture-mode copy
+// appears only when a virtual screen is selected.
 const VIRTUAL_DISPLAY_SELECTION = 'sunshine:virtual_display';
 const usingVirtualDisplay = computed(() => {
   const mode = config.virtual_display_mode;
@@ -75,6 +74,43 @@ const frameLimiterProvider = computed({
   set: (value: string) => {
     config.frame_limiter_provider = value;
   },
+});
+
+type VirtualCaptureMode = 'enabled' | 'disabled' | 'legacy';
+
+function normalizeVirtualCaptureMode(value: unknown): VirtualCaptureMode {
+  const normalized = String(value ?? '')
+    .toLowerCase()
+    .trim();
+  if (normalized === 'legacy' || normalized === '2x' || normalized === 'fixed-2x') {
+    return 'legacy';
+  }
+  if (
+    value === false ||
+    value === 0 ||
+    ['false', 'no', 'disable', 'disabled', 'off', '0'].includes(normalized)
+  ) {
+    return 'disabled';
+  }
+  return 'enabled';
+}
+
+const virtualCaptureMode = computed<VirtualCaptureMode>({
+  get: () => normalizeVirtualCaptureMode(config.frame_limiter_auto_virtual_framegen),
+  set: (value) => {
+    config.frame_limiter_auto_virtual_framegen = value;
+  },
+});
+
+const virtualCaptureSummary = computed(() => {
+  switch (virtualCaptureMode.value) {
+    case 'disabled':
+      return t('frameLimiter.virtual.summaryDisabled');
+    case 'legacy':
+      return t('frameLimiter.virtual.summaryLegacy');
+    default:
+      return t('frameLimiter.virtual.summaryEnabled');
+  }
 });
 
 const providerLabelFor = (id: string) => {
@@ -153,43 +189,6 @@ const rtssDetected = computed(() => {
 const rtssUsable = computed(() => !!status.value?.rtss_available || rtssDetected.value);
 const nvDriverFallbackReady = computed(() => nvidiaDetected.value && nvcpReady.value);
 
-// Virtual screens always get a stream-start frame cap: NVIDIA Reflex through RTSS when it is
-// installed, otherwise the NVIDIA driver's limiter. Surface which path will be taken so users
-// understand what installing RTSS buys them.
-const limiterPath = computed(() => {
-  if (!status.value) {
-    return { text: t('frameLimiter.virtual.pathChecking'), tone: 'neutral' };
-  }
-  if (rtssUsable.value) {
-    return nvidiaDetected.value
-      ? { text: t('frameLimiter.virtual.pathRtssReflex'), tone: 'success' }
-      : { text: t('frameLimiter.virtual.pathRtss'), tone: 'success' };
-  }
-  if (nvDriverFallbackReady.value) {
-    return { text: t('frameLimiter.virtual.pathNvDriver'), tone: 'warning' };
-  }
-  return { text: t('frameLimiter.virtual.pathNone'), tone: 'warning' };
-});
-
-const limiterPathBadgeClass = computed(() => {
-  switch (limiterPath.value.tone) {
-    case 'success':
-      return 'bg-success/10 text-success';
-    case 'warning':
-      return 'bg-warning/10 text-warning';
-    default:
-      return 'bg-primary/10 opacity-80';
-  }
-});
-
-const virtualSteps = computed(() => [
-  t('frameLimiter.virtual.step1'),
-  !status.value || nvidiaDetected.value
-    ? t('frameLimiter.virtual.step2Nvidia')
-    : t('frameLimiter.virtual.step2Generic'),
-  t('frameLimiter.virtual.step3'),
-]);
-
 const rtssMissingText = computed(() =>
   nvDriverFallbackReady.value
     ? t('frameLimiter.rtssMissingNvFallback')
@@ -253,7 +252,7 @@ const showSyncLimiterSelect = computed(() => {
 
 const showSyncLimiterHelp = computed(() => showSyncLimiterSelect.value);
 
-const autoVirtualLimiter = computed(() => !!config.frame_limiter_auto_virtual_framegen);
+const autoVirtualLimiter = computed(() => virtualCaptureMode.value !== 'disabled');
 
 // The auto-limit policy forces the limiter on for virtual screens even when the global
 // toggle is off, so treat that combination as healthy rather than warning about it.
@@ -361,10 +360,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <fieldset class="border border-dark/35 dark:border-light/25 rounded-xl p-4">
-    <legend class="px-2 text-sm font-medium">
+  <section class="min-w-0">
+    <h4 class="mb-3 break-words text-sm font-semibold leading-snug">
       {{ stepLabel }}: {{ t('frameLimiter.stepTitle') }}
-    </legend>
+    </h4>
 
     <div
       v-if="usingVirtualDisplay"
@@ -374,33 +373,8 @@ onMounted(() => {
         <i class="fas fa-tachometer-alt mt-0.5 text-[15px] opacity-80" />
         <div>
           <div class="text-[13px] font-semibold">{{ t('frameLimiter.virtual.title') }}</div>
-          <p class="mt-1 leading-relaxed opacity-80">{{ t('frameLimiter.virtual.why') }}</p>
-          <p class="mt-2 leading-relaxed opacity-80">{{ t('frameLimiter.virtual.whyCap') }}</p>
+          <p class="mt-1 leading-relaxed opacity-80">{{ virtualCaptureSummary }}</p>
         </div>
-      </div>
-      <div class="mt-3 font-medium">{{ t('frameLimiter.virtual.autoHeading') }}</div>
-      <ol class="mt-2 space-y-2">
-        <li v-for="(step, index) in virtualSteps" :key="index" class="flex items-start gap-2">
-          <span
-            class="mt-px flex h-4 w-4 flex-none items-center justify-center rounded-full bg-primary/20 text-[10px] font-semibold leading-none"
-          >
-            {{ index + 1 }}
-          </span>
-          <span class="leading-snug opacity-80">{{ step }}</span>
-        </li>
-      </ol>
-      <div class="mt-3 flex flex-wrap items-center gap-2">
-        <span class="text-[11px] uppercase tracking-wide opacity-70">
-          {{ t('frameLimiter.virtual.pathLabel') }}
-        </span>
-        <span
-          :class="[
-            'inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-medium',
-            limiterPathBadgeClass,
-          ]"
-        >
-          {{ limiterPath.text }}
-        </span>
       </div>
     </div>
     <div
@@ -416,14 +390,22 @@ onMounted(() => {
         v-if="status || statusError"
         :class="['rounded-lg px-4 py-3 text-[12px]', statusBadgeClass]"
       >
-        <div class="flex items-center justify-between gap-3">
-          <div class="flex items-center gap-2">
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex min-w-0 items-start gap-2">
             <i :class="statusIcon" />
             <span class="font-medium leading-tight">{{ statusMessage }}</span>
           </div>
-          <n-button size="tiny" type="default" strong :loading="loading" @click="refreshStatus">
+          <n-button
+            size="tiny"
+            type="default"
+            strong
+            class="flex-none"
+            :loading="loading"
+            :aria-label="t('frameLimiter.actions.refresh')"
+            @click="refreshStatus"
+          >
             <i class="fas fa-sync" />
-            <span class="ml-1">{{ t('frameLimiter.actions.refresh') }}</span>
+            <span class="ml-1 hidden sm:inline">{{ t('frameLimiter.actions.refresh') }}</span>
           </n-button>
         </div>
         <p
@@ -469,8 +451,9 @@ onMounted(() => {
       />
 
       <ConfigFieldRenderer
-        v-model="config.frame_limiter_auto_virtual_framegen"
+        v-model="virtualCaptureMode"
         setting-key="frame_limiter_auto_virtual_framegen"
+        kind="select"
         :label="t('frameLimiter.autoVirtualFramegenLabel')"
         :desc="t('frameLimiter.autoVirtualFramegenHint')"
       />
@@ -505,102 +488,8 @@ onMounted(() => {
 
       <div
         v-if="showSyncLimiterHelp"
-        class="rounded-lg border border-primary/30 bg-primary/5 p-4 text-[12px]"
+        class="rounded-lg bg-primary/5 p-3 text-[12px] sm:p-4"
       >
-        <div class="text-[13px] font-medium">{{ t('rtss.sync_limiter_help_heading') }}</div>
-        <div class="mt-1 opacity-80">{{ t('rtss.sync_limiter_help_blurb') }}</div>
-        <div class="mt-3 desktop-sync-table">
-          <div class="overflow-x-auto">
-            <n-table
-              size="small"
-              :single-line="false"
-              :bordered="false"
-              class="min-w-full text-left whitespace-normal break-words"
-            >
-              <thead>
-                <tr
-                  class="border-b border-primary/30 text-[11px] uppercase tracking-wide opacity-70"
-                >
-                  <th scope="col" class="pb-2 pr-4 font-medium">
-                    {{ t('rtss.sync_limiter_help_mode') }}
-                  </th>
-                  <th scope="col" class="pb-2 pr-4 font-medium">
-                    {{ t('rtss.sync_limiter_help_latency') }}
-                  </th>
-                  <th scope="col" class="pb-2 pr-4 font-medium">
-                    {{ t('rtss.sync_limiter_help_stutter') }}
-                  </th>
-                  <th scope="col" class="pb-2 pr-4 font-medium">
-                    {{ t('rtss.sync_limiter_help_advantages') }}
-                  </th>
-                  <th scope="col" class="pb-2 pr-4 font-medium">
-                    {{ t('rtss.sync_limiter_help_disadvantages') }}
-                  </th>
-                  <th scope="col" class="pb-2 font-medium">
-                    {{ t('rtss.sync_limiter_help_usage') }}
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  v-for="row in syncLimiterHelpRows"
-                  :key="row.id"
-                  class="border-b border-primary/20 last:border-0"
-                >
-                  <th scope="row" class="py-3 pr-4 text-[12px] font-medium align-top">
-                    <span class="font-semibold">{{ row.label }}</span>
-                  </th>
-                  <td class="py-3 pr-4 align-top text-[12px]">{{ row.latency }}</td>
-                  <td class="py-3 pr-4 align-top text-[12px]">{{ row.stutter }}</td>
-                  <td class="py-3 pr-4 align-top text-[12px]">{{ row.advantages }}</td>
-                  <td class="py-3 pr-4 align-top text-[12px]">{{ row.disadvantages }}</td>
-                  <td class="py-3 align-top text-[12px]">{{ row.use }}</td>
-                </tr>
-              </tbody>
-            </n-table>
-          </div>
-        </div>
-        <div class="mt-3 space-y-3 mobile-sync-list">
-          <div
-            v-for="row in syncLimiterHelpRows"
-            :key="row.id"
-            class="rounded-lg border border-primary/20 bg-primary/10 p-3"
-          >
-            <div class="text-[13px] font-semibold">{{ row.label }}</div>
-            <dl class="mt-2 space-y-2">
-              <div>
-                <dt class="text-[11px] uppercase tracking-wide opacity-70">
-                  {{ t('rtss.sync_limiter_help_latency') }}
-                </dt>
-                <dd class="text-[12px] leading-snug">{{ row.latency }}</dd>
-              </div>
-              <div>
-                <dt class="text-[11px] uppercase tracking-wide opacity-70">
-                  {{ t('rtss.sync_limiter_help_stutter') }}
-                </dt>
-                <dd class="text-[12px] leading-snug">{{ row.stutter }}</dd>
-              </div>
-              <div>
-                <dt class="text-[11px] uppercase tracking-wide opacity-70">
-                  {{ t('rtss.sync_limiter_help_advantages') }}
-                </dt>
-                <dd class="text-[12px] leading-snug">{{ row.advantages }}</dd>
-              </div>
-              <div>
-                <dt class="text-[11px] uppercase tracking-wide opacity-70">
-                  {{ t('rtss.sync_limiter_help_disadvantages') }}
-                </dt>
-                <dd class="text-[12px] leading-snug">{{ row.disadvantages }}</dd>
-              </div>
-              <div>
-                <dt class="text-[11px] uppercase tracking-wide opacity-70">
-                  {{ t('rtss.sync_limiter_help_usage') }}
-                </dt>
-                <dd class="text-[12px] leading-snug">{{ row.use }}</dd>
-              </div>
-            </dl>
-          </div>
-        </div>
         <ConfigFieldRenderer
           v-if="showSyncLimiterSelect"
           v-model="config.rtss_frame_limit_type"
@@ -609,9 +498,114 @@ onMounted(() => {
           :desc="syncLimiterHint"
           :options="syncLimiterOptions"
         />
+
+        <details class="sync-comparison mt-3 border-t border-primary/20 pt-3">
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-3 py-1">
+            <span class="text-[13px] font-medium">{{ t('rtss.sync_limiter_help_heading') }}</span>
+            <i class="fas fa-chevron-down text-[11px] opacity-60 transition-transform" />
+          </summary>
+          <div class="mt-1 opacity-80">{{ t('rtss.sync_limiter_help_blurb') }}</div>
+          <div class="mt-3 desktop-sync-table">
+            <div class="overflow-x-auto">
+              <n-table
+                size="small"
+                :single-line="false"
+                :bordered="false"
+                class="min-w-full text-left whitespace-normal break-words"
+              >
+                <thead>
+                  <tr
+                    class="border-b border-primary/30 text-[11px] uppercase tracking-wide opacity-70"
+                  >
+                    <th scope="col" class="pb-2 pr-4 font-medium">
+                      {{ t('rtss.sync_limiter_help_mode') }}
+                    </th>
+                    <th scope="col" class="pb-2 pr-4 font-medium">
+                      {{ t('rtss.sync_limiter_help_latency') }}
+                    </th>
+                    <th scope="col" class="pb-2 pr-4 font-medium">
+                      {{ t('rtss.sync_limiter_help_stutter') }}
+                    </th>
+                    <th scope="col" class="pb-2 pr-4 font-medium">
+                      {{ t('rtss.sync_limiter_help_advantages') }}
+                    </th>
+                    <th scope="col" class="pb-2 pr-4 font-medium">
+                      {{ t('rtss.sync_limiter_help_disadvantages') }}
+                    </th>
+                    <th scope="col" class="pb-2 font-medium">
+                      {{ t('rtss.sync_limiter_help_usage') }}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="row in syncLimiterHelpRows"
+                    :key="row.id"
+                    class="border-b border-primary/20 last:border-0"
+                  >
+                    <th scope="row" class="py-3 pr-4 text-[12px] font-medium align-top">
+                      <span class="font-semibold">{{ row.label }}</span>
+                    </th>
+                    <td class="py-3 pr-4 align-top text-[12px]">{{ row.latency }}</td>
+                    <td class="py-3 pr-4 align-top text-[12px]">{{ row.stutter }}</td>
+                    <td class="py-3 pr-4 align-top text-[12px]">{{ row.advantages }}</td>
+                    <td class="py-3 pr-4 align-top text-[12px]">{{ row.disadvantages }}</td>
+                    <td class="py-3 align-top text-[12px]">{{ row.use }}</td>
+                  </tr>
+                </tbody>
+              </n-table>
+            </div>
+          </div>
+          <div class="mt-3 space-y-2 mobile-sync-list">
+            <details
+              v-for="row in syncLimiterHelpRows"
+              :key="row.id"
+              class="mode-card rounded-lg border border-primary/20 bg-primary/10"
+            >
+              <summary
+                class="flex cursor-pointer list-none items-center justify-between gap-3 px-3 py-2.5"
+              >
+                <span class="text-[13px] font-semibold">{{ row.label }}</span>
+                <i class="fas fa-chevron-down text-[10px] opacity-60 transition-transform" />
+              </summary>
+              <dl class="space-y-2 border-t border-primary/15 px-3 py-3">
+                <div>
+                  <dt class="text-[11px] uppercase tracking-wide opacity-70">
+                    {{ t('rtss.sync_limiter_help_latency') }}
+                  </dt>
+                  <dd class="text-[12px] leading-snug">{{ row.latency }}</dd>
+                </div>
+                <div>
+                  <dt class="text-[11px] uppercase tracking-wide opacity-70">
+                    {{ t('rtss.sync_limiter_help_stutter') }}
+                  </dt>
+                  <dd class="text-[12px] leading-snug">{{ row.stutter }}</dd>
+                </div>
+                <div>
+                  <dt class="text-[11px] uppercase tracking-wide opacity-70">
+                    {{ t('rtss.sync_limiter_help_advantages') }}
+                  </dt>
+                  <dd class="text-[12px] leading-snug">{{ row.advantages }}</dd>
+                </div>
+                <div>
+                  <dt class="text-[11px] uppercase tracking-wide opacity-70">
+                    {{ t('rtss.sync_limiter_help_disadvantages') }}
+                  </dt>
+                  <dd class="text-[12px] leading-snug">{{ row.disadvantages }}</dd>
+                </div>
+                <div>
+                  <dt class="text-[11px] uppercase tracking-wide opacity-70">
+                    {{ t('rtss.sync_limiter_help_usage') }}
+                  </dt>
+                  <dd class="text-[12px] leading-snug">{{ row.use }}</dd>
+                </div>
+              </dl>
+            </details>
+          </div>
+        </details>
       </div>
     </div>
-  </fieldset>
+  </section>
 </template>
 
 <style scoped>
@@ -624,7 +618,12 @@ onMounted(() => {
   flex-direction: column;
 }
 
-@media (min-width: 768px) {
+.sync-comparison[open] > summary i,
+.mode-card[open] > summary i {
+  transform: rotate(180deg);
+}
+
+@media (min-width: 1280px) {
   .desktop-sync-table {
     display: block;
   }

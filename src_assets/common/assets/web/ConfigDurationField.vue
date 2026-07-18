@@ -8,7 +8,7 @@ import ConfigFieldShell from './ConfigFieldShell.vue';
 
 const model = defineModel<number | null>({ required: true });
 const attrs = useAttrs();
-const { t } = useI18n();
+const { t, locale } = useI18n();
 
 const props = withDefaults(
   defineProps<{
@@ -78,20 +78,28 @@ function updateDurationPart(part: 'hours' | 'minutes' | 'seconds', value: number
   syncFromModel(model.value);
 }
 
+function formatDurationPart(value: number, unit: 'hour' | 'minute' | 'second') {
+  return new Intl.NumberFormat(locale.value.replace('_', '-'), {
+    style: 'unit',
+    unit,
+    unitDisplay: 'narrow',
+    maximumFractionDigits: 0,
+  }).format(value);
+}
+
 const durationSummary = computed(() => {
   if (model.value === null || model.value === undefined || !Number.isFinite(model.value)) {
-    return t('config_duration.stored_seconds');
+    return t('_common.duration_stored_as_seconds');
   }
 
   const totalSeconds = Math.max(0, Math.floor(model.value));
   const parts: string[] = [];
-  if (hoursPart.value) parts.push(t('config_duration.part_hours', { count: hoursPart.value }));
-  if (minutesPart.value)
-    parts.push(t('config_duration.part_minutes', { count: minutesPart.value }));
+  if (hoursPart.value) parts.push(formatDurationPart(hoursPart.value, 'hour'));
+  if (minutesPart.value) parts.push(formatDurationPart(minutesPart.value, 'minute'));
   if (secondsPart.value || parts.length === 0)
-    parts.push(t('config_duration.part_seconds', { count: secondsPart.value ?? 0 }));
-  return t('config_duration.summary', {
-    parts: parts.join(' '),
+    parts.push(formatDurationPart(secondsPart.value ?? 0, 'second'));
+  return t('_common.duration_summary', {
+    duration: parts.join(' '),
     seconds: totalSeconds,
   });
 });
@@ -109,7 +117,7 @@ const durationSummary = computed(() => {
       <div class="grid grid-cols-3 gap-2">
         <div class="space-y-1">
           <div class="text-[11px] font-medium uppercase tracking-wide opacity-60">
-            {{ $t('config_duration.hours') }}
+            {{ $t('_common.hours') }}
           </div>
           <n-input-number
             :id="`${props.id}-hours`"
@@ -126,7 +134,7 @@ const durationSummary = computed(() => {
 
         <div class="space-y-1">
           <div class="text-[11px] font-medium uppercase tracking-wide opacity-60">
-            {{ $t('config_duration.minutes') }}
+            {{ $t('_common.minutes') }}
           </div>
           <n-input-number
             :id="`${props.id}-minutes`"
@@ -144,7 +152,7 @@ const durationSummary = computed(() => {
 
         <div class="space-y-1">
           <div class="text-[11px] font-medium uppercase tracking-wide opacity-60">
-            {{ $t('config_duration.seconds') }}
+            {{ $t('_common.seconds') }}
           </div>
           <n-input-number
             :id="`${props.id}-seconds`"

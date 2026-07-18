@@ -1,7 +1,7 @@
 <template>
   <div class="grid min-w-0 gap-5 md:grid-cols-2">
     <section class="min-w-0 space-y-3">
-      <h3 class="text-lg font-semibold">{{ $t('resource_card.resources') || 'Resources' }}</h3>
+      <h3 class="text-lg font-semibold">{{ $t('resource_card.resources') }}</h3>
       <div class="space-y-2.5">
         <n-card
           v-for="item in resources"
@@ -70,30 +70,25 @@ import { NCard, NText } from 'naive-ui';
 
 const { t } = useI18n();
 
-function withFallback(key: string, fallback: string) {
-  const value = t(key);
-  return value === key ? fallback : value;
-}
-
 const resources = computed(() => [
   {
     href: 'https://moonlight-stream.org/discord',
     icon: 'fab fa-discord',
     title: 'Discord',
-    description: withFallback('resource_card.discord_desc', 'Join the community'),
+    description: t('resource_card.discord_desc'),
     avatarStyle: 'background-color: rgba(99, 102, 241, 0.15); color: rgb(99, 102, 241);',
   },
   {
     href: 'https://github.com/Nonary/Vibepollo/discussions',
     icon: 'fab fa-github',
     title: t('resource_card.github_discussions'),
-    description: t('resource_card.github_discussions_desc'),
+    description: t('resource_card.github_discussions'),
     avatarStyle: 'background-color: rgba(16, 185, 129, 0.15); color: rgb(16, 185, 129);',
   },
   {
     href: 'https://github.com/Nonary/Vibepollo/issues',
     icon: 'fab fa-github',
-    title: 'GitHub Issues',
+    title: t('resource_card.github_issues'),
     description: t('resource_card.github_issues_desc'),
     avatarStyle: 'background-color: rgba(59, 130, 246, 0.15); color: rgb(59, 130, 246);',
   },

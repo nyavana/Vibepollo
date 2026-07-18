@@ -36,6 +36,7 @@
   #include "src/logging.h"
   #include "src/platform/windows/display_helper_coordinator.h"
   #include "src/platform/windows/display_helper_request_helpers.h"
+  #include "src/platform/windows/display_helper_watchdog.h"
   #include "src/platform/windows/frame_limiter_nvcp.h"
   #include "src/platform/windows/impersonating_display_device.h"
   #include "src/platform/windows/ipc/display_settings_client.h"
@@ -126,7 +127,7 @@ namespace {
       state.session_snapshot.width = request.session->width;
       state.session_snapshot.height = request.session->height;
       state.session_snapshot.fps = request.session->fps;
-      state.session_snapshot.enable_hdr = request.session->enable_hdr;
+      state.session_snapshot.enable_hdr = rtsp_stream::effective_hdr_requested(*request.session);
       state.session_snapshot.enable_sops = request.session->enable_sops;
       state.session_snapshot.virtual_display = request.session->virtual_display;
       state.session_snapshot.virtual_display_device_id = request.session->virtual_display_device_id;
@@ -1053,7 +1054,7 @@ namespace {
       .width = width_override ? *width_override : session.width,
       .height = height_override ? *height_override : session.height,
       .fps = effective_fps,
-      .enable_hdr = session.enable_hdr,
+      .enable_hdr = rtsp_stream::effective_hdr_requested(session),
       .enable_sops = session.enable_sops,
       .virtual_display = virtual_display_override ? *virtual_display_override : session.virtual_display,
       .virtual_display_device_id = device_id_override ? *device_id_override : session.virtual_display_device_id,
@@ -1850,13 +1851,9 @@ namespace display_helper_integration {
       g_watchdog_running = false;
       thread = std::move(g_watchdog_thread);
     }
-    if (thread.joinable()) {
-      thread.request_stop();
-      try {
-        thread.join();
-      } catch (const std::system_error &e) {
-        BOOST_LOG(warning) << "Display helper: failed to join watchdog thread: " << e.what();
-      }
+    const auto stop_result = DisplayHelperWatchdog::stop_thread(thread);
+    if (stop_result == DisplayHelperWatchdog::ThreadStopResult::DetachedSelf) {
+      BOOST_LOG(debug) << "Display helper: watchdog requested its own stop; detached for safe exit.";
     }
     if (config::video.dd.config_revert_on_disconnect) {
       platf::display_helper_client::reset_connection();

@@ -198,7 +198,7 @@ function encodeLatencyClass(value: unknown): string {
 }
 
 function formatEncodeLatency(value: unknown): string {
-  if (!isFiniteNumber(value)) return t('sessions.metric_unavailable');
+  if (!isFiniteNumber(value)) return t('_common.unknown');
   return `${value.toFixed(1)}ms`;
 }
 </script>

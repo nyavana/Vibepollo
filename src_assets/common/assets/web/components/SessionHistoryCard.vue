@@ -24,6 +24,7 @@
         :row-key="rowKey"
         :row-props="rowProps"
         :bordered="false"
+        :scroll-x="900"
         size="small"
       />
     </n-spin>

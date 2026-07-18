@@ -1,5 +1,5 @@
 <template>
-  <div class="stats-page space-y-5 px-2 pb-10 md:px-4">
+  <div class="stats-page space-y-5 pb-10">
     <section class="stats-header">
       <div class="min-w-0">
         <h1 class="text-xl md:text-2xl font-semibold text-dark dark:text-light">
@@ -250,12 +250,19 @@ onUnmounted(() => {
 
 .stats-flow {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 18px;
 }
 
 .stats-grid {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 18px;
+}
+
+.stats-flow > *,
+.stats-grid > * {
+  min-width: 0;
 }
 
 @media (min-width: 1280px) {

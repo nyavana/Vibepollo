@@ -3,10 +3,10 @@
     <div class="flex items-center justify-between gap-3">
       <div>
         <div class="text-xs font-semibold uppercase tracking-wide opacity-70">
-          {{ t('app_edit.lossless_upscaling') }}
+          {{ $t('apps.framegen.lossless_title') }}
         </div>
         <p class="text-[11px] opacity-60">
-          {{ t('app_edit.lossless_upscaling_desc') }}
+          {{ $t('apps.framegen.lossless_subtitle') }}
         </p>
       </div>
       <n-switch v-model:value="form.losslessScalingEnabled" size="small" />
@@ -19,7 +19,7 @@
       size="small"
       class="text-xs"
     >
-      {{ t('app_edit.lossless_playnite_warning') }}
+      {{ $t('apps.framegen.lossless_unmanaged_warning') }}
     </n-alert>
     <n-alert
       v-if="
@@ -32,21 +32,21 @@
       size="small"
       class="text-xs"
     >
-      {{ t('app_edit.lossless_executable_missing') }}
+      {{ $t('apps.framegen.lossless_not_detected') }}
     </n-alert>
 
     <div v-if="form.losslessScalingEnabled" class="space-y-4">
       <div class="grid gap-3 md:grid-cols-2">
         <div class="space-y-1">
           <label class="text-xs font-semibold uppercase tracking-wide opacity-70">
-            {{ t('app_edit.profile') }}
+            {{ $t('apps.framegen.profile_label') }}
           </label>
           <n-radio-group v-model:value="form.losslessScalingProfile">
-            <n-radio value="recommended">{{ t('app_edit.lossless_profile_recommended') }}</n-radio>
-            <n-radio value="custom">{{ t('app_edit.lossless_profile_custom') }}</n-radio>
+            <n-radio value="recommended">{{ $t('apps.framegen.profile_recommended') }}</n-radio>
+            <n-radio value="custom">{{ $t('apps.framegen.profile_custom') }}</n-radio>
           </n-radio-group>
           <p class="text-[11px] opacity-60">
-            {{ t('app_edit.lossless_profile_desc') }}
+            {{ $t('apps.framegen.profile_hint') }}
           </p>
         </div>
         <div class="flex items-end justify-end">
@@ -56,7 +56,7 @@
             :disabled="!hasActiveLosslessOverrides"
             @click="resetActiveLosslessProfile"
           >
-            {{ t('app_edit.reset_profile_defaults') }}
+            {{ $t('apps.framegen.reset_profile') }}
           </n-button>
         </div>
       </div>
@@ -64,17 +64,17 @@
       <div class="space-y-3 p-3 rounded-md border border-primary/20 bg-primary/5">
         <div class="flex items-center gap-2">
           <i class="fas fa-info-circle text-primary"></i>
-          <div class="text-xs font-semibold">{{ t('app_edit.lossless_how_title') }}</div>
+          <div class="text-xs font-semibold">{{ $t('apps.framegen.lossless_how_it_works') }}</div>
         </div>
         <p class="text-[11px] opacity-70">
-          {{ t('app_edit.lossless_how_desc') }}
+          {{ $t('apps.framegen.lossless_how_it_works_desc') }}
         </p>
       </div>
 
       <div class="grid gap-3 md:grid-cols-2">
         <div class="space-y-1">
           <label class="text-xs font-semibold uppercase tracking-wide opacity-70">
-            {{ t('app_edit.lossless_upscaling_filter') }}
+            {{ $t('apps.framegen.upscaling_filter') }}
           </label>
           <n-select
             v-model:value="losslessScalingModeModel"
@@ -83,14 +83,14 @@
             :clearable="false"
           />
           <p class="text-[11px] opacity-60">
-            {{ t('app_edit.lossless_upscaling_filter_desc') }}
+            {{ $t('apps.framegen.upscaling_filter_hint') }}
           </p>
         </div>
 
         <div v-if="showLosslessResolution" class="space-y-1">
           <div class="flex items-center justify-between">
             <label class="text-xs font-semibold uppercase tracking-wide opacity-70">
-              {{ t('app_edit.lossless_resolution_scale') }}
+              {{ $t('apps.framegen.resolution_scale') }}
             </label>
             <n-radio-group
               v-model:value="resolutionInputMode"
@@ -98,12 +98,8 @@
               class="text-[11px]"
               button-style="solid"
             >
-              <n-radio-button value="factor">
-                {{ t('app_edit.lossless_scale_factor') }}
-              </n-radio-button>
-              <n-radio-button value="percent">
-                {{ t('app_edit.lossless_percent') }}
-              </n-radio-button>
+              <n-radio-button value="factor">{{ $t('apps.framegen.scale_factor') }}</n-radio-button>
+              <n-radio-button value="percent">{{ $t('apps.framegen.percent') }}</n-radio-button>
             </n-radio-group>
           </div>
           <div v-if="resolutionInputMode === 'factor'" class="space-y-1">
@@ -141,13 +137,13 @@
         size="small"
         class="text-xs"
       >
-        <strong>{{ t('app_edit.lossless_performance_note_title') }}:</strong>
-        {{ t('app_edit.lossless_performance_note') }}
+        <strong>{{ $t('apps.framegen.performance_note') }}</strong>
+        {{ $t('apps.framegen.performance_note_desc') }}
       </n-alert>
 
       <div v-if="showLosslessSharpening" class="space-y-1">
         <label class="text-xs font-semibold uppercase tracking-wide opacity-70">
-          {{ t('app_edit.lossless_sharpening') }}
+          {{ $t('apps.framegen.sharpening') }}
         </label>
         <n-input-number
           v-model:value="losslessSharpeningModel"
@@ -159,7 +155,7 @@
         />
         <p class="text-[11px] opacity-60">
           {{
-            t('app_edit.lossless_sharpening_desc', {
+            $t('apps.framegen.sharpening_hint', {
               filter: losslessScalingModeModel.toUpperCase(),
             })
           }}
@@ -169,11 +165,11 @@
       <div v-if="showLosslessAnimeOptions" class="grid gap-3 md:grid-cols-2">
         <div class="space-y-1">
           <label class="text-xs font-semibold uppercase tracking-wide opacity-70">
-            {{ t('app_edit.lossless_anime4k_size') }}
+            {{ $t('apps.framegen.anime4k_size') }}
           </label>
           <n-select
             v-model:value="losslessAnimeSizeModel"
-            :options="losslessAnimeSizeOptions"
+            :options="losslessAnimeSizes"
             size="small"
             :clearable="false"
           />
@@ -182,8 +178,10 @@
           class="flex items-center justify-between gap-3 rounded-md border border-dark/10 px-3 py-2 dark:border-light/10"
         >
           <div>
-            <div class="text-xs font-semibold uppercase tracking-wide opacity-70">VRS</div>
-            <p class="text-[11px] opacity-60">{{ t('app_edit.lossless_vrs_desc') }}</p>
+            <div class="text-xs font-semibold uppercase tracking-wide opacity-70">
+              {{ $t('apps.framegen.vrs') }}
+            </div>
+            <p class="text-[11px] opacity-60">{{ $t('apps.framegen.vrs_hint') }}</p>
           </div>
           <n-switch v-model:value="losslessAnimeVrsModel" size="small" />
         </div>
@@ -196,9 +194,9 @@
     >
       <div>
         <div class="text-xs font-semibold uppercase tracking-wide opacity-70">
-          {{ t('app_edit.performance_mode') }}
+          {{ $t('apps.framegen.performance_mode') }}
         </div>
-        <p class="text-[11px] opacity-60">{{ t('app_edit.performance_mode_desc') }}</p>
+        <p class="text-[11px] opacity-60">{{ $t('apps.framegen.performance_mode_hint') }}</p>
       </div>
       <n-switch v-model:value="losslessPerformanceModeModel" size="small" />
     </div>
@@ -208,11 +206,11 @@
       class="space-y-3 rounded-md border border-dark/10 px-3 py-2 dark:border-light/10"
     >
       <div class="text-xs font-semibold uppercase tracking-wide opacity-70">
-        {{ t('app_edit.advanced_launch') }}
+        {{ $t('apps.framegen.advanced_launch') }}
       </div>
       <div class="space-y-1">
         <label class="text-xs font-semibold uppercase tracking-wide opacity-70">
-          {{ t('app_edit.lossless_launch_delay') }}
+          {{ $t('apps.framegen.launch_delay_label') }}
         </label>
         <n-input-number
           v-model:value="form.losslessScalingLaunchDelay"
@@ -224,7 +222,7 @@
           size="small"
         />
         <p class="text-[11px] opacity-60">
-          {{ t('app_edit.lossless_launch_delay_desc') }}
+          {{ $t('apps.framegen.launch_delay_hint') }}
         </p>
       </div>
     </div>
@@ -256,6 +254,14 @@ import {
 } from 'naive-ui';
 
 const form = defineModel<AppForm>('form', { required: true });
+const { t } = useI18n();
+const localizeOptions = <T,>(options: Array<{ label?: string; labelKey?: string; value: T }>) =>
+  options.map((option) => ({
+    label: option.labelKey ? t(option.labelKey) : (option.label ?? String(option.value)),
+    value: option.value,
+  }));
+const losslessScalingOptions = computed(() => localizeOptions(LOSSLESS_SCALING_OPTIONS));
+const losslessAnimeSizes = computed(() => localizeOptions(LOSSLESS_ANIME_SIZES));
 const losslessPerformanceModeModel = defineModel<boolean>('losslessPerformanceMode', {
   required: true,
 });
@@ -268,7 +274,6 @@ const losslessScalingModeModel = defineModel<LosslessScalingMode>('losslessScali
 const losslessSharpeningModel = defineModel<number>('losslessSharpening', { required: true });
 const losslessAnimeSizeModel = defineModel<Anime4kSize>('losslessAnimeSize', { required: true });
 const losslessAnimeVrsModel = defineModel<boolean>('losslessAnimeVrs', { required: true });
-const { t } = useI18n();
 
 const props = defineProps<{
   isPlayniteManaged: boolean;
@@ -291,19 +296,6 @@ const losslessExecutableCheckComplete = toRef(props, 'losslessExecutableCheckCom
 const resetActiveLosslessProfile = props.resetActiveLosslessProfile;
 
 const resolutionInputMode = ref<'factor' | 'percent'>('factor');
-
-const losslessScalingOptions = computed(() =>
-  LOSSLESS_SCALING_OPTIONS.map((option) =>
-    option.value === 'off' ? { ...option, label: t('app_edit.lossless_option_off') } : option,
-  ),
-);
-
-const losslessAnimeSizeOptions = computed(() =>
-  LOSSLESS_ANIME_SIZES.map((option) => ({
-    ...option,
-    label: t(`app_edit.lossless_anime_size_${option.value.toLowerCase()}`),
-  })),
-);
 
 const resolutionPercentModel = computed<number>({
   get: () => {

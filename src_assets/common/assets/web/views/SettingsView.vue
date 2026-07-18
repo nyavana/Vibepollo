@@ -1,13 +1,15 @@
 <template>
-  <main ref="mainEl" class="flex-1 px-0 md:px-2 xl:px-6 py-2 md:py-6 space-y-6 overflow-x-hidden">
+  <main ref="mainEl" class="flex-1 space-y-6 overflow-x-hidden">
     <header
-      class="sticky top-0 z-20 -mx-0 md:-mx-2 xl:-mx-6 px-0 md:px-2 xl:px-6 py-3 bg-light/70 dark:bg-dark/60 backdrop-blur supports-[backdrop-filter]:bg-light/50 supports-[backdrop-filter]:dark:bg-dark/40 border-b border-dark/10 dark:border-light/10"
+      class="sticky top-0 z-20 py-3 bg-light/70 dark:bg-dark/60 backdrop-blur supports-[backdrop-filter]:bg-light/50 supports-[backdrop-filter]:dark:bg-dark/40 border-b border-dark/10 dark:border-light/10"
     >
       <div class="flex items-center justify-between gap-4 flex-wrap">
         <div class="min-w-0">
-          <h2 class="text-sm font-semibold uppercase tracking-wider">{{ $t('settings.title') }}</h2>
+          <h2 class="text-sm font-semibold uppercase tracking-wider">
+            {{ $t('navbar.configuration') }}
+          </h2>
           <p class="text-[11px] opacity-60">
-            {{ $t('settings.auto_save_hint') }}
+            {{ $t('settings.autosave_hint') }}
           </p>
           <transition name="fade">
             <div
@@ -20,11 +22,11 @@
           </transition>
         </div>
 
-        <div class="relative flex-1 max-w-2xl min-w-[260px]">
+        <div class="relative basis-full min-w-0 max-w-2xl sm:flex-1 sm:basis-auto sm:min-w-[260px]">
           <n-input
             v-model:value="searchQuery"
             type="text"
-            :placeholder="$t('settings.search_placeholder')"
+            :placeholder="$t('config.search_options')"
             @focus="onSearchFocus"
             @blur="onSearchBlur"
             @keydown.enter.prevent="jumpFirstResult"
@@ -39,7 +41,7 @@
               class="absolute mt-2 w-full max-w-full z-30 bg-light/95 dark:bg-surface/95 backdrop-blur rounded-md shadow-lg border border-dark/10 dark:border-light/10 max-h-80 overflow-auto overflow-x-hidden overscroll-contain scroll-stable pr-2 py-1"
             >
               <div v-if="searchResults.length === 0" class="px-3 py-2 text-[12px] opacity-60">
-                {{ $t('settings.search_no_results') }}
+                {{ $t('_common.no_results') }}
               </div>
               <n-button
                 v-for="(r, idx) in searchResults"
@@ -70,7 +72,7 @@
                     <span
                       v-if="r.options && r.options.length"
                       class="block text-[11px] opacity-60 mt-1 break-words whitespace-normal leading-5"
-                      >{{ $t('settings.search_options') }}:
+                      >{{ $t('_common.options') }}:
                       {{
                         r.options
                           .map((o) =>
@@ -88,21 +90,17 @@
         </div>
 
         <div v-if="showSave" class="flex items-center gap-3">
-          <n-button
-            v-if="saveState === 'saved' && !restarted"
-            type="primary"
-            strong
-            @click="apply"
+          <n-button v-if="saveState === 'saved' && !restarted" type="primary" strong @click="apply"
             >{{ $t('_common.apply') }}</n-button
           >
         </div>
         <div v-else class="text-[11px] font-medium min-h-[1rem] flex items-center gap-2">
           <transition name="fade"
-            ><span v-if="saveState === 'saving'">{{ $t('settings.saving') }}</span></transition
+            ><span v-if="saveState === 'saving'">{{ $t('saving_status.saving') }}</span></transition
           >
           <transition name="fade">
             <span v-if="saveState === 'saved'" class="text-success">{{
-              $t('settings.saved')
+              $t('saving_status.saved')
             }}</span>
           </transition>
         </div>
@@ -146,12 +144,12 @@
     </div>
 
     <div v-else class="text-xs opacity-60 space-y-2">
-      <div v-if="isLoading">{{ $t('settings.loading') }}</div>
+      <div v-if="isLoading">{{ $t('_common.loading') }}</div>
       <div v-else-if="isError" class="text-danger space-y-2">
         <div>{{ $t('settings.load_failed') }}</div>
-        <n-button type="primary" strong :disabled="isLoading" @click="store.reloadConfig?.()">{{
-          $t('settings.retry')
-        }}</n-button>
+        <n-button type="primary" strong :disabled="isLoading" @click="store.reloadConfig?.()"
+          >{{ $t('_common.retry') }}</n-button
+        >
       </div>
       <div v-else class="opacity-60">{{ $t('settings.no_config') }}</div>
     </div>
@@ -159,7 +157,7 @@
     <div class="text-[11px]">
       <transition name="fade">
         <div v-if="saveState === 'saved' && !restarted && !autoSave" class="text-success">
-          {{ $t('settings.saved_apply_restart') }}
+          {{ $t('settings.saved_restart') }}
         </div>
       </transition>
       <transition name="fade">
@@ -167,7 +165,10 @@
       </transition>
     </div>
     <transition name="slide-fade">
-      <div v-if="(dirty && !autoSave) || manualUnsaved" class="fixed bottom-4 right-6 z-30">
+      <div
+        v-if="(dirty && !autoSave) || manualUnsaved"
+        class="fixed inset-x-4 bottom-4 z-30 sm:left-auto sm:right-6 sm:max-w-[calc(100vw-3rem)]"
+      >
         <div
           :class="[
             'backdrop-blur rounded-lg shadow px-4 py-2 border transition-colors duration-200 ease-out',
@@ -176,8 +177,8 @@
               : 'bg-light/90 dark:bg-surface/90 border-dark/10 dark:border-light/10',
           ]"
         >
-          <div class="flex items-center gap-3">
-            <span class="text-[11px] font-medium inline-flex items-center gap-2">
+          <div class="flex flex-wrap items-center gap-2 sm:flex-nowrap sm:gap-3">
+            <span class="min-w-0 break-words text-[11px] font-medium inline-flex items-center gap-2">
               <i
                 v-if="manualUnsaved"
                 class="fas fa-circle-exclamation text-[12px] text-warning dark:text-warning"
@@ -187,13 +188,14 @@
             <n-button
               :type="manualUnsaved ? 'warning' : 'primary'"
               strong
+              class="shrink-0"
               :disabled="saveState === 'saving'"
               @click="save"
               >{{ $t('_common.save') }}</n-button
             >
           </div>
           <div v-if="saveState === 'error'" class="mt-1 text-[11px] text-danger leading-snug">
-            {{ store.validationError || $t('settings.save_failed') }}
+            {{ validationMessage }}
           </div>
         </div>
       </div>
@@ -215,7 +217,6 @@ import {
 } from 'vue';
 import { NInput, NButton, useMessage } from 'naive-ui';
 import { useRoute, useRouter } from 'vue-router';
-import { useI18n } from 'vue-i18n';
 import General from '@/configs/tabs/General.vue';
 import Inputs from '@/configs/tabs/Inputs.vue';
 import Network from '@/configs/tabs/Network.vue';
@@ -229,6 +230,7 @@ import { useConfigStore } from '@/stores/config';
 import { useAuthStore } from '@/stores/auth';
 import { http } from '@/http';
 import { storeToRefs } from 'pinia';
+import { useI18n } from 'vue-i18n';
 
 const store = useConfigStore();
 const { config, metadata } = storeToRefs(store);
@@ -244,13 +246,18 @@ const isError = computed(() => store.error != null);
 const isReady = computed(() => !!config.value && !isLoading.value && !isError.value);
 
 const saveState = computed(() => store.savingState || 'idle');
+const validationMessage = computed(() =>
+  store.validationError ? t(store.validationError) : t('validation.save_failed'),
+);
 const restarted = ref(false);
 const dirty = ref(false);
 const autoSave = ref(true);
 const manualUnsaved = computed(() => store.manualDirty === true);
 const showSave = computed(() => manualUnsaved.value || !autoSave.value);
 const unsavedLabel = computed(() =>
-  manualUnsaved.value ? t('settings.manual_save_required') : t('settings.unsaved_changes'),
+  manualUnsaved.value
+    ? t('settings.manual_unsaved')
+    : t('settings.unsaved_changes'),
 );
 
 const mainEl = ref(null);
@@ -273,8 +280,8 @@ const tabs = [
   { id: 'network', name: 'settings.tabs.network', component: markRaw(Network) },
   { id: 'files', name: 'settings.tabs.files', component: markRaw(Files) },
   { id: 'advanced', name: 'settings.tabs.advanced', component: markRaw(Advanced) },
-  { id: 'stats', name: 'settings.tabs.stats', component: markRaw(RealtimeStats) },
-  { id: 'playnite', name: 'settings.tabs.playnite', component: markRaw(Playnite) },
+  { id: 'stats', name: 'navbar.stats', component: markRaw(RealtimeStats) },
+  { id: 'playnite', name: 'navbar.playnite', component: markRaw(Playnite) },
 ];
 
 const tabsFiltered = computed(() =>
@@ -387,7 +394,7 @@ async function save() {
     dirty.value = false;
   } else {
     try {
-      message.error(store.validationError || t('settings.save_failed'), {
+      message.error(validationMessage.value, {
         duration: 5000,
       });
     } catch {}
@@ -613,12 +620,7 @@ function buildSearchIndex() {
   ) => {
     const label = (labelText || '').trim();
     if (!label) return;
-    const target = resolveTarget(
-      sectionEl,
-      sourceEl,
-      sourceEl?.getAttribute?.('for'),
-      targetOverride,
-    );
+    const target = resolveTarget(sectionEl, sourceEl, sourceEl?.getAttribute?.('for'), targetOverride);
     if (!target) return;
     const key = `${sectionId ?? 'unknown'}::${label}`;
     if (seen.has(key)) return;

@@ -744,6 +744,9 @@ namespace stream {
                                       : session->config.monitor.bitrate;
       info.video_format = session->config.monitor.videoFormat;
       info.dynamic_range = session->config.monitor.dynamicRange;
+      info.hdr = session->config.monitor.dynamicRange != 0 &&
+                 !session->config.monitor.prefer_sdr_10bit &&
+                 !session->config.monitor.force_sdr;
       info.yuv444 = session->config.monitor.chromaSamplingType != 0;
       info.audio_channels = session->config.audio.channels;
       info.state = state_name(session->state.load(std::memory_order_relaxed));
@@ -2745,9 +2748,6 @@ namespace stream {
         display_helper_integration::clear_pending_apply();
         clear_deferred_stream_start_actions();
 #endif
-        // Only revert on disconnect when explicitly enabled by config.
-        bool revert_display_config {config::video.dd.config_revert_on_disconnect};
-
         const bool webrtc_active = webrtc_stream::has_active_sessions();
         if (!webrtc_active) {
           proc::proc.pause();
@@ -2758,6 +2758,18 @@ namespace stream {
           system_tray::update_tray_pausing(proc::proc.get_last_run_app_name());
 #endif
         }
+#ifdef _WIN32
+        // App teardown may have reached us before the RTSP session finished.
+        // Consume that deferred request only after the app and every stream are gone.
+        const bool deferred_app_revert =
+          !is_paused && !webrtc_active && proc::consume_deferred_display_revert();
+#else
+        constexpr bool deferred_app_revert = false;
+#endif
+        // Revert immediately on disconnect when configured, or complete a restore
+        // that an app exit deferred until the final streaming session ended.
+        const bool revert_display_config =
+          config::video.dd.config_revert_on_disconnect || deferred_app_revert;
         const int paused_timeout_secs = std::max(0, config::video.dd.paused_virtual_display_timeout_secs);
         const bool delay_virtual_display_cleanup_due_to_pause = is_paused && !revert_display_config && paused_timeout_secs > 0;
         const bool keep_virtual_display_due_to_pause = is_paused && !revert_display_config && paused_timeout_secs == 0;
@@ -2885,7 +2897,9 @@ namespace stream {
                                         ? session.config.monitor.client_requested_bitrate
                                         : session.config.monitor.bitrate;
         meta.codec = std::string(video_format_name(session.config.monitor.videoFormat));
-        meta.hdr = session.config.monitor.dynamicRange != 0;
+        meta.hdr = session.config.monitor.dynamicRange != 0 &&
+                   !session.config.monitor.prefer_sdr_10bit &&
+                   !session.config.monitor.force_sdr;
         meta.yuv444 = session.config.monitor.chromaSamplingType != 0;
         meta.audio_channels = session.config.audio.channels;
         meta.server_version = current_server_version();
@@ -2928,7 +2942,8 @@ namespace stream {
             .uses_virtual_display = session.virtual_display.active,
             .capture_mode = config::video.capture,
             .auto_capture_uses_wgc = platf::dxgi::should_use_wgc_default(),
-            .auto_virtual_framegen_limiter = config::frame_limiter.auto_virtual_framegen,
+            .auto_virtual_framegen_limiter = config::frame_limiter.virtual_display_limiter_enabled(),
+            .virtual_display_refresh_multiplier = config::frame_limiter.fixed_virtual_display_refresh_multiplier(),
           });
           const bool defer_stream_start = platf::is_running_as_system() && !user_session_ready();
           if (defer_stream_start) {

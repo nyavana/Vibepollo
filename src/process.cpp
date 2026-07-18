@@ -892,6 +892,21 @@ namespace proc {
 
 #ifdef _WIN32
   VDISPLAY::DRIVER_STATUS vDisplayDriverStatus = VDISPLAY::DRIVER_STATUS::UNKNOWN;
+  namespace {
+    std::atomic_bool deferred_display_revert {false};
+  }
+
+  void defer_display_revert() {
+    deferred_display_revert.store(true, std::memory_order_release);
+  }
+
+  bool consume_deferred_display_revert() {
+    return deferred_display_revert.exchange(false, std::memory_order_acq_rel);
+  }
+
+  void clear_deferred_display_revert() {
+    deferred_display_revert.store(false, std::memory_order_release);
+  }
 
   void onVDisplayWatchdogFailed() {
     vDisplayDriverStatus = VDISPLAY::DRIVER_STATUS::WATCHDOG_FAILED;
@@ -1243,6 +1258,11 @@ namespace proc {
 
     _app = app;
     _app_id = util::from_view(app.id);
+#ifdef _WIN32
+    // A replacement app owns the streaming display configuration. Any
+    // restore deferred by the previous app must not fire at this session's end.
+    clear_deferred_display_revert();
+#endif
     _app_name = app.name;
     _launch_session = launch_session;
     _active_client_uuid = launch_session ? launch_session->client_uuid : std::string();
@@ -1520,7 +1540,7 @@ namespace proc {
     _env["SUNSHINE_CLIENT_WIDTH"] = std::to_string(render_width);
     _env["SUNSHINE_CLIENT_HEIGHT"] = std::to_string(render_height);
     _env["SUNSHINE_CLIENT_FPS"] = config::sunshine.envvar_compatibility_mode ? std::to_string(std::round((float) launch_session->fps / 1000.0f)) : fps_str;
-    _env["SUNSHINE_CLIENT_HDR"] = launch_session->enable_hdr ? "true" : "false";
+    _env["SUNSHINE_CLIENT_HDR"] = rtsp_stream::effective_hdr_requested(*launch_session) ? "true" : "false";
     _env["SUNSHINE_CLIENT_GCMAP"] = std::to_string(launch_session->gcmap);
     _env["SUNSHINE_CLIENT_HOST_AUDIO"] = launch_session->host_audio ? "true" : "false";
     _env["SUNSHINE_CLIENT_ENABLE_SOPS"] = launch_session->enable_sops ? "true" : "false";
@@ -1537,7 +1557,7 @@ namespace proc {
     _env["APOLLO_CLIENT_RENDER_HEIGHT"] = std::to_string(launch_session->height);
     _env["APOLLO_CLIENT_SCALE_FACTOR"] = std::to_string(scale_factor);
     _env["APOLLO_CLIENT_FPS"] = fps_scaled_str;
-    _env["APOLLO_CLIENT_HDR"] = launch_session->enable_hdr ? "true" : "false";
+    _env["APOLLO_CLIENT_HDR"] = rtsp_stream::effective_hdr_requested(*launch_session) ? "true" : "false";
     _env["APOLLO_CLIENT_GCMAP"] = std::to_string(launch_session->gcmap);
     _env["APOLLO_CLIENT_HOST_AUDIO"] = launch_session->host_audio ? "true" : "false";
     _env["APOLLO_CLIENT_ENABLE_SOPS"] = launch_session->enable_sops ? "true" : "false";
@@ -1661,7 +1681,8 @@ namespace proc {
           rtss_warmup_limit,
           config::video.capture,
           platf::dxgi::should_use_wgc_default(),
-          config::frame_limiter.auto_virtual_framegen
+          config::frame_limiter.virtual_display_limiter_enabled(),
+          config::frame_limiter.fixed_virtual_display_refresh_multiplier()
         );
         platf::frame_limiter_prepare_launch(warmup_policy);
       }
@@ -1775,6 +1796,11 @@ namespace proc {
     });
 
 #ifdef _WIN32
+    // Some launchers disable the user's global screen saver setting and may
+    // exit without restoring it. Preserve the pre-launch state independently
+    // of whether the launched process remains trackable.
+    platf::cache_screen_saver_state();
+
     std::unordered_set<DWORD> lossless_baseline_pids;
     bool lossless_monitor_started = false;
     std::string lossless_install_dir_hint;
@@ -2139,7 +2165,8 @@ namespace proc {
           .uses_virtual_display = warmup_uses_virtual,
           .capture_mode = config::video.capture,
           .auto_capture_uses_wgc = platf::dxgi::should_use_wgc_default(),
-          .auto_virtual_framegen_limiter = config::frame_limiter.auto_virtual_framegen,
+          .auto_virtual_framegen_limiter = config::frame_limiter.virtual_display_limiter_enabled(),
+          .virtual_display_refresh_multiplier = config::frame_limiter.fixed_virtual_display_refresh_multiplier(),
         });
         platf::frame_limiter_prepare_launch(warmup_policy);
         const bool provider_auto = config::frame_limiter.provider.empty() ||
@@ -2202,6 +2229,12 @@ namespace proc {
 
   void proc_t::resume() {
     BOOST_LOG(info) << "Session resuming for app [" << _app_name << "].";
+
+#ifdef _WIN32
+    // pause() consumes the prior snapshot after restoring it. Capture a new
+    // baseline before any resume command can change the setting again.
+    platf::cache_screen_saver_state();
+#endif
 
     if (!_app.state_cmds.empty()) {
       auto exec_thread = std::thread([cmd_list = _app.state_cmds, app_working_dir = _app.working_dir, _env = _env]() mutable {
@@ -2298,6 +2331,12 @@ namespace proc {
 
 #if defined SUNSHINE_TRAY && SUNSHINE_TRAY >= 1
     system_tray::update_tray_pausing(proc::proc.get_last_run_app_name());
+#endif
+
+#ifdef _WIN32
+    // A paused app can remain alive for session resume, so restore this global
+    // user setting even when normal application termination does not run.
+    platf::restore_screen_saver_state();
 #endif
   }
 
@@ -2481,6 +2520,12 @@ namespace proc {
       }
     }
 
+#ifdef _WIN32
+    // Restore after terminating the app and running its undo commands so a
+    // detached/placebo launcher cannot leave this global setting disabled.
+    platf::restore_screen_saver_state();
+#endif
+
     _pipe.reset();
 
     const bool other_streaming_session_active =
@@ -2526,10 +2571,12 @@ namespace proc {
 
     if (should_dispatch_revert && skip_display_revert) {
 #ifdef _WIN32
+      clear_deferred_display_revert();
       BOOST_LOG(info) << "Skipping display revert during app replacement because the new session has already applied its display configuration.";
 #endif
     } else if (should_dispatch_revert && !other_streaming_session_active) {
 #ifdef _WIN32
+      clear_deferred_display_revert();
       const bool reverted = display_helper_integration::revert();
       if (reverted && rtsp_stream::session_count() == 0) {
         BOOST_LOG(debug) << "Display helper: stopping watchdog after app termination.";
@@ -2537,6 +2584,9 @@ namespace proc {
       }
 #endif
     } else if (should_dispatch_revert && other_streaming_session_active) {
+#ifdef _WIN32
+      defer_display_revert();
+#endif
       BOOST_LOG(info) << "Deferring display revert after app termination because another streaming session is still active.";
     }
 
