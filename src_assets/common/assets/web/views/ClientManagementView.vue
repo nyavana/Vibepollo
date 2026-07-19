@@ -209,6 +209,10 @@
           $t('troubleshooting.unpair_all_error')
         }}</n-alert>
 
+        <n-alert v-if="clientsLoadError" type="error">
+          {{ clientsLoadError }}
+        </n-alert>
+
         <div v-if="clientsLoading && !clientsReady" class="client-empty client-empty--loading">
           <i class="fas fa-spinner fa-spin" />
           {{ $t('clients.loading') }}
@@ -823,7 +827,7 @@
             </article>
           </div>
         </template>
-        <div v-else class="client-empty">
+        <div v-else-if="!clientsLoadError" class="client-empty">
           <i class="fas fa-users-slash" />
           <span>
             {{
@@ -1163,6 +1167,7 @@ const clients = ref<ClientViewModel[]>([]);
 const clientsLoading = ref<boolean>(true);
 const clientsReady = ref<boolean>(false);
 const clientsRefreshing = ref<boolean>(false);
+const clientsLoadError = ref<string>('');
 const lastRefreshedAt = ref<number | null>(null);
 const platform = ref<string>('');
 const clientSearchQuery = ref<string>('');
@@ -1613,9 +1618,23 @@ const isClientDisplayOverrideValid = computed(() => {
   return true;
 });
 
+function showClientsLoadError(error: unknown, notify: boolean): void {
+  const serverError = (
+    error as { response?: { data?: { error?: unknown } } } | null | undefined
+  )?.response?.data?.error;
+  clientsLoadError.value =
+    typeof serverError === 'string' && serverError.trim()
+      ? serverError
+      : t('auth.request_failed');
+  if (notify) {
+    message.error(clientsLoadError.value);
+  }
+}
+
 async function refreshClients(options: { manual?: boolean } = {}): Promise<void> {
   const auth = useAuthStore();
   if (!auth.isAuthenticated) {
+    auth.requireLogin();
     clientsReady.value = true;
     clientsLoading.value = false;
     clientsRefreshing.value = false;
@@ -1629,9 +1648,7 @@ async function refreshClients(options: { manual?: boolean } = {}): Promise<void>
     clientsLoading.value = true;
   }
   try {
-    const r = await http.get<ClientsListResponse>('./api/clients/list', {
-      validateStatus: () => true,
-    });
+    const r = await http.get<ClientsListResponse>('/api/clients/list');
     const response = r.data || ({} as ClientsListResponse);
     if (typeof response.platform === 'string') {
       platform.value = response.platform;
@@ -1649,14 +1666,14 @@ async function refreshClients(options: { manual?: boolean } = {}): Promise<void>
         return createClientViewModel(entry);
       });
       clients.value = mapped;
+      clientsLoadError.value = '';
       lastRefreshedAt.value = Date.now();
       ensureDisplayDevicesLoaded();
     } else {
-      clients.value = [];
-      lastRefreshedAt.value = Date.now();
+      showClientsLoadError(null, !!options.manual);
     }
-  } catch {
-    clients.value = [];
+  } catch (error: unknown) {
+    showClientsLoadError(error, !!options.manual);
   } finally {
     clientsReady.value = true;
     clientsLoading.value = false;
@@ -2393,6 +2410,21 @@ onBeforeUnmount(() => {
   .clients-toolbar__search,
   .clients-toolbar :deep(.n-button) {
     width: 100%;
+  }
+
+  .clients-toolbar :deep(.n-button) {
+    min-width: 0;
+    height: auto;
+    min-height: var(--n-height);
+    padding-block: 0.375rem;
+  }
+
+  .clients-toolbar :deep(.n-button__content) {
+    min-width: 0;
+    flex-wrap: wrap;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    text-align: center;
   }
 }
 

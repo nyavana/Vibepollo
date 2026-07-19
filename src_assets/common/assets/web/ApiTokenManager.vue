@@ -1024,6 +1024,16 @@ watch(
 
 .token-hero__tag {
   margin-top: 0.1rem;
+  max-width: 100%;
+  height: auto;
+  padding-block: 0.25rem;
+  white-space: normal;
+  line-height: 1.25;
+}
+
+.token-hero__tag :deep(.n-tag__content) {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .token-panel {
